@@ -1,5 +1,7 @@
 #include <AxeFxControl.h>
 
+// #include "layout.h"
+// #include "tape.h"
 
 // RX1 Midi Input
 // TX1 Midi Output
@@ -10,18 +12,18 @@
 const int fs_rows = 3;
 const int fs_cols = 5;
 
-const int fs_pins[fs_rows][fs_cols];
-const int tft_cs_pins[fs_rows][fs_cols];
+int fs_pins[fs_rows][fs_cols];
+int tft_cs_pins[fs_rows][fs_cols];
 
-const int midi_in_pin = RX1;
-const int midi_out_pin = TX1;
+//const int midi_in_pin = RX1;
+//const int midi_out_pin = TX1;
 const int exp_1_pin = A0;
 const int exp_2_pin = A1;
 
 
 const int tft_bl_pin = 52;
 const int tft_sck_pin = SCK;
-const int tft_sda_pin = SDA1;
+const int tft_sda_pin = SDA;
 const int tft_a0_pin = 53; // TODO: Should this be analog pin instead?
 const int tft_rst_pin = 51;
 
@@ -37,12 +39,17 @@ void init_pins() {
   }
 
   // Screen CS - I'm growing from 50 down
-  pin_num = 50 - f(fs_rows*fs_cols);
+  pin_num = 50 - (fs_rows*fs_cols);
   for (int row = 0; row < fs_rows; row++) {
     for (int col = 0; col < fs_cols; col++) {
       tft_cs_pins[row][col] = pin_num++;
     }
   }
+
+
+  // setup interrupts
+
+
 }
 
 /* Layouts, composed of any kind of button
