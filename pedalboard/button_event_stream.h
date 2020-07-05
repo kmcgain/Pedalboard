@@ -18,11 +18,11 @@ class ButtonEventStream {
                 unsigned long TimeMs;                    
         };
         
-        volatile Tape<Event> events;
+        Tape<Event> events;
         
 
     public:
-        void RecordPress(volatile unsigned long eventTime) volatile {
+        void RecordPress(unsigned long eventTime) {
             if (this->events.LastAdded().IsSome() && this->events.LastAdded().Value().WasPress)
                 return; // Don't need to record multiple presses in a row
 
@@ -32,7 +32,7 @@ class ButtonEventStream {
             this->events.Add(ev);
         }
 
-        void RecordRelease(volatile unsigned long eventTime) volatile {
+        void RecordRelease(unsigned long eventTime) {
             if (this->events.LastAdded().IsSome() && !this->events.LastAdded().Value().WasPress)
                 return; // Don't need to record multiple releases in a row
 
@@ -42,7 +42,7 @@ class ButtonEventStream {
             this->events.Add(ev);
         }
 
-        Maybe<ButtonEvent> Take() volatile {
+        Maybe<ButtonEvent> Take() {
             Maybe<Event> firstEvent = this->events.ReadFromStart(0);
             if (firstEvent.IsNone())
                 return Maybe<ButtonEvent>::None();

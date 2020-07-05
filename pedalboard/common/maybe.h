@@ -11,6 +11,10 @@ class Maybe {
         static Maybe<T> &None() {static Maybe<T> maybe = Maybe<T>(T(), false); return maybe; }
         static Maybe<T> &Some(T value) {Maybe<T> maybe = Maybe<T>(value, true); return maybe; }
 
+        Maybe() {
+            this->hasValue = false;
+        }
+
         Maybe(T data, bool hasValue) {
             this->data = data;
             this->hasValue = hasValue;

@@ -8,15 +8,14 @@ Button::Button() {}
 
 // interrupt
 void Button::OnPress() {
-    // this->buttonEventStream.RecordPress(millis());
+    this->buttonEventStream.RecordPress(millis());
 }
 
 // interrupt
 void Button::OnRelease()  {
-    // this->buttonEventStream.RecordRelease(millis());
+    this->buttonEventStream.RecordRelease(millis());
 }
 
 Maybe<ButtonEvent> Button::TakeEvent() {
-    return Maybe<ButtonEvent>::None();
-    // return this->buttonEventStream.Take();
+    return this->buttonEventStream.Take();
 }
