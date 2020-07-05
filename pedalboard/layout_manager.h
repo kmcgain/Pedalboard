@@ -2,12 +2,12 @@
 #define LAYOUT_MANAGER_H
 
 #include "layout.h"
-
-class Function {    
-};
+#include "function.h"
+#include "button.h"
 
 class LayoutManager {
     private: 
+        Layout** layouts;
         Layout* activeLayout;
         Button*** buttons;
         Function* functions[20];

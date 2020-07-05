@@ -3,7 +3,7 @@
 #include "control.h"
 #include "layout.h"
 
-Layout::Layout(Control** controls, size_t rows, size_t cols){
+Layout::Layout(Control*** controls, int rows, int cols){
     this->controls = controls;
     this->rows = rows;
     this->cols = cols;

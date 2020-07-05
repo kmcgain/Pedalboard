@@ -6,11 +6,11 @@
 
 class Layout { 
   private:
-    Control** controls;
-    size_t rows, cols;
+    Control*** controls;
+    int rows, cols;
       
   public:
-    Layout(Control** controls, size_t rows, size_t cols);
+    Layout(Control*** controls, int rows, int cols);
     void init();
 };
 #endif
