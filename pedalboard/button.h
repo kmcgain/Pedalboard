@@ -3,8 +3,12 @@
 
 #include "common/maybe.h"
 #include "button_event.h"
+#include "button_event_stream.h"
 
 class Button {
+    private:
+        ButtonEventStream buttonEventStream;
+
     public:
         Button();
         void OnPress();

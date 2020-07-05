@@ -9,10 +9,10 @@ class Tape {
         static const int MAX_SIZE; // TODO: Dynamic
 
         Tape();
-        void Add(TData item);
-        Maybe<TData> ReadFromStart(int pos);
-        Maybe<TData> LastAdded();
-        Maybe<TData> TakeFromStart(int pos);
+        void Add(TData item) volatile;
+        Maybe<TData> ReadFromStart(int pos) volatile;
+        Maybe<TData> LastAdded() volatile;
+        Maybe<TData> TakeFromStart(int pos) volatile;
 };
 
 #endif

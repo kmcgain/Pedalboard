@@ -1,25 +1,17 @@
 
 #include <Arduino.h>
 #include "button.h"
+#include "control.h"
 
-class Control {  
-  
+Control::Control(Button* button) {        
+    this->button = button;
+}
 
-  private:
-    Button button;
+// Standard loop will call this so we can handle any button presses
+void Control::HandleState() {
+    
+}
 
-  public:
-    Control(Button button) {        
-        this->button = button;
-    }
+void Control::handlePress() {
 
-    // Standard loop will call this so we can handle any button presses
-    void HandleState() {
-        
-    }
-
-  private:
-    void handlePress() {
-
-    }
-};
+}
