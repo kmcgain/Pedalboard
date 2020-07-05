@@ -25,3 +25,5 @@ void Layout::init() {
 
     
 }
+
+void Layout::Exit(){}

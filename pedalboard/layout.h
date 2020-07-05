@@ -12,5 +12,6 @@ class Layout {
   public:
     Layout(Control*** controls, int rows, int cols);
     void init();
+    void Exit();
 };
 #endif
