@@ -85,7 +85,7 @@ void LayoutManager::OnRelease(int row, int col) {
     this->buttons[row][col]->OnRelease();
 }
 
-static void LayoutManager::ChangeLayoutCb(void * this_ptr, int number) {
+void LayoutManager::ChangeLayoutCb(void * this_ptr, int number) {
     ((LayoutManager*)this_ptr)->ChangeLayout(number);
 }
 
@@ -94,7 +94,7 @@ void LayoutManager::ChangeLayout(int number) {
     this->activeLayout = layouts[number];
 }
 
-static void LayoutManager::IncrementLayoutCb(void * this_ptr, int number) {
+void LayoutManager::IncrementLayoutCb(void * this_ptr, int number) {
     ((LayoutManager*)this_ptr)->IncrementLayout(number);
 }
 
