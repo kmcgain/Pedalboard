@@ -1,8 +1,16 @@
+if (-not (Test-Path "$PSScriptRoot\.build")) {
+    mkdir "$PSScriptRoot\.build"
+}
+
+if (-not (Test-Path "$PSScriptRoot\.build-cache")) {
+    mkdir "$PSScriptRoot\.build-cache"
+}
+
 arduino-builder -compile -logger=machine -hardware "C:\Program Files (x86)\Arduino\hardware" -tools "C:\Program Files (x86)\Arduino\tools-builder" `
     -tools "C:\Program Files (x86)\Arduino\hardware\tools\avr" -built-in-libraries "C:\Program Files (x86)\Arduino\libraries" `
     -fqbn=arduino:avr:diecimila:cpu=atmega328 -ide-version=10813 `
     -build-path "$PSScriptRoot\.build" -build-cache "$PSScriptRoot\.build-cache" `
-    "$PSScriptRoot\pedalboard.ino"
+    "$PSScriptRoot\Pedalboard.ino"
 
 
 

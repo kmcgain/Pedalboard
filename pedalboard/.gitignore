@@ -35,3 +35,8 @@
 .build-cache
 
 *.vs
+
+packages
+
+Debug
+Release

@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{508570f3-3cac-4106-9871-66b741b228f3}</ItemsProjectGuid>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)button.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)button_event_stream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)control.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)function_impl.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)layout.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)layout_changer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)layout_manager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)tape.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)button.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)button_event.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)button_event_stream.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)constants.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)control.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)function.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)function_impl.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)interrupt.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)layout.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)layout_changer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)layout_definition.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)layout_manager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)layout_setup.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)maybe.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)tape.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)time_record.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="$(MSBuildThisFileDirectory)readme.txt" />
+  </ItemGroup>
+</Project>

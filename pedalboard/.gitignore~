@@ -33,3 +33,12 @@
 
 .build
 .build-cache
+
+*.vs
+
+packages
+
+__vm
+
+Debug
+Release
