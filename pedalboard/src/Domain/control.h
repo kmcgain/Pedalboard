@@ -2,7 +2,7 @@
 #define Control_H
 
 
-#include "function.h"
+#include "function/function.h"
 #include "button.h"
 
 class Control {    

@@ -6,5 +6,9 @@
 #define FS_COLS 5
 #define LAYOUTS 1
 
+struct BoardConstants {
+	unsigned int Rising;
+	unsigned int Falling;
+};
 
 #endif

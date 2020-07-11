@@ -1,7 +1,7 @@
 #include "pch.h"
 
-#include "..\Domain\tape.h"
-#include "..\Domain\maybe.h"
+#include "..\src\Domain\tape.h"
+#include "..\src\Domain\maybe.h"
 
 TEST(TapeTest, ShouldReadFromStart) {
 	Tape<int, 3> tape = Tape<int, 3>();

@@ -17,11 +17,13 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)button.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)button_event_stream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)control.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)function_impl.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)function\function_factory.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)layout.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)layout_changer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)layout_manager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)layout_setup.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)tape.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)worker_process.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)button.h" />
@@ -29,17 +31,34 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)button_event_stream.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)constants.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)control.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)function.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)function_impl.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)interrupt.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)function\all_functions.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)function\exp_toggle.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)function\function.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)function\function_factory.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)function\linked_list.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)function\pch.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)interrupt_manager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)interrupt_registrar.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)layout.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)layout_changer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)function\layout_decrement.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)layout_definition.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)function\layout_increment.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)layout_manager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)function\layout_select.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)layout_setup.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)maybe.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)pch.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)function\preset_decrement.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)function\preset_increment.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)function\scene_decrement.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)function\scene_increment.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)function\scene_select.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)tape.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)function\tap_tempo.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)time_record.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)function\tuner_toggle.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)worker_process.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="$(MSBuildThisFileDirectory)readme.txt" />

@@ -1,51 +1,70 @@
+#include "pch.h"
 #include "constants.h"
 #include "control.h"
 #include "button.h"
 #include "layout_definition.h"
 #include "layout_manager.h"
 #include "layout.h"
-#include "function.h"
-#include "function_impl.h"
+#include "function/function.h"
 #include "layout_changer.h"
+#include "function/all_functions.h"
+#include "function/function_factory.h"
 
-LayoutManager::LayoutManager() {
+LayoutManager::LayoutManager(FunctionFactory* functionFactory) {
+    this->functionFactory = functionFactory;
+
+    this->layoutChanger = new LayoutChanger();
 }
 
-void LayoutManager::init() {    
-    LayoutChanger* layoutChanger = new LayoutChanger();
+LayoutManager::~LayoutManager() {
+    delete this->layoutChanger;
+    
+    for (int i = 0; i < LAYOUTS; i++) {
+        delete this->layouts[i];
+    }
+    delete this->layouts;
+
+    for (int row = 0; row < FS_ROWS; row++)
+        for (int col = 0; col < FS_COLS; col++)
+            delete this->buttons[row][col];
+    delete this->buttons;
+}
+
+void LayoutManager::init() {  
+
     layoutChanger->SubscribeToLayoutSelect(LayoutManager::ChangeLayoutCb, this);
     layoutChanger->SubscribeToLayoutIncrement(LayoutManager::IncrementLayoutCb, this);
 
     this->setup_buttons();
-    this->setup_functions(layoutChanger);
+    this->setup_functions(layoutChanger, this->functionFactory);
     this->setup_layouts();
 }
 
-void LayoutManager::setup_functions(LayoutChanger* layoutChanger) {
-    Function** functions = new Function*[20];
-    functions[FunctionName::layout_select_1] = new LayoutSelectFunction(1, layoutChanger);
-    functions[FunctionName::layout_select_2] = new LayoutSelectFunction(2, layoutChanger);
-    functions[FunctionName::layout_incr] = new LayoutIncrementFunction(layoutChanger);
-    functions[FunctionName::layout_decr] = new LayoutDecrementFunction(layoutChanger);
-    functions[FunctionName::scene_select_1] = new SceneSelectFunction(1);
-    functions[FunctionName::scene_select_2] = new SceneSelectFunction(2);
-    functions[FunctionName::scene_select_3] = new SceneSelectFunction(3);
-    functions[FunctionName::scene_select_4] = new SceneSelectFunction(4);
-    functions[FunctionName::scene_select_5] = new SceneSelectFunction(5);
-    functions[FunctionName::scene_select_6] = new SceneSelectFunction(6);
-    functions[FunctionName::scene_select_7] = new SceneSelectFunction(7);
-    functions[FunctionName::scene_select_8] = new SceneSelectFunction(8);
-    functions[FunctionName::scene_decr] = new SceneDecrementFunction(1);
-    functions[FunctionName::scene_icnr] = new SceneIncrementFunction(1);
-    functions[FunctionName::exp_1_toggle] = new ExpToggleFunction(1);
-    functions[FunctionName::exp_2_toggle] = new ExpToggleFunction(2);
-    functions[FunctionName::tuner_toggle] = new TunerToggleFunction();
-    functions[FunctionName::tap_tempo] = new TapTempoFunction();
-    functions[FunctionName::preset_decr] = new PresetDecrementFunction(1);
-    functions[FunctionName::preset_incr] = new PresetIncrementFunction(1);
-    functions[FunctionName::preset_incr_10] = new PresetIncrementFunction(10);
+void LayoutManager::setup_functions(LayoutChanger* layoutChanger, FunctionFactory* functionFactory) {
+    this->numFunctions = 21;
+    this->functions = new Function*[this->numFunctions];
+    functions[FunctionName::layout_select_1] = functionFactory->LayoutSelect(1);
+    functions[FunctionName::layout_select_2] = functionFactory->LayoutSelect(2);
+    functions[FunctionName::layout_incr] = functionFactory->LayoutIncrement();
+    functions[FunctionName::layout_decr] = functionFactory->LayoutDecrement();
+    functions[FunctionName::scene_select_1] = functionFactory->SceneSelect(1);
+    functions[FunctionName::scene_select_2] = functionFactory->SceneSelect(2);
+    functions[FunctionName::scene_select_3] = functionFactory->SceneSelect(3);
+    functions[FunctionName::scene_select_4] = functionFactory->SceneSelect(4);
+    functions[FunctionName::scene_select_5] = functionFactory->SceneSelect(5);
+    functions[FunctionName::scene_select_6] = functionFactory->SceneSelect(6);
+    functions[FunctionName::scene_select_7] = functionFactory->SceneSelect(7);
+    functions[FunctionName::scene_select_8] = functionFactory->SceneSelect(8);
+    functions[FunctionName::scene_decr] = functionFactory->SceneDecrement(1);
+    functions[FunctionName::scene_icnr] = functionFactory->SceneIncrement(1);
+    functions[FunctionName::exp_1_toggle] = functionFactory->ExpToggle(1);
+    functions[FunctionName::exp_2_toggle] = functionFactory->ExpToggle(2);
+    functions[FunctionName::tuner_toggle] = functionFactory->TunerToggle();
+    functions[FunctionName::tap_tempo] = functionFactory->TapTempo();
+    functions[FunctionName::preset_decr] = functionFactory->PresetDecrement(1);
+    functions[FunctionName::preset_incr] = functionFactory->PresetIncrement(1);
+    functions[FunctionName::preset_incr_10] = functionFactory->PresetIncrement(10);
 }
-
 
 void LayoutManager::setup_layouts() {
     this->layouts = new Layout*[LAYOUTS];
@@ -77,7 +96,7 @@ void LayoutManager::setup_buttons() {
     }
 }
 
-void LayoutManager::OnPress(int row, int col) {
+void LayoutManager::OnPress(int row, int col) {    
     this->buttons[row][col]->OnPress();
 }
 
@@ -109,4 +128,8 @@ void LayoutManager::IncrementLayout(int num) {
         this->layoutNumber += LAYOUTS;
     }
     this->activeLayout = layouts[this->layoutNumber];
+}
+
+Layout* LayoutManager::CurrentLayout() {
+    return this->activeLayout;
 }

@@ -6,18 +6,22 @@
 //
 //#include "Pedalboard/time_record.h"
 #include "src/Domain/layout_manager.h"
-#include "src/Domain/interrupt.h"
+#include "src/Domain/interrupt_manager.h"
+#include "src/Domain/interrupt_registrar.h"
 #include "src/Domain/layout_setup.h"
 //#include <Pedalboard/Pedalboard.Domain/layout_setup.h>
 //#include <Pedalboard.Domain/interrupt.h>
-//
+
 void setup() {
-	layoutMgr = new LayoutManager();
+	registerLayoutManager(new LayoutManager(new FunctionFactory(new LayoutChanger())));
 
-	setup_interrupts();
-	layoutMgr->init();
+	InterruptRegistrar* interruptRegistrar = new InterruptRegistrar();
+	BoardConstants boardConstants = BoardConstants();
+	boardConstants.Rising = RISING;
+	boardConstants.Falling = RISING;
+	setup_interrupts(interruptRegistrar, boardConstants);
+	GetLayoutManager()->init();
 }
-
 
 void loop() {
 	// put your main code here, to run repeatedly:

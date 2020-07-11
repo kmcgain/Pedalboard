@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "control.h"
 #include "layout.h"
 
@@ -5,6 +6,13 @@ Layout::Layout(Control*** controls, int rows, int cols){
     this->controls = controls;
     this->rows = rows;
     this->cols = cols;
+}
+
+Layout::~Layout() {
+    for (int i = 0; i < this->rows; i++)
+        for (int j = 0; j < this->cols; j++)
+            delete this->controls[i][j];
+    delete this->controls;
 }
 
 void Layout::init() {
@@ -25,3 +33,10 @@ void Layout::init() {
 }
 
 void Layout::Exit(){}
+
+
+void Layout::ProcessOutstanding() {
+    for (int i = 0; i < this->rows; i++)
+        for (int j = 0; j < this->cols; j++)
+            this->controls[i][j]->HandleState();
+}

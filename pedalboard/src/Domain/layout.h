@@ -10,7 +10,9 @@ class Layout {
       
   public:
     Layout(Control*** controls, int rows, int cols);
+    ~Layout();
     void init();
     void Exit();
+    void ProcessOutstanding();
 };
 #endif
