@@ -7,7 +7,7 @@ FunctionFactory::FunctionFactory(LayoutChanger* layoutChanger) {
 
 FunctionFactory::~FunctionFactory() {
 	Node<Function*>* node = this->functionsCreated.Start();
-	while (node != NULL) {
+	while (node != nullptr) {
 		delete node->Value;
 		node = node->Next;
 	}

@@ -39,6 +39,7 @@
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="button_test.cpp" />
     <ClCompile Include="interrupt_manager_test.cpp" />
     <ClCompile Include="layout_manager_test.cpp" />
     <ClCompile Include="tape_test.cpp" />

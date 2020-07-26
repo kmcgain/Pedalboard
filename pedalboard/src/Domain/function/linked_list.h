@@ -15,7 +15,7 @@ private:
 public:
 	~LinkedList() {
 		Node<T>* next = start;
-		while (next != NULL) {
+		while (next != nullptr) {
 			Node<T>* old = next;
 			next = next->Next;
 			delete old;
