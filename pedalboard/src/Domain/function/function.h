@@ -4,7 +4,7 @@
 class Function {   
     public:
         virtual void Execute() = 0;
-
+        virtual const char* Name();
 };
 
 #endif

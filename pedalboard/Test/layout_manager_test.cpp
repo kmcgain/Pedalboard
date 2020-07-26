@@ -11,6 +11,9 @@ TEST(LayoutManagerTest, ShouldRegisterInterruptsAvoidingUnwantedPins) {
 
 
 	Fake(Method(function1Mock, Execute));
+	When(Method(function1Mock, Name)).Return("F1");
+	Fake(Method(function2Mock, Execute));
+	When(Method(function2Mock, Name)).Return("F2");
 
 	Function& function1 = function1Mock.get();
 	Function& function2 = function2Mock.get();

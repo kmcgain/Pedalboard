@@ -14,6 +14,9 @@ void ButtonEventStream::RecordPress(unsigned long eventTime) {
     Event ev;
     ev.WasPress = true;
     ev.TimeMs = eventTime;
+    
+    std::cout << "Press: " << eventTime << "\n";
+
     this->events.Add(ev);
 }
 
@@ -24,23 +27,26 @@ void ButtonEventStream::RecordRelease(unsigned long eventTime) {
     Event ev;
     ev.WasPress = false;
     ev.TimeMs = eventTime;
+    
+    std::cout << "Release: " << eventTime << "\n";
+    
     this->events.Add(ev); 
 }
 
 Maybe<ButtonEvent> ButtonEventStream::Take() {
+
     Maybe<Event> firstEvent = this->events.ReadFromStart(0);
     if (firstEvent.IsNone())
         return Maybe<ButtonEvent>::None();
-
+      
     Event firstEventValue = firstEvent.Value();
-
+    
     if (!firstEventValue.WasPress) {
         // Ignore and remove
         this->events.TakeFromStart();
         return Maybe<ButtonEvent>::None();
     }
     unsigned long currentTimeMs = time_millis();
-
     Maybe<Event> secondEvent = this->events.ReadFromStart(1);
 
     if (secondEvent.IsNone()) {

@@ -10,13 +10,18 @@ Control::Control(Button* button, Function* function) {
 
 // Standard loop will call this so we can handle any button presses
 void Control::HandleState() {
+    
     // grab a button event and then exec function
     Maybe<ButtonEvent> btnEvent;
     do {
         btnEvent = this->button->TakeEvent();
         if (btnEvent.IsSome()) {
+            auto name = this->function->Name();
             switch (btnEvent.Value().EventType) {
                 case (ButtonEvent::button_event_type::Press):
+                    std::cout << "Found button press\n";                    
+                    std::cout << "Handling function " << name << "\n";
+                  
                     this->function->Execute();
                     break;
                 default:

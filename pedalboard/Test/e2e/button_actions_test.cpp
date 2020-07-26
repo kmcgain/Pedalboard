@@ -28,11 +28,15 @@ struct ButtonActionsTest : testing::Test {
     }
 };
 
-TEST_F(ButtonActionsTest, ShouldPerformMidiActionOnButtonPress) {
+TEST_F(ButtonActionsTest, ShouldPerformMidiActionOnButtonPress) {    
     this->interruptMgr = new FakeInterruptRegistrar(bc);
     setup_interrupts(interruptMgr, bc);
 
-    auto lm = new LayoutManager(new FunctionFactory(new LayoutChanger()));
+    Mock<AxeController> axeControllerMock;   
+    Fake(Method(axeControllerMock, SendSceneChange));
+
+    AxeController& axeController = axeControllerMock.get();
+    auto lm = new LayoutManager(new FunctionFactory(new LayoutChanger(), &axeController));
     lm->init();
     registerLayoutManager(lm);
 
@@ -44,6 +48,6 @@ TEST_F(ButtonActionsTest, ShouldPerformMidiActionOnButtonPress) {
 	auto wp = WorkerProcess();
     wp.OneStep();
     
-    
+    Verify(Method(axeControllerMock, SendSceneChange)).Once();
 }
 

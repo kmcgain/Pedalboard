@@ -26,8 +26,8 @@ void define_interrupts(InterruptRegistrar* interruptRegistrar, BoardConstants bo
             included = true;
 
     if (included) {
-        interruptRegistrar->attachDigitalInterrupt(N, &pin_callback_press<N>, boardConstants.Falling);
-        interruptRegistrar->attachDigitalInterrupt(N, &pin_callback_release<N>, boardConstants.Rising);
+        interruptRegistrar->attachDigitalInterrupt(N, &pin_callback_press<N>, boardConstants.Rising);
+        interruptRegistrar->attachDigitalInterrupt(N, &pin_callback_release<N>, boardConstants.Falling);
     }
 
     define_interrupts<N - 1>(interruptRegistrar, boardConstants, interruptPins, numOfPins);

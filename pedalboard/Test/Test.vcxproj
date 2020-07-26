@@ -48,6 +48,7 @@
     <ClCompile Include="e2e\interrupt_registrar.cpp" />
     <ClCompile Include="fake_time.cpp" />
     <ClCompile Include="fake_time_factory.cpp" />
+    <ClCompile Include="impl\axe_controller.cpp" />
     <ClCompile Include="interrupt_manager_test.cpp" />
     <ClCompile Include="layout_manager_test.cpp" />
     <ClCompile Include="tape_test.cpp" />

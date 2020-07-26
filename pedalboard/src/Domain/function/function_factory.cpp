@@ -1,8 +1,9 @@
 #include "pch.h"
 #include "function_factory.h"
 
-FunctionFactory::FunctionFactory(LayoutChanger* layoutChanger) {
+FunctionFactory::FunctionFactory(LayoutChanger* layoutChanger, AxeController* axeController) {
 	this->layoutChanger = layoutChanger;
+	this->axeController = axeController;
 }
 
 FunctionFactory::~FunctionFactory() {
@@ -26,7 +27,7 @@ Function* FunctionFactory::LayoutDecrement() {
 }
 
 Function* FunctionFactory::SceneSelect(int scene) {
-	return this->store(new SceneSelectFunction(scene));
+	return this->store(new SceneSelectFunction(scene, this->axeController));
 }
 
 Function* FunctionFactory::SceneIncrement(int value) {

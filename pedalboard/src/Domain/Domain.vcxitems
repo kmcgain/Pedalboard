@@ -17,6 +17,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)button.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)button_event_stream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)control.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)function\function.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)function\function_factory.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)layout.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)layout_changer.cpp" />
@@ -64,5 +65,8 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="$(MSBuildThisFileDirectory)readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)axe_controller.h" />
   </ItemGroup>
 </Project>

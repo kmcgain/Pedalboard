@@ -7,13 +7,16 @@
 #include "linked_list.h"
 #include "linked_list.cpp"
 
+#include "../axe_controller.h"
+
 class FunctionFactory {
 private:
 	LayoutChanger* layoutChanger;
 	LinkedList<Function*> functionsCreated;
+	AxeController* axeController;
 
 public:
-	FunctionFactory(LayoutChanger* layoutChanger);
+	FunctionFactory(LayoutChanger* layoutChanger, AxeController* axeController);
 	~FunctionFactory();
 	virtual Function* LayoutSelect(int layout);
 

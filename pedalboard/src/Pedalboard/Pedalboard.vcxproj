@@ -117,6 +117,7 @@
     <ClInclude Include="__vm\.Pedalboard.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="axe_controller.cpp" />
     <ClCompile Include="interrupt_registrar.cpp" />
     <ClCompile Include="time_record.cpp" />
     <ClCompile Include="_.cpp" />

@@ -14,8 +14,14 @@ class ButtonEventStream {
     private:
         class Event {
             public:
+                Event(){}
+                Event(const Event& toCopy) {
+                    WasPress = toCopy.WasPress;
+                    TimeMs = toCopy.TimeMs;
+                }
+                
                 bool WasPress;
-                unsigned long TimeMs;                    
+                unsigned long TimeMs;                                    
         };
         
         Tape<Event, 1000> events;
