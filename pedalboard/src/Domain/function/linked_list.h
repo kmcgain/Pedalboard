@@ -1,4 +1,5 @@
-#pragma once
+#ifndef LINKED_LIST_H
+#define LINKED_LIST_H
 
 template<class T>
 struct Node {
@@ -13,30 +14,12 @@ private:
 	Node<T>* last;
 
 public:
-	~LinkedList() {
-		Node<T>* next = start;
-		while (next != nullptr) {
-			Node<T>* old = next;
-			next = next->Next;
-			delete old;
-		}
-	}
+	LinkedList();
+	~LinkedList();
 
-	void Add(T data) {
-		if (this->last == nullptr) {
-			this->last = new Node<T>();
-			this->last->Value = data;
-			this->start = this->last;
-		}
-		else {
-			Node<T>* next = new Node<T>();
-			next->Value = data;			
-			this->last->Next = next;
-			this->last = next;
-		}
-	}
+	void Add(T data);
 
-	Node<T>* Start() {
-		return this->start;
-	}
+	Node<T>* Start();
 };
+
+#endif

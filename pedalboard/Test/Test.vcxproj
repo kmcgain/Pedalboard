@@ -35,11 +35,19 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
+    <ClInclude Include="e2e\fake_interrupt_registrar.h" />
+    <ClInclude Include="fake_time.h" />
+    <ClInclude Include="fake_time_factory.h" />
     <ClInclude Include="lib\include\fakeit.hpp" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="button_test.cpp" />
+    <ClCompile Include="e2e\button_actions_test.cpp" />
+    <ClCompile Include="e2e\fake_interrupt_registrar.cpp" />
+    <ClCompile Include="e2e\interrupt_registrar.cpp" />
+    <ClCompile Include="fake_time.cpp" />
+    <ClCompile Include="fake_time_factory.cpp" />
     <ClCompile Include="interrupt_manager_test.cpp" />
     <ClCompile Include="layout_manager_test.cpp" />
     <ClCompile Include="tape_test.cpp" />

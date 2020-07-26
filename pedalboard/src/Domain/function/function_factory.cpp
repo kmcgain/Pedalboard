@@ -58,6 +58,6 @@ Function* FunctionFactory::PresetDecrement(int value) {
 }
 
 Function* FunctionFactory::store(Function* fn) {
-	this->functionsCreated.Add(fn);
+    this->functionsCreated.Add(fn);
 	return fn;
 }

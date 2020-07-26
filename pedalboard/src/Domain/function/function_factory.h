@@ -5,6 +5,7 @@
 #include "../layout_changer.h"
 
 #include "linked_list.h"
+#include "linked_list.cpp"
 
 class FunctionFactory {
 private:

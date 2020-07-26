@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "layout_changer.h"
 
 void LayoutChanger::SubscribeToLayoutSelect(void (*callback)(void*, int), void* layoutSelectCbThis) {

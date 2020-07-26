@@ -4,7 +4,9 @@
 
 void WorkerProcess::OneStep() {
 	// Handle button presses
-	GetLayoutManager()->CurrentLayout()->ProcessOutstanding();
-
+	auto lm = GetLayoutManager();
+	if (lm == nullptr)
+	    return;
+	lm->CurrentLayout()->ProcessOutstanding();
 	// Handle screen updates (lower priority)
 }

@@ -1,5 +1,6 @@
 #include "src/Domain/layout_manager.h"
 #include "src/Domain/interrupt_manager.h"
+#include "../../src/Domain/interrupt_manager.cpp"
 #include "src/Domain/interrupt_registrar.h"
 #include "src/Domain/layout_setup.h"
 #include "src/Domain/worker_process.h"

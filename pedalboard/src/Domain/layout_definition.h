@@ -4,29 +4,29 @@
 #include "constants.h"
 
 enum FunctionName {
-    layout_select_1,
-    layout_select_2,
-    layout_incr,
-    layout_decr,
-    scene_select_1,
-    scene_select_2,
-    scene_select_3,
-    scene_select_4,
-    scene_select_5,
-    scene_select_6,
-    scene_select_7,
-    scene_select_8,
-    scene_decr,
-    scene_icnr,
-    exp_1_toggle,
-    exp_2_toggle,
-    tuner_toggle,
-    tap_tempo,
-    preset_decr,
-    preset_incr,
-    preset_incr_10,
+    layout_select_1 = 0,
+    layout_select_2 = 1,
+    layout_incr     = 2,
+    layout_decr     = 3,
+    scene_select_1  = 4,
+    scene_select_2  = 5,
+    scene_select_3  = 6,
+    scene_select_4  = 7,
+    scene_select_5  = 8,
+    scene_select_6  = 9,
+    scene_select_7  = 10,
+    scene_select_8  = 11,
+    scene_decr      = 12,
+    scene_icnr      = 13,
+    exp_1_toggle    = 14,
+    exp_2_toggle    = 15,
+    tuner_toggle    = 16,
+    tap_tempo       = 17,
+    preset_decr     = 18,
+    preset_incr     = 19,
+    preset_incr_10  = 20,
     // Just to signal end of enum
-    Last
+    Last            = 999
 };
 
 

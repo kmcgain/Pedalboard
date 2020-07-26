@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "layout_setup.h"
 
-LayoutManager* layoutMgr;
+LayoutManager* layoutMgr = nullptr;
 
 LayoutManager* GetLayoutManager() {
 	return layoutMgr;
