@@ -11,5 +11,11 @@ class PresetDecrementFunction : public Function {
             this->decrementValue = decrementValue;
         }
 
-        void Execute() {}
+
+        const char* Name() {
+            return "PresetDecrement";
+        }
+
+    protected:
+        void execute() {}
 };

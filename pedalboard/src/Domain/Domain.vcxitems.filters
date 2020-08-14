@@ -11,6 +11,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)function\function_factory.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)worker_process.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)layout_setup.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)function\function.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)button.h" />
@@ -46,6 +47,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)worker_process.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)function\pch.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)function\linked_list.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)function\linked_list.cpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)interrupt_manager.cpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)logger.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="$(MSBuildThisFileDirectory)readme.txt" />

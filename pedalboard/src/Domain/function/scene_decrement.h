@@ -11,5 +11,9 @@ class SceneDecrementFunction : public Function {
             this->decrementValue = decrementValue;
         }
 
-        void Execute() {}
+        const char* Name() {
+            return "SceneDecrement";
+        }
+    protected:
+        void execute() {}
 };

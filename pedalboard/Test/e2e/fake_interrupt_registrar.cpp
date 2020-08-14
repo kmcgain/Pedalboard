@@ -21,3 +21,7 @@ void FakeInterruptRegistrar::fireInterrupt(int digitalPin, int mode) {
     if (mode == 2)
         this->risingCallbacks[digitalPin]();
 }
+
+void FakeInterruptRegistrar::inputPullup(int dwPin) {
+    // no op
+}

@@ -7,5 +7,10 @@ class TunerToggleFunction : public Function {
         TunerToggleFunction() {
         }
 
-        void Execute() {}
+        const char* Name() {
+            return "TunerToggle";
+        }
+
+    protected:
+        void execute() {}
 };

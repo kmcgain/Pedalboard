@@ -119,6 +119,7 @@
   <ItemGroup>
     <ClCompile Include="axe_controller.cpp" />
     <ClCompile Include="interrupt_registrar.cpp" />
+    <ClCompile Include="Logger.cpp" />
     <ClCompile Include="time_record.cpp" />
     <ClCompile Include="_.cpp" />
   </ItemGroup>

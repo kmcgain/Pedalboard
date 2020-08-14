@@ -8,7 +8,7 @@ class Tape {
     private:
         int next_pos = 0;
         int start = 0;
-        Maybe<TData> tape[SIZE];
+        volatile Maybe<TData> tape[SIZE];
 
     public:
         Tape() {}
@@ -46,7 +46,7 @@ class Tape {
             while (idx >= SIZE)
                 idx -= SIZE;
 
-            Maybe<TData> item = this->tape[idx];
+            volatile Maybe<TData> item = this->tape[idx];
             this->tape[idx] = Maybe<TData>::None();
             this->incrStart();
 

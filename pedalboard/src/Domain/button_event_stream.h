@@ -24,7 +24,7 @@ class ButtonEventStream {
                 unsigned long TimeMs;                                    
         };
         
-        Tape<Event, 1000> events;
+        Tape<Event, 100> events;
         
 
     public:

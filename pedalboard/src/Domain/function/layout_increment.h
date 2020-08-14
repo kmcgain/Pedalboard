@@ -12,7 +12,14 @@ class LayoutIncrementFunction : public Function {
             this->layoutChanger = layoutChanger;
         }
 
-    void Execute() {
-        this->layoutChanger->IncrementLayout(1);
-    }
+        const char* Name() {
+            return "LayoutIncrement";
+        }
+
+    protected:
+
+        void execute() {
+            this->layoutChanger->IncrementLayout(1);
+        }
+
 };

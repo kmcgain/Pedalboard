@@ -1,6 +1,7 @@
 #include "constants.h"
 #include "layout_setup.h"
 #include "interrupt_registrar.h"
+#include "logger.h"
 
 int unavailable_pins[] = { 0,1,14,15,16,17,18,19,20,21 };
 
@@ -17,7 +18,6 @@ void pin_callback_release() {
     GetLayoutManager()->OnRelease(pinToRow[N], pinToCol[N]);
 }
 
-
 template<int N>
 void define_interrupts(InterruptRegistrar* interruptRegistrar, BoardConstants boardConstants, int* interruptPins, int numOfPins) {
     bool included = false;
@@ -25,9 +25,10 @@ void define_interrupts(InterruptRegistrar* interruptRegistrar, BoardConstants bo
         if (interruptPins[i] == N)
             included = true;
 
-    if (included) {
-        interruptRegistrar->attachDigitalInterrupt(N, &pin_callback_press<N>, boardConstants.Rising);
-        interruptRegistrar->attachDigitalInterrupt(N, &pin_callback_release<N>, boardConstants.Falling);
+    if (included) { 
+        interruptRegistrar->inputPullup(N);
+        interruptRegistrar->attachDigitalInterrupt(N, pin_callback_press<N>, boardConstants.Rising);
+        interruptRegistrar->attachDigitalInterrupt(N, pin_callback_release<N>, boardConstants.Falling);
     }
 
     define_interrupts<N - 1>(interruptRegistrar, boardConstants, interruptPins, numOfPins);
@@ -57,9 +58,10 @@ void reset_interrupts() {
 }
 
 void setup_interrupts(InterruptRegistrar* interruptRegistrar, BoardConstants boardConstants) {
-    int buttonPins[] = {2,3,4,5,6,7,8,9,10,11,12,13,22,23,24};
-    int numPins = sizeof(buttonPins) / sizeof(int);
-
-    define_interrupts<MAX_DIGITAL_PIN>(interruptRegistrar, boardConstants, buttonPins, numPins);
+    int buttonPins[] = {2};
+    //int buttonPins[] = { 2,3,4,5,6,7,8,9,10,11,12,13,22,23,24 };
+    int numPins = sizeof(buttonPins) / sizeof(int);    
+    
     define_interrupt_to_layout(buttonPins, numPins);
+    define_interrupts<MAX_DIGITAL_PIN>(interruptRegistrar, boardConstants, buttonPins, numPins);        
 }

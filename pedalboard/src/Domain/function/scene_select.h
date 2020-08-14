@@ -2,7 +2,7 @@
 
 #include "function.h"
 
-#include "axe_controller.h"
+#include "../axe_controller.h"
 
 class SceneSelectFunction : public Function {
     private:
@@ -15,7 +15,12 @@ class SceneSelectFunction : public Function {
             this->axeController = axeController;
         }
 
-        void Execute() {
+        const char* Name() {
+            return "SceneSelect";
+        }
+
+    protected:
+        void execute() {
             this->axeController->SendSceneChange(this->scene);
         }
 };

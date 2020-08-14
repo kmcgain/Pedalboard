@@ -1,5 +1,4 @@
-﻿#include "pch.h"
-#include "../Domain/axe_controller.h"
+﻿#include "../Domain/axe_controller.h"
 
 void AxeController::Init() {
 }

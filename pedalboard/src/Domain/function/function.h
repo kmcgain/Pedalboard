@@ -3,8 +3,11 @@
 
 class Function {   
     public:
-        virtual void Execute() = 0;
-        virtual const char* Name();
+        virtual void Execute();
+        virtual const char* Name() = 0;
+
+    protected:
+        virtual void execute() = 0;
 };
 
 #endif

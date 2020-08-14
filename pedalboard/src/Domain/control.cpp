@@ -19,9 +19,6 @@ void Control::HandleState() {
             auto name = this->function->Name();
             switch (btnEvent.Value().EventType) {
                 case (ButtonEvent::button_event_type::Press):
-                    std::cout << "Found button press\n";                    
-                    std::cout << "Handling function " << name << "\n";
-                  
                     this->function->Execute();
                     break;
                 default:

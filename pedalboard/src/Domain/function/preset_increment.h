@@ -11,5 +11,10 @@ class PresetIncrementFunction : public Function {
             this->incrementValue = incrementValue;
         }
 
-        void Execute() {}
+        const char* Name() {
+            return "PresetIncrement";
+        }
+
+    protected:
+        void execute() {}
 };

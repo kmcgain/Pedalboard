@@ -20,16 +20,16 @@ public:
 	~FunctionFactory();
 	virtual Function* LayoutSelect(int layout);
 
-	Function* FunctionFactory::LayoutIncrement();
-	Function* FunctionFactory::LayoutDecrement();
-	Function* FunctionFactory::SceneSelect(int scene);
-	Function* FunctionFactory::SceneIncrement(int value);
-	Function* FunctionFactory::SceneDecrement(int value);
-	Function* FunctionFactory::ExpToggle(int pedal);
-	Function* FunctionFactory::TunerToggle();
-	Function* FunctionFactory::TapTempo();
-	Function* FunctionFactory::PresetIncrement(int value);
-	Function* FunctionFactory::PresetDecrement(int value);
+	Function* LayoutIncrement();
+	Function* LayoutDecrement();
+	Function* SceneSelect(int scene);
+	Function* SceneIncrement(int value);
+	Function* SceneDecrement(int value);
+	Function* ExpToggle(int pedal);
+	Function* TunerToggle();
+	Function* TapTempo();
+	Function* PresetIncrement(int value);
+	Function* PresetDecrement(int value);
 
 private:
 	Function* store(Function* fn);

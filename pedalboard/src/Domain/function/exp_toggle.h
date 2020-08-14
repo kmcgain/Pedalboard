@@ -11,7 +11,9 @@ class ExpToggleFunction : public Function {
             this->pedalNum = pedalNum;
         }
 
-        void Execute() {}
+        void execute() {}
         
-        
+        const char* Name() {
+            return "ExpToggle";
+        }
 };

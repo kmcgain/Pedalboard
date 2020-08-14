@@ -8,6 +8,7 @@ public:
 	InterruptRegistrar();
 	virtual ~InterruptRegistrar();
 	virtual void attachDigitalInterrupt(int digitalPin, void (*callback)(), unsigned int mode);
+	virtual void inputPullup(int dwPin);
 };
 
 #endif

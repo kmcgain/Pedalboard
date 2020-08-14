@@ -37,10 +37,10 @@ LayoutManager::~LayoutManager() {
 }
 
 void LayoutManager::init() {  
-
+    
     this->layoutChanger->SubscribeToLayoutSelect(LayoutManager::ChangeLayoutCb, this);
     this->layoutChanger->SubscribeToLayoutIncrement(LayoutManager::IncrementLayoutCb, this);
-
+    
     this->setup_buttons();
     this->setup_functions(this->layoutChanger, this->functionFactory);
     this->setup_layouts();
@@ -97,14 +97,17 @@ void LayoutManager::setup_layouts() {
 
 void LayoutManager::setup_buttons() {
     this->buttons = new Button**[FS_ROWS];
+    
     for (int row = 0; row < FS_ROWS; row++) {
         this->buttons[row] = new Button*[FS_COLS];
-        for (int col = 0; col < FS_COLS; col++)
+                
+        for (int col = 0; col < FS_COLS; col++) {
             this->buttons[row][col] = new Button();
+        }
     }
 }
 
-void LayoutManager::OnPress(int row, int col) {    
+void LayoutManager::OnPress(int row, int col) {
     this->buttons[row][col]->OnPress();
 }
 

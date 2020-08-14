@@ -11,5 +11,9 @@ class SceneIncrementFunction : public Function {
             this->incrementValue = incrementValue;
         }
 
-        void Execute() {}
+        const char* Name() {
+            return "SceneIncrement";
+        }
+    protected:
+        void execute() {}
 };

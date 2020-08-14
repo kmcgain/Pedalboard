@@ -15,8 +15,6 @@ void ButtonEventStream::RecordPress(unsigned long eventTime) {
     ev.WasPress = true;
     ev.TimeMs = eventTime;
     
-    std::cout << "Press: " << eventTime << "\n";
-
     this->events.Add(ev);
 }
 
@@ -27,8 +25,6 @@ void ButtonEventStream::RecordRelease(unsigned long eventTime) {
     Event ev;
     ev.WasPress = false;
     ev.TimeMs = eventTime;
-    
-    std::cout << "Release: " << eventTime << "\n";
     
     this->events.Add(ev); 
 }

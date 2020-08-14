@@ -18,6 +18,7 @@ public:
 	virtual ~FakeInterruptRegistrar();
 	virtual void attachDigitalInterrupt(int digitalPin, void (*callback)(), unsigned int mode);
     void fireInterrupt(int digitalPin, int mode);
+    virtual void inputPullup(int dwPin);
 };
 
 #endif

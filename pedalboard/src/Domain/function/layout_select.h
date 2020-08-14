@@ -14,7 +14,12 @@ class LayoutSelectFunction : public Function {
             this->layoutChanger = layoutChanger;
         }
 
-        void Execute() {
+        const char* Name() {
+            return "layoutSelect";
+        }
+
+    protected:
+        void execute() {
             this->layoutChanger->SelectLayout(this->layout);
         }
 };

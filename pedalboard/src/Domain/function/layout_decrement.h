@@ -12,7 +12,11 @@ class LayoutDecrementFunction : public Function {
             this->layoutChanger = layoutChanger;
         }
 
-    void Execute() {
+    void execute() {
         this->layoutChanger->IncrementLayout(-1);
+    }
+
+    const char* Name() {
+        return "LayoutDecrement";
     }
 };

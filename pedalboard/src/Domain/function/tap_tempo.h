@@ -7,5 +7,10 @@ class TapTempoFunction : public Function {
         TapTempoFunction() {
         }
 
-        void Execute() {}
+        const char* Name() {
+            return "TapTempo";
+        }
+
+    protected:
+        void execute() {}
 };

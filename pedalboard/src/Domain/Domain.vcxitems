@@ -50,6 +50,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)layout_manager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)function\layout_select.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)layout_setup.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)logger.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)maybe.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)pch.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)function\preset_decrement.h" />
