@@ -35,8 +35,16 @@ void Layout::init() {
 void Layout::Exit(){}
 
 
-void Layout::ProcessOutstanding() {
+void Layout::ProcessOutstanding() {    
     for (int i = 0; i < this->rows; i++)
         for (int j = 0; j < this->cols; j++)
             this->controls[i][j]->HandleState();
+}
+
+void Layout::PrintDebug() {
+    for (int i = 0; i < this->rows; i++)
+        for (int j = 0; j < this->cols; j++) {
+            if (i == 0 && j == 0)
+            this->controls[i][j]->PrintDebug();
+        }
 }

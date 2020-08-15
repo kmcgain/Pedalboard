@@ -13,6 +13,7 @@ class Control {
   public:
     Control(Button* button, Function* function);
     void HandleState();
+    void PrintDebug();
 
   private:
     void handlePress();

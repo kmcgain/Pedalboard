@@ -1,5 +1,6 @@
 ﻿#include "../Domain/axe_controller.h"
 
+
 void AxeController::Init() {
 }
 

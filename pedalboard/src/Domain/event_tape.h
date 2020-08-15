@@ -1,12 +1,13 @@
 #pragma once
 #include "button_event_stream_event.h"
+#include "logger.h"
 
 class EventTape {
 private:
     static const int SIZE = 100;
     int next_pos = 0;
     int start = 0;
-    Event tape[SIZE];
+    volatile Event tape[SIZE];
 
 public:
     EventTape() {}
@@ -44,11 +45,30 @@ public:
         while (idx >= SIZE)
             idx -= SIZE;
 
-        auto item = this->tape[idx];
+        Event item = this->tape[idx];
         this->tape[idx] = Event();
         this->incrStart();
 
         return item;
+    }
+
+    void PrintDebug() {
+        Logger::log("Tape: \nStart: ");
+        Logger::log(this->start);
+        Logger::log("\nNext: ");
+        Logger::log(this->next_pos);
+        Logger::log("\n");
+
+        for (int i = 0; i < SIZE; i++) {
+            Logger::log(i);
+            Logger::log(": ");
+            Logger::log((int)this->tape[i].IsSome());
+            Logger::log(" -  ");
+            Logger::log((int)this->tape[i].WasPress);
+            Logger::log(" -  ");
+            Logger::log((int)this->tape[i].TimeMs);
+            Logger::log("\n");
+        }        
     }
 
 private:

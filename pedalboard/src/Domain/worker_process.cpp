@@ -7,6 +7,15 @@ void WorkerProcess::OneStep() {
 	auto lm = GetLayoutManager();
 	if (lm == nullptr)
 	    return;
+
 	lm->CurrentLayout()->ProcessOutstanding();
 	// Handle screen updates (lower priority)
+}
+
+void WorkerProcess::PrintDebug() {
+	auto lm = GetLayoutManager();
+	if (lm == nullptr)
+		return;
+
+	lm->CurrentLayout()->PrintDebug();
 }

@@ -21,3 +21,7 @@ void Button::OnRelease()  {
 ButtonEvent Button::TakeEvent() {
     return this->buttonEventStream.Take();
 }
+
+void Button::PrintDebug() {
+    this->buttonEventStream.PrintDebug();
+}

@@ -33,8 +33,8 @@ struct ButtonEvent : public Some {
         EventTimeMs = -1;
     }
 
-    bool IsSome() {
-        return EventType == ButtonEvent::button_event_type::None;
+    bool IsSome() volatile {
+        return EventType != ButtonEvent::button_event_type::None;
     }
 };
 

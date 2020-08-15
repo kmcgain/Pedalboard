@@ -1,3 +1,5 @@
+
+
 #include "src/Domain/layout_manager.h"
 #include "src/Domain/interrupt_manager.h"
 #include "src/Domain/interrupt_registrar.h"
@@ -7,6 +9,7 @@
 
 
 uint32_t lastTime;
+WorkerProcess workerProcess;
 
 void setup() {
   lastTime = millis();
@@ -20,18 +23,22 @@ void setup() {
   BoardConstants boardConstants = BoardConstants();
   boardConstants.Rising = RISING;
   boardConstants.Falling = FALLING;
+  boardConstants.Change = CHANGE;
 
   GetLayoutManager()->init();
   setup_interrupts(interruptRegistrar, boardConstants);  
+
+  start_recording();
 }
 
 
-void loop() {
-  if (millis() - lastTime > 1000) {
+void loop() {  
+  if (millis() - lastTime > 5000) {
     lastTime = millis();
     Serial.print("Alive\n");
+    workerProcess.PrintDebug();
+    workerProcess.OneStep();
   }
-  return;
-  WorkerProcess workerProcess;
-  workerProcess.OneStep();
+    
+  //workerProcess.OneStep();
 }

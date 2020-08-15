@@ -14,6 +14,7 @@ class Button {
         void OnPress();
         void OnRelease();
         ButtonEvent TakeEvent();
+        void PrintDebug();
 };
 
 #endif

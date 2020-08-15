@@ -6,6 +6,9 @@
 #include "layout_setup.h"
 #include "interrupt_registrar.h"
 
+// This is to avoid initial interrupt signals
+void start_recording();
+
 template<int N>
 void pin_callback_press();
 

@@ -2,20 +2,29 @@
 #include "layout_setup.h"
 #include "interrupt_registrar.h"
 #include "logger.h"
+#include "pin.h"
 
 int unavailable_pins[] = { 0,1,14,15,16,17,18,19,20,21 };
 
 int pinToRow[MAX_DIGITAL_PIN+1];
 int pinToCol[MAX_DIGITAL_PIN+1];
+bool recording = false;
 
-template<int N>
-void pin_callback_press() {
-    GetLayoutManager()->OnPress(pinToRow[N], pinToCol[N]);
+void start_recording() {
+    recording = true;
 }
 
 template<int N>
-void pin_callback_release() {
-    GetLayoutManager()->OnRelease(pinToRow[N], pinToCol[N]);
+void pin_callback_change() {
+    if (!recording)
+        return;
+
+    if (!digitalPinHigh(N)) {
+        GetLayoutManager()->OnPress(pinToRow[N], pinToCol[N]);
+    }
+    else {
+        GetLayoutManager()->OnRelease(pinToRow[N], pinToCol[N]);
+    }
 }
 
 template<int N>
@@ -25,10 +34,11 @@ void define_interrupts(InterruptRegistrar* interruptRegistrar, BoardConstants bo
         if (interruptPins[i] == N)
             included = true;
 
-    if (included) { 
+    if (included && N == 2) { 
         interruptRegistrar->inputPullup(N);
-        interruptRegistrar->attachDigitalInterrupt(N, pin_callback_press<N>, boardConstants.Rising);
-        interruptRegistrar->attachDigitalInterrupt(N, pin_callback_release<N>, boardConstants.Falling);
+        
+        
+        interruptRegistrar->attachDigitalInterrupt(N, pin_callback_change<N>, boardConstants.Change);
     }
 
     define_interrupts<N - 1>(interruptRegistrar, boardConstants, interruptPins, numOfPins);

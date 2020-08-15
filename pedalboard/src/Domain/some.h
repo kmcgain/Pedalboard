@@ -2,5 +2,5 @@
 
 class Some {
 public:
-	virtual bool IsSome() = 0;
+	virtual bool IsSome() volatile = 0;
 };

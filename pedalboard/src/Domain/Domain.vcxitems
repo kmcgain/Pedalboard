@@ -27,6 +27,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)worker_process.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)atomic_fn.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)button.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)button_event.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)button_event_stream.h" />

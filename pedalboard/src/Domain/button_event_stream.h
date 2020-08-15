@@ -24,6 +24,14 @@ class ButtonEventStream {
         void RecordRelease(unsigned long eventTime);
 
         ButtonEvent Take();
+
+        void PrintDebug();
+
+    private:
+        ButtonEvent takeAux();
+        void recordPressAux(unsigned long eventTime);
+        void recordReleaseAux(unsigned long eventTime);
+
 };
 
 

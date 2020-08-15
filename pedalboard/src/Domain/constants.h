@@ -9,6 +9,7 @@
 struct BoardConstants {
 	unsigned int Rising;
 	unsigned int Falling;
+	unsigned int Change;
 };
 
 #endif
