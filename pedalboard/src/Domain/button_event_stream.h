@@ -4,6 +4,8 @@
 #include "time_record.h"
 #include "tape.h"
 #include "button_event.h"
+#include "some.h"
+#include "event_tape.h"
 
 /*
 * This concept exists so interrupts can record multiple events before the main
@@ -12,19 +14,8 @@
 class ButtonEventStream {
     
     private:
-        class Event {
-            public:
-                Event(){}
-                Event(const Event& toCopy) {
-                    WasPress = toCopy.WasPress;
-                    TimeMs = toCopy.TimeMs;
-                }
-                
-                bool WasPress;
-                unsigned long TimeMs;                                    
-        };
         
-        Tape<Event, 100> events;
+        EventTape events;
         
 
     public:
@@ -32,7 +23,7 @@ class ButtonEventStream {
 
         void RecordRelease(unsigned long eventTime);
 
-        Maybe<ButtonEvent> Take();
+        ButtonEvent Take();
 };
 
 

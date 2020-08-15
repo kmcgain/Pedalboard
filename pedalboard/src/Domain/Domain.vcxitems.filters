@@ -50,6 +50,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)function\linked_list.cpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)interrupt_manager.cpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)logger.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)some.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)event_tape.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)button_event_stream_event.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="$(MSBuildThisFileDirectory)readme.txt" />

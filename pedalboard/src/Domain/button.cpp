@@ -18,6 +18,6 @@ void Button::OnRelease()  {
     this->buttonEventStream.RecordRelease(time_millis());
 }
 
-Maybe<ButtonEvent> Button::TakeEvent() {
+ButtonEvent Button::TakeEvent() {
     return this->buttonEventStream.Take();
 }

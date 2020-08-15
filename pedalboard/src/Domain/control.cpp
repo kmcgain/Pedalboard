@@ -12,12 +12,12 @@ Control::Control(Button* button, Function* function) {
 void Control::HandleState() {
     
     // grab a button event and then exec function
-    Maybe<ButtonEvent> btnEvent;
+    ButtonEvent btnEvent;
     do {
         btnEvent = this->button->TakeEvent();
         if (btnEvent.IsSome()) {
             auto name = this->function->Name();
-            switch (btnEvent.Value().EventType) {
+            switch (btnEvent.EventType) {
                 case (ButtonEvent::button_event_type::Press):
                     this->function->Execute();
                     break;

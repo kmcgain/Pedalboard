@@ -6,3 +6,5 @@ InterruptRegistrar::InterruptRegistrar() {
 InterruptRegistrar::~InterruptRegistrar() {}
 
 void InterruptRegistrar::attachDigitalInterrupt(int digitalPin, void (*callback)(), unsigned int mode) {}
+
+void InterruptRegistrar::inputPullup(int digitalPin) {}

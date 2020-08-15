@@ -1,11 +1,14 @@
 #ifndef BUTTON_EVENT_H
 #define BUTTON_EVENT_H
 
-struct ButtonEvent {
+#include "some.h"
+
+struct ButtonEvent : public Some {
     enum button_event_type {
         Press,
         LongPress,
-        Hold
+        Hold,
+        None
     };
 
     static const unsigned int LONG_HOLD_LIMIT_MS = 1500;
@@ -23,6 +26,16 @@ struct ButtonEvent {
      * For Hold it is when the button was first pressed
      */
     unsigned long EventTimeMs;
+
+    ButtonEvent() {
+        EventType = button_event_type::None;
+        HeldMs = -1;
+        EventTimeMs = -1;
+    }
+
+    bool IsSome() {
+        return EventType == ButtonEvent::button_event_type::None;
+    }
 };
 
 #endif

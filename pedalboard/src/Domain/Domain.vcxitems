@@ -30,8 +30,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)button.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)button_event.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)button_event_stream.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)button_event_stream_event.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)constants.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)control.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)event_tape.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)function\all_functions.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)function\exp_toggle.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)function\function.h" />
@@ -58,6 +60,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)function\scene_decrement.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)function\scene_increment.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)function\scene_select.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)some.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)tape.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)function\tap_tempo.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)time_record.h" />

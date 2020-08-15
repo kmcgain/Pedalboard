@@ -13,7 +13,7 @@ class Button {
         Button();
         void OnPress();
         void OnRelease();
-        Maybe<ButtonEvent> TakeEvent();
+        ButtonEvent TakeEvent();
 };
 
 #endif
