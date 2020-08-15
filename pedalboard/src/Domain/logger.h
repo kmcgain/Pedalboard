@@ -2,6 +2,7 @@
 
 class Logger {
 public:
+    static void flush();
     static void log(const char[]);
     static void log(char*);
     static void log(char);

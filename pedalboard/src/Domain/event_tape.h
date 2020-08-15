@@ -1,4 +1,11 @@
 #pragma once
+
+#ifdef ARDUINO
+#include <Arduino.h>
+#else
+#include <cstdio>
+#endif
+
 #include "button_event_stream_event.h"
 #include "logger.h"
 
@@ -53,21 +60,15 @@ public:
     }
 
     void PrintDebug() {
-        Logger::log("Tape: \nStart: ");
-        Logger::log(this->start);
-        Logger::log("\nNext: ");
-        Logger::log(this->next_pos);
-        Logger::log("\n");
+        char logData[100];
+
+        sprintf(logData, "Tape: \nStart: %d\nNext: %d\n", this->start, this->next_pos);
+
+        Logger::log(logData);
 
         for (int i = 0; i < SIZE; i++) {
-            Logger::log(i);
-            Logger::log(": ");
-            Logger::log((int)this->tape[i].IsSome());
-            Logger::log(" -  ");
-            Logger::log((int)this->tape[i].WasPress);
-            Logger::log(" -  ");
-            Logger::log((int)this->tape[i].TimeMs);
-            Logger::log("\n");
+            sprintf(logData, "%d: %d - %d - %d\n", i, (int)this->tape[i].IsSome(), (int)this->tape[i].WasPress, (int)this->tape[i].TimeMs);
+            Logger::log(logData);            
         }        
     }
 

@@ -67,15 +67,6 @@ ButtonEvent ButtonEventStream::takeAux() {
     events[0].TimeMs = startTime;
     events[0].WasPress = wasPress;
 
-    Logger::log("Got event 1: ");
-    Logger::log(events[0].TimeMs);
-    Logger::log(" - ");
-    Logger::log(events[0].WasPress);
-    Logger::log("\n");
-    Logger::log("Read to index: ");
-    Logger::log(firstIndex);
-    Logger::log("\n");
-
     if (!wasPress) {
         Logger::log("\nNotPress\n");
         for (int i = 0; i < firstIndex; i++)
@@ -153,71 +144,10 @@ ButtonEvent ButtonEventStream::takeAux() {
         result.HeldMs = timeHeld;
     }
 
-    Logger::log("We got an actual event!!");
-
-    return ButtonEvent();
+    Logger::log("We got an actual event!!\n");
+    
     return result;
 }
-
-//ButtonEvent ButtonEventStream::takeAux() {
-//    Event firstEvent = this->events.ReadFromStart(0);
-//    if (!firstEvent.IsSome())
-//        return ButtonEvent();
-//    Logger::log("Found first\n");
-//
-//    if (!firstEvent.WasPress) {
-//        Logger::log("Wasn't press\n");
-//        // Ignore and remove
-//        this->events.TakeFromStart();
-//        return ButtonEvent();
-//    }
-//
-//    Logger::log("Was press\n");
-//    unsigned long currentTimeMs = time_millis();
-//    Event secondEvent = this->events.ReadFromStart(1);
-//
-//    if (!secondEvent.IsSome()) {
-//        Logger::log("Second was nothing\n");
-//        unsigned long timeDiffMs = currentTimeMs - firstEvent.TimeMs;
-//        if (timeDiffMs > ButtonEvent::LONG_HOLD_LIMIT_MS) {
-//            ButtonEvent result;
-//            result.EventType = ButtonEvent::button_event_type::Hold;
-//            result.HeldMs = timeDiffMs;
-//            result.EventTimeMs = firstEvent.TimeMs;
-//            return result;
-//        }
-//    }
-//    Logger::log("Second was something\n");
-//
-//    // Remove the events from tape as we have enough information to determine the event
-//    this->events.TakeFromStart();
-//    this->events.TakeFromStart();
-//
-//    if (secondEvent.WasPress) {
-//        Logger::log("Second was press though...\n");
-//        return ButtonEvent();
-//    }
-//    Logger::log("Second was not press!!\n");
-//
-//    ButtonEvent result;
-//    unsigned long timeHeld = secondEvent.TimeMs - firstEvent.TimeMs;
-//
-//    if (timeHeld < ButtonEvent::LONG_HOLD_START_MS) {
-//        result.EventType = ButtonEvent::button_event_type::Press;
-//        result.EventTimeMs = secondEvent.TimeMs;
-//    }
-//    else if (timeHeld <= ButtonEvent::LONG_HOLD_LIMIT_MS) {
-//        result.EventType = ButtonEvent::button_event_type::LongPress;
-//        result.EventTimeMs = secondEvent.TimeMs;
-//    }
-//    else {
-//        result.EventType = ButtonEvent::button_event_type::Hold;
-//        result.EventTimeMs = firstEvent.TimeMs;
-//        result.HeldMs = timeHeld;
-//    }
-//
-//    return result;
-//}
 
 ButtonEvent ButtonEventStream::Take() {
     return AtomicFn<ButtonEvent, ButtonEventStream>::Run(*this, &ButtonEventStream::takeAux);

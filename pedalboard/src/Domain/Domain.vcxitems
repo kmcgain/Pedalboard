@@ -61,6 +61,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)function\scene_decrement.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)function\scene_increment.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)function\scene_select.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)pin.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)some.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)tape.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)function\tap_tempo.h" />

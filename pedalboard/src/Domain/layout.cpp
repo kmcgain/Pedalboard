@@ -44,7 +44,7 @@ void Layout::ProcessOutstanding() {
 void Layout::PrintDebug() {
     for (int i = 0; i < this->rows; i++)
         for (int j = 0; j < this->cols; j++) {
-            if (i == 0 && j == 0)
-            this->controls[i][j]->PrintDebug();
+            if (i == 0 && j == 2)
+                this->controls[i][j]->PrintDebug();
         }
 }

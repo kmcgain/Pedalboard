@@ -16,8 +16,9 @@ void setup() {
   Serial.begin(9600); 
 
   Serial.print("Setting up\n");
-  
-  registerLayoutManager(new LayoutManager(new FunctionFactory(new LayoutChanger(), new AxeController())));
+
+  auto layoutChanger = new LayoutChanger();
+  registerLayoutManager(new LayoutManager(new FunctionFactory(layoutChanger, new AxeController()), layoutChanger));
 
   InterruptRegistrar* interruptRegistrar = new InterruptRegistrar();
   BoardConstants boardConstants = BoardConstants();
@@ -36,8 +37,10 @@ void loop() {
   if (millis() - lastTime > 5000) {
     lastTime = millis();
     Serial.print("Alive\n");
-    workerProcess.PrintDebug();
+    //workerProcess.PrintDebug();
     workerProcess.OneStep();
+
+    Logger::flush();
   }
     
   //workerProcess.OneStep();

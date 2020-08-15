@@ -10,10 +10,10 @@
 #include "function/all_functions.h"
 #include "function/function_factory.h"
 
-LayoutManager::LayoutManager(FunctionFactory* functionFactory) {
+LayoutManager::LayoutManager(FunctionFactory* functionFactory, LayoutChanger* layoutChanger) {
     this->functionFactory = functionFactory;
 
-    this->layoutChanger = new LayoutChanger();
+    this->layoutChanger = layoutChanger;
 }
 
 LayoutManager::~LayoutManager() {
@@ -37,9 +37,10 @@ LayoutManager::~LayoutManager() {
 }
 
 void LayoutManager::init() {  
-    
-    this->layoutChanger->SubscribeToLayoutSelect(LayoutManager::ChangeLayoutCb, this);
-    this->layoutChanger->SubscribeToLayoutIncrement(LayoutManager::IncrementLayoutCb, this);
+    Logger::log("Init layout");
+
+    this->layoutChanger->SubscribeToLayoutSelect(&LayoutManager::ChangeLayoutCb, this);
+    this->layoutChanger->SubscribeToLayoutIncrement(&LayoutManager::IncrementLayoutCb, this);
     
     this->setup_buttons();
     this->setup_functions(this->layoutChanger, this->functionFactory);
@@ -119,9 +120,12 @@ void LayoutManager::ChangeLayoutCb(void * this_ptr, int number) {
     ((LayoutManager*)this_ptr)->ChangeLayout(number);
 }
 
-void LayoutManager::ChangeLayout(int number) {
+void LayoutManager::ChangeLayout(int layoutNumber) {
+    if (layoutNumber > LAYOUTS || layoutNumber <= 0)
+        return;
+
     this->activeLayout->Exit();
-    this->activeLayout = layouts[number];
+    this->activeLayout = layouts[layoutNumber-1];
 }
 
 void LayoutManager::IncrementLayoutCb(void * this_ptr, int number) {

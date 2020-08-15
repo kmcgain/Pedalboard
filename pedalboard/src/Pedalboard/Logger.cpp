@@ -1,34 +1,61 @@
 #include "../Domain/logger.h"
 #include <Arduino.h>
+#include <String>
+
+const int SIZE = 100;
+String pending[SIZE];
+int next = 0;
+
+void Logger::flush() {
+	for (int i = 0; i < next; i++)
+		Serial.print(pending[i]);
+	next = 0;
+}
 
 void Logger::log(const char msg[]) {
-	Serial.print(msg);
+	if (next >= SIZE)
+		return;
+	pending[next++] = String(msg);
 }
 
 void Logger::log(char* msg) {
-	Serial.print(msg);
+	if (next >= SIZE)
+		return;
+	pending[next++] = String(msg);
 }
 
 void Logger::log(char msg) {
-	Serial.print(msg);
+	if (next >= SIZE)
+		return;
+	pending[next++] = String(msg);
 }
 
 void Logger::log(int msg) {
-	Serial.print(msg);
+	if (next >= SIZE)
+		return;
+	pending[next++] = String(msg);
 }
 
 void Logger::log(unsigned int msg) {
-	Serial.print(msg);
+	if (next >= SIZE)
+		return;
+	pending[next++] = String(msg);
 }
 
 void Logger::log(long msg) {
-	Serial.print(msg);
+	if (next >= SIZE)
+		return;
+	pending[next++] = String(msg);
 }
 
 void Logger::log(unsigned long msg) {
-	Serial.print(msg);
+	if (next >= SIZE)
+		return;
+	pending[next++] = String(msg);
 }
 
 void Logger::log(double msg) {
-	Serial.print(msg);
+	if (next >= SIZE)
+		return;
+	pending[next++] = String(msg);
 }

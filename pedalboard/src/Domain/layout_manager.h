@@ -19,7 +19,7 @@ class LayoutManager {
         FunctionFactory* functionFactory;
 
     public:
-        LayoutManager(FunctionFactory* functionFactory);
+        LayoutManager(FunctionFactory* functionFactory, LayoutChanger* layoutChanger);
         ~LayoutManager();
 
         void init();

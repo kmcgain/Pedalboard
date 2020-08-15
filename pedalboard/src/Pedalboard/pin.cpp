@@ -2,5 +2,5 @@
 #include <Arduino.h>
 
 bool digitalPinHigh(int pin) {
-	return digitalRead(2) == HIGH;
+	return digitalRead(pin) == HIGH;
 }
