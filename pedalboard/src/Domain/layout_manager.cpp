@@ -37,8 +37,6 @@ LayoutManager::~LayoutManager() {
 }
 
 void LayoutManager::init() {  
-    Logger::log("Init layout");
-
     this->layoutChanger->SubscribeToLayoutSelect(&LayoutManager::ChangeLayoutCb, this);
     this->layoutChanger->SubscribeToLayoutIncrement(&LayoutManager::IncrementLayoutCb, this);
     

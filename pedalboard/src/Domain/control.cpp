@@ -16,13 +16,17 @@ void Control::HandleState() {
     do {
         btnEvent = this->button->TakeEvent();
         if (btnEvent.IsSome()) {
-            Logger::log("Found event!\n");
-
-            auto name = this->function->Name();
-            Logger::log(name);
             switch (btnEvent.EventType) {
                 case (ButtonEvent::button_event_type::Press):
                     Logger::log("Press\n");
+                    this->function->Execute();
+                    break;
+                case (ButtonEvent::button_event_type::LongPress):
+                    Logger::log("Long Press\n");
+                    this->function->Execute();
+                    break;
+                case (ButtonEvent::button_event_type::Hold):
+                    Logger::log("Hold\n");
                     this->function->Execute();
                     break;
                 default:

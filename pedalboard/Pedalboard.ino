@@ -37,11 +37,8 @@ void loop() {
   if (millis() - lastTime > 5000) {
     lastTime = millis();
     Serial.print("Alive\n");
-    //workerProcess.PrintDebug();
-    workerProcess.OneStep();
-
-    Logger::flush();
   }
     
-  //workerProcess.OneStep();
+  workerProcess.OneStep();
+  Logger::flush();
 }

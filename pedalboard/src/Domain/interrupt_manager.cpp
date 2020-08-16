@@ -19,16 +19,11 @@ void pin_callback_change() {
     if (!recording)
         return;
     
+    char dat[50];
     if (!digitalPinHigh(N)) {
-        Logger::log("Got Press on ");
-        Logger::log(N);
-        Logger::log("\n");
         GetLayoutManager()->OnPress(pinToRow[N], pinToCol[N]);
     }
     else {
-        Logger::log("Got Release on ");
-        Logger::log(N);
-        Logger::log("\n");
         GetLayoutManager()->OnRelease(pinToRow[N], pinToCol[N]);
     }
 }
@@ -74,7 +69,6 @@ void reset_interrupts() {
 }
 
 void setup_interrupts(InterruptRegistrar* interruptRegistrar, BoardConstants boardConstants) {
-    //int buttonPins[] = {2};
     int buttonPins[] = { 2,3,4,5,6,7,8,9,10,11,12,13,22,23,24 };
     int numPins = sizeof(buttonPins) / sizeof(int);    
     

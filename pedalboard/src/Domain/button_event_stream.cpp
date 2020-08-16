@@ -9,12 +9,10 @@
 static const int BUTTON_EVENT_BUFFER = 60;
 
 void ButtonEventStream::RecordPress(unsigned long eventTime) {
-    //Logger::log("Press\n");
     return AtomicFnVoid<ButtonEventStream>::Run(*this, &ButtonEventStream::recordPressAux, eventTime);
 }
 
 void ButtonEventStream::RecordRelease(unsigned long eventTime) {
-    //Logger::log("Release\n");
     return AtomicFnVoid<ButtonEventStream>::Run(*this, &ButtonEventStream::recordReleaseAux, eventTime);
 }
 
@@ -40,103 +38,108 @@ void ButtonEventStream::recordReleaseAux(unsigned long eventTime) {
     this->events.Add(ev); 
 }
 
+struct DebouncedEvent {
+    DebouncedEvent() {
+        TimeMs = -1;
+        WasPress = false;
+        FoundAtIndex = -1;
+    }
+
+    bool IsSome() volatile {
+        return TimeMs != -1;
+    }
+
+    bool WasPress;
+    unsigned long TimeMs;
+    int FoundAtIndex;
+};
+
+void cleanTape(int index, EventTape* tape) {
+    for (int i = 0; i <= index; i++)
+        tape->TakeFromStart();
+}
+
 ButtonEvent ButtonEventStream::takeAux() {
-    auto event = this->events.ReadFromStart(0);
-    if (!event.IsSome())
-        return ButtonEvent();
+    const int MAX_DEBOUNCED = 10;
+    DebouncedEvent events[MAX_DEBOUNCED];
 
-    Event events[2]; // we process 2 events at a time
+    bool hasSome = true;
+    int eventIndex = 0;
+    int tapeIndex = 0;
+    while (hasSome && eventIndex < MAX_DEBOUNCED) {
+        auto event = this->events.ReadFromStart(tapeIndex);
+        hasSome = event.IsSome();
+        if (hasSome) {
+            if (!events[eventIndex].IsSome()) {
+                events[eventIndex].TimeMs = event.TimeMs;
+                events[eventIndex].WasPress = event.WasPress;
+                events[eventIndex].FoundAtIndex = tapeIndex;
+            }
+            else if (event.TimeMs < events[eventIndex].TimeMs + 20) {
+                events[eventIndex].TimeMs = event.TimeMs;
+                events[eventIndex].WasPress = event.WasPress;
+                events[eventIndex].FoundAtIndex = tapeIndex;
+            }
+            else {
+                // New Event!
+                eventIndex++;
+                events[eventIndex].TimeMs = event.TimeMs;
+                events[eventIndex].WasPress = event.WasPress;
+                events[eventIndex].FoundAtIndex = tapeIndex;
+            }
 
-    unsigned int startTime = event.TimeMs;
-    bool wasPress = event.WasPress;
-
-    unsigned int lastTime = startTime;
-    bool hasMore = true;
-    int firstIndex = 1;
-    while (hasMore) {
-        event = this->events.ReadFromStart(firstIndex++);
-        hasMore = event.IsSome() && event.TimeMs < startTime + BUTTON_EVENT_BUFFER;
-        
-        if (hasMore) {
-            lastTime = event.TimeMs;
-            wasPress = event.WasPress;
-        }
-    }
-    firstIndex--;
-
-    events[0].TimeMs = startTime;
-    events[0].WasPress = wasPress;
-
-    if (!wasPress) {
-        Logger::log("\nNotPress\n");
-        for (int i = 0; i < firstIndex; i++)
-           this->events.TakeFromStart();
-        return ButtonEvent();
-    }
-
-    int secondIndex = firstIndex;
-    event = this->events.ReadFromStart(secondIndex++);
-    hasMore = event.IsSome();
-    startTime = event.TimeMs;
-    wasPress = event.WasPress;
-
-    while (hasMore) {
-        event = this->events.ReadFromStart(secondIndex++);
-        hasMore = event.IsSome() && event.TimeMs < startTime + BUTTON_EVENT_BUFFER;
-
-        if (hasMore) {
-            lastTime = event.TimeMs;
-            wasPress = event.WasPress;
+            tapeIndex++;
         }
     }
 
-    secondIndex--;
-    
-    events[1].TimeMs = startTime;
-    events[1].WasPress = wasPress;
-    
-    Logger::log("Got events\n1: ");
-    Logger::log(events[0].TimeMs);
-    Logger::log(" - ");
-    Logger::log(events[0].WasPress);
-    Logger::log("\n");
-
-    Logger::log("\n2: ");
-    Logger::log(events[1].TimeMs);
-    Logger::log(" - ");
-    Logger::log(events[1].WasPress);
-    Logger::log("\n");
-    
-    if (events[0].WasPress == events[1].WasPress) {
-        Logger::log("Removing first event due to duplicate\n");
-        // WE are just going to remove first event as it's a duplicate
-        for (int i = 0; i < firstIndex; i++)
-            this->events.TakeFromStart();
-
-        // THis is not-ideal. We  could continue processing rather than coming around for another loop
+    // Now we determine if we have useful debounced events, we may need to wait if we are still in hold position
+    // It is also possible that a button press is a bit wonky and in 1 debounced event it is just a single release.
+     
+    if (!events[0].IsSome())
         return ButtonEvent();
-    }
 
-    if (events[1].WasPress) {
-        //Didn't finish with a press
-        return ButtonEvent();
-    }
+    // Sequence options:
+    // Release -> Event
+    //
+    // Release + Release 
+    // Press + Press 
+    // Press + Release
 
-    // At this stage we can clean the tape
-    for (int i = 0; i < secondIndex; i++)
-        this->events.TakeFromStart();
-    
-    // We've got our 2 events to determine our outcome
+    // Approach, we must end on Release for it to be a press, we may never detect a full press event
+    // This means we can ignore Presses in a row
+
     ButtonEvent result;
-    unsigned long timeHeld = events[1].TimeMs - events[0].TimeMs;
-    
+    if (!events[0].WasPress) {
+        // This is a case where we couldn't identify a proper press/release sequence. Just suppress it otherwise we get false positives
+        cleanTape(events[0].FoundAtIndex, &this->events);
+
+        return ButtonEvent();
+    }
+
+    eventIndex = 0;
+    while (events[eventIndex].IsSome() && events[eventIndex].WasPress)
+        eventIndex++;
+
+    // Now eventIndex-1 is the Press, and eventIndex is either nothing or release
+
+    if (!events[eventIndex].IsSome()) {
+        // We still only have a hanging press so leave it on tape
+        return ButtonEvent();
+    }
+
+    // We got a press release cycle between events 0 and eventIndex
+    cleanTape(events[eventIndex].FoundAtIndex, &this->events);
+
+    // We've got our 2 events to determine our outcome    
+    unsigned long timeHeld = events[eventIndex].TimeMs - events[0].TimeMs;
+
     if (timeHeld < ButtonEvent::LONG_HOLD_START_MS) {
         result.EventType = ButtonEvent::button_event_type::Press;
-        result.EventTimeMs = events[1].TimeMs;
+        result.EventTimeMs = events[eventIndex].TimeMs;
     }
     else if (timeHeld <= ButtonEvent::LONG_HOLD_LIMIT_MS) {
         result.EventType = ButtonEvent::button_event_type::LongPress;
-        result.EventTimeMs = events[1].TimeMs;
+        result.EventTimeMs = events[eventIndex].TimeMs;
     }
     else {
         result.EventType = ButtonEvent::button_event_type::Hold;
@@ -144,10 +147,9 @@ ButtonEvent ButtonEventStream::takeAux() {
         result.HeldMs = timeHeld;
     }
 
-    Logger::log("We got an actual event!!\n");
-    
     return result;
 }
+
 
 ButtonEvent ButtonEventStream::Take() {
     return AtomicFn<ButtonEvent, ButtonEventStream>::Run(*this, &ButtonEventStream::takeAux);
