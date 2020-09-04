@@ -6,20 +6,24 @@
 #include "button.h"
 #include "layout_changer.h"
 #include "function/function_factory.h"
+#include "screen.h"
+#include "screen_factory.h"
 
 class LayoutManager {
     private: 
         Layout** layouts;
         Layout* activeLayout;
         Button*** buttons;
+        Screen*** screens;
         int numFunctions;
         Function** functions;
         int layoutNumber;
         LayoutChanger* layoutChanger;
         FunctionFactory* functionFactory;
+        ScreenFactory* screenFactory;
 
     public:
-        LayoutManager(FunctionFactory* functionFactory, LayoutChanger* layoutChanger);
+        LayoutManager(FunctionFactory* functionFactory, LayoutChanger* layoutChanger, ScreenFactory* screenFactory);
         ~LayoutManager();
 
         void init();
@@ -41,6 +45,7 @@ class LayoutManager {
         void setup_functions(LayoutChanger* layoutChanger, FunctionFactory* functionFactory);
         void setup_buttons();
         void setup_layouts();
+        void setup_screens();
 };
 
 #endif

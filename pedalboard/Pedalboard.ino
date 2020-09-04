@@ -6,7 +6,7 @@
 #include "src/Domain/layout_setup.h"
 #include "src/Domain/worker_process.h"
 #include "src/Domain/axe_controller.h"
-
+#include "src/Domain/screen_factory.h"
 
 uint32_t lastTime;
 WorkerProcess workerProcess;
@@ -18,7 +18,7 @@ void setup() {
   Serial.print("Setting up\n");
 
   auto layoutChanger = new LayoutChanger();
-  registerLayoutManager(new LayoutManager(new FunctionFactory(layoutChanger, new AxeController()), layoutChanger));
+  registerLayoutManager(new LayoutManager(new FunctionFactory(layoutChanger, new AxeController()), layoutChanger, new ScreenFactory()));
 
   InterruptRegistrar* interruptRegistrar = new InterruptRegistrar();
   BoardConstants boardConstants = BoardConstants();

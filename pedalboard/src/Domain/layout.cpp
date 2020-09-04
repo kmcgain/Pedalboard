@@ -48,3 +48,9 @@ void Layout::PrintDebug() {
                 this->controls[i][j]->PrintDebug();
         }
 }
+
+void Layout::RefreshScreens() {
+    for (int i = 0; i < this->rows; i++)
+        for (int j = 0; j < this->cols; j++)
+            this->controls[i][j]->RefreshScreen();
+}

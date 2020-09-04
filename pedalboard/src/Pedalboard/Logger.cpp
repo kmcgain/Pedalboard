@@ -1,6 +1,5 @@
 #include "../Domain/logger.h"
 #include <Arduino.h>
-#include <String>
 
 const int SIZE = 50;
 String pending[SIZE];

@@ -9,6 +9,7 @@ void WorkerProcess::OneStep() {
 	    return;
 
 	lm->CurrentLayout()->ProcessOutstanding();
+	lm->CurrentLayout()->RefreshScreens();
 	// Handle screen updates (lower priority)
 }
 

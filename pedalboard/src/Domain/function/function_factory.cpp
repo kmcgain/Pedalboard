@@ -31,11 +31,11 @@ Function* FunctionFactory::SceneSelect(int scene) {
 }
 
 Function* FunctionFactory::SceneIncrement(int value) {
-	return this->store(new SceneIncrementFunction(value));
+	return this->store(new SceneIncrementFunction(value, this->axeController));
 }
 
 Function* FunctionFactory::SceneDecrement(int value) {
-	return this->store(new SceneDecrementFunction(value));
+	return this->store(new SceneDecrementFunction(value, this->axeController));
 }
 
 Function* FunctionFactory::ExpToggle(int pedal) {
@@ -43,19 +43,19 @@ Function* FunctionFactory::ExpToggle(int pedal) {
 }
 
 Function* FunctionFactory::TunerToggle() {
-	return this->store(new TunerToggleFunction());
+	return this->store(new TunerToggleFunction(this->axeController));
 }
 
 Function* FunctionFactory::TapTempo() {
-	return this->store(new TapTempoFunction());
+	return this->store(new TapTempoFunction(this->axeController));
 }
 
 Function* FunctionFactory::PresetIncrement(int value) {
-	return this->store(new PresetIncrementFunction(value));
+	return this->store(new PresetIncrementFunction(value, this->axeController));
 }
 
 Function* FunctionFactory::PresetDecrement(int value) {
-	return this->store(new PresetDecrementFunction(value));
+	return this->store(new PresetDecrementFunction(value, this->axeController));
 }
 
 Function* FunctionFactory::store(Function* fn) {

@@ -18,6 +18,10 @@ class LayoutSelectFunction : public Function {
             return "layoutSelect";
         }
 
+        const FunctionType Type() {
+            return Function::FunctionType::layoutSelect;
+        }
+
     protected:
         void execute() {
             this->layoutChanger->SelectLayout(this->layout);

@@ -16,6 +16,10 @@ class LayoutIncrementFunction : public Function {
             return "LayoutIncrement";
         }
 
+        const FunctionType Type() {
+            return Function::FunctionType::layoutIncrement;
+        }
+
     protected:
 
         void execute() {

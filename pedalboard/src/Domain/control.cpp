@@ -4,9 +4,10 @@
 #include "function/function.h"
 #include "logger.h"
 
-Control::Control(Button* button, Function* function) {        
+Control::Control(Button* button, Function* function, Screen* screen) {        
     this->button = button;
     this->function = function;
+    this->screen = screen;
 }
 
 // Standard loop will call this so we can handle any button presses
@@ -43,4 +44,8 @@ void Control::handlePress() {
 
 void Control::PrintDebug() {
     this->button->PrintDebug();
+}
+
+void Control::RefreshScreen() {
+    this->screen->DisplayFunction(this->function->Type());
 }

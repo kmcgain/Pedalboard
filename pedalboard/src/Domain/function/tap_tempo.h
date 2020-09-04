@@ -1,16 +1,27 @@
 #pragma once
 
 #include "function.h"
+#include "../axe_controller.h"
 
 class TapTempoFunction : public Function {
+    private:
+        AxeController* axeController;
+
     public:
-        TapTempoFunction() {
+        TapTempoFunction(AxeController* axeController) {
+            this->axeController = axeController;
         }
 
         const char* Name() {
             return "TapTempo";
         }
 
+        const FunctionType Type() {
+            return Function::FunctionType::tapTempo;
+        }
+
     protected:
-        void execute() {}
+        void execute() {
+            this->axeController->sendTap();
+        }
 };

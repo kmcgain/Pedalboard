@@ -15,13 +15,16 @@ TEST(LayoutManagerTest, ShouldRegisterInterruptsAvoidingUnwantedPins) {
 	Fake(Method(function2Mock, Execute));
 	When(Method(function2Mock, Name)).Return("F2");
 
+	Mock<ScreenFactory> screenFactoryMock;
+	ScreenFactory& screenFactory = screenFactoryMock.get();
+
 	Function& function1 = function1Mock.get();
 	Function& function2 = function2Mock.get();
 	When(Method(functionFactoryMock, LayoutSelect).Using(1)).Return(&function1);
 	When(Method(functionFactoryMock, LayoutSelect).Using(2)).Return(&function2);
 
 	FunctionFactory & funcFac = functionFactoryMock.get();
-	LayoutManager mgr = LayoutManager(&funcFac);
+	LayoutManager mgr = LayoutManager(&funcFac, new LayoutChanger(), &screenFactory);
 
 	mgr.init();
 

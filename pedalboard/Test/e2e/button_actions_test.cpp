@@ -35,8 +35,12 @@ TEST_F(ButtonActionsTest, ShouldPerformMidiActionOnButtonPress) {
     Mock<AxeController> axeControllerMock;   
     Fake(Method(axeControllerMock, SendSceneChange));
 
+    Mock<ScreenFactory> screenFactoryMock;
+
     AxeController& axeController = axeControllerMock.get();
-    auto lm = new LayoutManager(new FunctionFactory(new LayoutChanger(), &axeController));
+    ScreenFactory& screenFactory = screenFactoryMock.get();
+    auto layoutChanger = new LayoutChanger();
+    auto lm = new LayoutManager(new FunctionFactory(layoutChanger, &axeController), layoutChanger, &screenFactory);
     lm->init();
     registerLayoutManager(lm);
 

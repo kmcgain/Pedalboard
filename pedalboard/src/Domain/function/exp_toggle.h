@@ -16,4 +16,8 @@ class ExpToggleFunction : public Function {
         const char* Name() {
             return "ExpToggle";
         }
+
+        const FunctionType Type() {
+            return Function::FunctionType::expToggle;
+        }
 };

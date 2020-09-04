@@ -19,6 +19,10 @@ class SceneSelectFunction : public Function {
             return "SceneSelect";
         }
 
+        const FunctionType Type() {
+            return Function::FunctionType::sceneSelect;
+        }
+
     protected:
         void execute() {
             this->axeController->SendSceneChange(this->scene);

@@ -14,6 +14,7 @@ class Layout {
     void init();
     void Exit();
     void ProcessOutstanding();
+    void RefreshScreens();
     void PrintDebug();
 };
 #endif

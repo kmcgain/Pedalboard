@@ -55,6 +55,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)button_event_stream_event.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)atomic_fn.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)pin.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)axe_controller.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)screen.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)screen_factory.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="$(MSBuildThisFileDirectory)readme.txt" />

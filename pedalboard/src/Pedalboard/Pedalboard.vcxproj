@@ -78,7 +78,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\Pedalboard;$(ProjectDir)..\Domain;C:\Users\Kym\AppData\Local\arduino15\packages\arduino\hardware\sam\1.6.12\cores\arduino;C:\Users\Kym\AppData\Local\arduino15\packages\arduino\hardware\sam\1.6.12\cores\arduino\avr;C:\Users\Kym\AppData\Local\arduino15\packages\arduino\hardware\sam\1.6.12\cores\arduino\USB;C:\Users\Kym\AppData\Local\arduino15\packages\arduino\hardware\sam\1.6.12\variants\arduino_due_x;C:\Users\Kym\AppData\Local\arduino15\packages\arduino\hardware\sam\1.6.12\system\libsam;C:\Users\Kym\AppData\Local\arduino15\packages\arduino\hardware\sam\1.6.12\system\CMSIS\CMSIS\Include\;C:\Users\Kym\AppData\Local\arduino15\packages\arduino\hardware\sam\1.6.12\system\CMSIS\Device\ATMEL\;C:\Users\Kym\AppData\Local\ARDUIN~1\packages\arduino\tools\ARM-NO~1\4800CC~1.3-2\arm-none-eabi\include\c++\4.8.3;C:\Users\Kym\AppData\Local\ARDUIN~1\packages\arduino\tools\ARM-NO~1\4800CC~1.3-2\arm-none-eabi\include\c++\4.8.3\arm-none-eabi\;C:\Users\Kym\AppData\Local\ARDUIN~1\packages\arduino\tools\ARM-NO~1\4800CC~1.3-2\arm-none-eabi\include\;C:\Users\Kym\AppData\Local\ARDUIN~1\packages\arduino\tools\ARM-NO~1\4800CC~1.3-2\lib\gcc\arm-none-eabi\4.8.3\include;C:\Users\Kym\AppData\Local\arduino15\packages\arduino\hardware\sam\1.6.12\system\CMSIS\Device\ATMEL\;C:\Users\Kym\AppData\Local\arduino15\packages\arduino\hardware\sam\1.6.12\system\libsam;C:\Users\Kym\AppData\Local\arduino15\packages\arduino\hardware\sam\1.6.12\system\libsam\include;C:\Users\Kym\AppData\Local\arduino15\packages\arduino\hardware\sam\1.6.12\system\CMSIS\CMSIS\Include\;C:\Users\Kym\AppData\Local\arduino15\packages\arduino\hardware\sam\1.6.12\system\CMSIS\CMSIS\Include\;C:\Users\Kym\AppData\Local\arduino15\packages\arduino\hardware\sam\1.6.12\system\CMSIS\CMSIS\Include\;C:\Users\Kym\AppData\Local\arduino15\packages\arduino\hardware\sam\1.6.12\system\CMSIS\Device\ATMEL\;C:\Users\Kym\AppData\Local\arduino15\packages\arduino\hardware\sam\1.6.12\system\libsam;C:\Users\Kym\AppData\Local\arduino15\packages\arduino\hardware\sam\1.6.12\system\libsam\include;C:\Program Files (x86)\Arduino\hardware\tools\g++_arm_none_eabi\arm-none-eabi\include;C:\Program Files (x86)\Arduino\hardware\tools\g++_arm_none_eabi\arm_none_eabi\include\;C:\Program Files (x86)\Arduino\hardware\tools\g++_arm_none_eabi\lib\gcc\arm-none-eabi\4.4.1\include;C:\Program Files (x86)\Arduino\hardware\tools\g++_arm_none_eabi\lib\gcc\arm-none-eabi\4.4.1\include\;C:\Users\Kym\AppData\Local\arduino15\packages\arduino\hardware\sam\1.6.12\system\CMSIS\Device\ATMEL\sam3xa\include\pio;C:\Users\Kym\AppData\Local\arduino15\packages\arduino\hardware\sam\1.6.12\system\libsam\include;C:\Users\Kym\AppData\Local\arduino15\packages\arduino\hardware\sam\1.6.12\CMSIS\CMSIS\Include\;C:\Users\Kym\AppData\Local\arduino15\packages\arduino\hardware\sam\1.6.12\system\CMSIS\Device\ATMEL\sam3xa\include;C:\Users\Kym\AppData\Local\arduino15\packages\arduino\hardware\sam\1.6.12\system\libsam;C:\Users\Kym\AppData\Local\arduino15\packages\arduino\hardware\sam\1.6.12\system\CMSIS\Device\ATMEL;C:\Users\Kym\AppData\Local\arduino15\packages\arduino\hardware\sam\1.6.12\system\CMSIS\Device\ATMEL\sam3xa\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\Pedalboard;$(ProjectDir)..\Domain;C:\Program Files (x86)\Arduino\libraries\AxeFxControl\src;c:\PROGRA~2\MICROS~1\2019\COMMUN~1\common7\ide\EXTENS~1\wxg1s0h3.xwq\MICROP~1\default\DEBUGG~1\VM_DBG;C:\PROGRA~2\Arduino\LIBRAR~1\AXEFXC~1\src;C:\Program Files (x86)\Arduino\hardware\tools\g++_arm_none_eabi\arm-none-eabi\include;C:\Program Files (x86)\Arduino\hardware\tools\g++_arm_none_eabi\arm_none_eabi\include\;C:\Program Files (x86)\Arduino\hardware\tools\g++_arm_none_eabi\lib\gcc\arm-none-eabi\4.4.1\include;C:\Program Files (x86)\Arduino\hardware\tools\g++_arm_none_eabi\lib\gcc\arm-none-eabi\4.4.1\include\;</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>$(ProjectDir)src\Pedalboard\__vm\.Pedalboard.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
       <PreprocessorDefinitions>_VMDEBUG=1;F_CPU=84000000L;ARDUINO=108013;ARDUINO_SAM_DUE;ARDUINO_ARCH_SAM;__SAM3X8E__;USB_VID=0x2341;USB_PID=0x003e;USBCON;__cplusplus=201103L;_VMICRO_INTELLISENSE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -115,13 +115,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="atomic_fn.cpp" />
+    <ClInclude Include="Axe\axe_controller.h" />
+    <ClInclude Include="tft_screen.h" />
     <ClInclude Include="__vm\.Pedalboard.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="axe_controller.cpp" />
+    <ClCompile Include="Axe\axe_controller.cpp" />
     <ClCompile Include="interrupt_registrar.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="pin.cpp" />
+    <ClCompile Include="screen_factory.cpp" />
+    <ClCompile Include="tft_screen.cpp" />
     <ClCompile Include="time_record.cpp" />
     <ClCompile Include="_.cpp" />
   </ItemGroup>

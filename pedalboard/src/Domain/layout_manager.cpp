@@ -2,6 +2,7 @@
 #include "constants.h"
 #include "control.h"
 #include "button.h"
+#include "screen.h"
 #include "layout_definition.h"
 #include "layout_manager.h"
 #include "layout.h"
@@ -9,9 +10,11 @@
 #include "layout_changer.h"
 #include "function/all_functions.h"
 #include "function/function_factory.h"
+#include "screen_factory.h"
 
-LayoutManager::LayoutManager(FunctionFactory* functionFactory, LayoutChanger* layoutChanger) {
+LayoutManager::LayoutManager(FunctionFactory* functionFactory, LayoutChanger* layoutChanger, ScreenFactory* screenFactory) {
     this->functionFactory = functionFactory;
+    this->screenFactory = screenFactory;
 
     this->layoutChanger = layoutChanger;
 }
@@ -41,6 +44,7 @@ void LayoutManager::init() {
     this->layoutChanger->SubscribeToLayoutIncrement(&LayoutManager::IncrementLayoutCb, this);
     
     this->setup_buttons();
+    this->setup_screens();
     this->setup_functions(this->layoutChanger, this->functionFactory);
     this->setup_layouts();
 }
@@ -83,7 +87,7 @@ void LayoutManager::setup_layouts() {
             controls[row] = new Control*[FS_COLS];
             
             for (int col = 0; col < FS_COLS; col++) {
-                controls[row][col] = new Control(this->buttons[row][col], this->functions[layoutDefinitions[layout][row][col]]);
+                controls[row][col] = new Control(this->buttons[row][col], this->functions[layoutDefinitions[layout][row][col]], this->screens[row][col]);
             }
         }
 
@@ -102,6 +106,20 @@ void LayoutManager::setup_buttons() {
                 
         for (int col = 0; col < FS_COLS; col++) {
             this->buttons[row][col] = new Button();
+        }
+    }
+}
+
+
+void LayoutManager::setup_screens() {
+    this->screens = new Screen * *[FS_ROWS];
+
+    int screenNumber = 0;
+    for (int row = 0; row < FS_ROWS; row++) {
+        this->screens[row] = new Screen * [FS_COLS];
+
+        for (int col = 0; col < FS_COLS; col++) {
+            this->screens[row][col] = this->screenFactory->CreateScreen(screenNumber++);            
         }
     }
 }

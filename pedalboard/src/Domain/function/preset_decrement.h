@@ -1,14 +1,17 @@
 #pragma once
 
 #include "function.h"
+#include "../axe_controller.h"
 
 class PresetDecrementFunction : public Function {
     private:
         int decrementValue;
+        AxeController* axeController;
 
     public:
-        PresetDecrementFunction(int decrementValue) {
+        PresetDecrementFunction(int decrementValue, AxeController* axeController) {
             this->decrementValue = decrementValue;
+            this->axeController = axeController;
         }
 
 
@@ -16,6 +19,12 @@ class PresetDecrementFunction : public Function {
             return "PresetDecrement";
         }
 
+        const FunctionType Type() {
+            return Function::FunctionType::presetDecrement;
+        }
+
     protected:
-        void execute() {}
+        void execute() {
+            this->axeController->sendPresetDecrement();
+        }
 };
