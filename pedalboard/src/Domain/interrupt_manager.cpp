@@ -4,8 +4,6 @@
 #include "logger.h"
 #include "pin.h"
 
-int unavailable_pins[] = { 0,1,4,10,14,15,16,17,18,19,20,21,52 };
-
 int pinToRow[MAX_DIGITAL_PIN+1];
 int pinToCol[MAX_DIGITAL_PIN+1];
 bool recording = false;
@@ -19,7 +17,6 @@ void pin_callback_change() {
     if (!recording)
         return;
 
-    char dat[50];
     if (!digitalPinHigh(N)) {
         GetLayoutManager()->OnPress(pinToRow[N], pinToCol[N]);
     }
@@ -70,7 +67,12 @@ void reset_interrupts() {
 
 void setup_interrupts(InterruptRegistrar* interruptRegistrar, BoardConstants boardConstants) {
     // Don't use 4,10,52 for inputs - 10 puts into SPI slave mode. Pin 2 for PWM screen brightness
-    int buttonPins[] = { 3,5,6,7,8,9,11,12,13,22,23,24,25,26,27 }; 
+    // 8 interfere with spi reset?
+    int buttonPins[] = { 
+        3,  5,  6,  7,  9, 
+        22, 11, 12, 13, 24, 
+        27, 26, 25, 28, 23 
+    };
     int numPins = sizeof(buttonPins) / sizeof(int);    
     
     define_interrupt_to_layout(buttonPins, numPins);

@@ -6,14 +6,12 @@
 #include "atomic_fn.h"
 #include "logger.h"
 
-static const int BUTTON_EVENT_BUFFER = 60;
-
 void ButtonEventStream::RecordPress(unsigned long eventTime) {
-    return AtomicFnVoid<ButtonEventStream>::Run(*this, &ButtonEventStream::recordPressAux, eventTime);
+    AtomicFnVoid<ButtonEventStream>::Run(*this, &ButtonEventStream::recordPressAux, eventTime);
 }
 
 void ButtonEventStream::RecordRelease(unsigned long eventTime) {
-    return AtomicFnVoid<ButtonEventStream>::Run(*this, &ButtonEventStream::recordReleaseAux, eventTime);
+    AtomicFnVoid<ButtonEventStream>::Run(*this, &ButtonEventStream::recordReleaseAux, eventTime);
 }
 
 void ButtonEventStream::recordPressAux(unsigned long eventTime) {

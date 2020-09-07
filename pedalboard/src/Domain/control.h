@@ -11,9 +11,10 @@ class Control {
     Button* button;
     Function* function;
     Screen* screen;
+    int buttonNumber;
 
   public:
-    Control(Button* button, Function* function, Screen* screen);
+    Control(Button* button, Function* function, Screen* screen, int buttonNumber);
     void HandleState();
     void PrintDebug();
     void RefreshScreen();

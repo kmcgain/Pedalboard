@@ -9,7 +9,7 @@
 #include "src/Domain/screen_factory.h"
 
 uint32_t lastTime;
-WorkerProcess workerProcess;
+WorkerProcess workerProcess;  
 
 void setup() {
   lastTime = millis();
@@ -17,9 +17,16 @@ void setup() {
 
   Serial.print("Setting up\n");
 
-  auto layoutChanger = new LayoutChanger();
-  registerLayoutManager(new LayoutManager(new FunctionFactory(layoutChanger, new AxeController()), layoutChanger, new ScreenFactory()));
+  
+  // Light up the screens
+  pinMode(2, OUTPUT);
+  digitalWrite(2, 1);
 
+  auto layoutChanger = new LayoutChanger();
+  auto axeController = new AxeController();
+  axeController->Init();
+  registerLayoutManager(new LayoutManager(new FunctionFactory(layoutChanger, axeController), layoutChanger, new ScreenFactory()));
+    
   InterruptRegistrar* interruptRegistrar = new InterruptRegistrar();
   BoardConstants boardConstants = BoardConstants();
   boardConstants.Rising = RISING;
@@ -30,11 +37,17 @@ void setup() {
   setup_interrupts(interruptRegistrar, boardConstants);  
 
   start_recording();
+
+
+
+  // Setup complete
+  pinMode(13, OUTPUT);
+  digitalWrite(13, 0);
 }
 
 
 void loop() {  
-  if (millis() - lastTime > 5000) {
+  if (millis() - lastTime > 1000) {
     lastTime = millis();
     Serial.print("Alive\n");
   }

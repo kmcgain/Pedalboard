@@ -87,7 +87,7 @@ void LayoutManager::setup_layouts() {
             controls[row] = new Control*[FS_COLS];
             
             for (int col = 0; col < FS_COLS; col++) {
-                controls[row][col] = new Control(this->buttons[row][col], this->functions[layoutDefinitions[layout][row][col]], this->screens[row][col]);
+                controls[row][col] = new Control(this->buttons[row][col], this->functions[layoutDefinitions[layout][row][col]], this->screens[row][col], col + (row* FS_COLS));
             }
         }
 

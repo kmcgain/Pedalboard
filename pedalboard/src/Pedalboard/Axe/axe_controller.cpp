@@ -1,11 +1,12 @@
 ﻿#include "../../Domain/axe_controller.h"
 #include <AxeFxControl.h>
 #include <Arduino.h>
+#include "../../Domain/logger.h"
 
 AxeSystem axe;
 
 void AxeController::Init() {
-	axe.begin(Serial1);
+	axe.begin(Serial2);
 }
 
 void AxeController::SendSceneChange(int scene) {

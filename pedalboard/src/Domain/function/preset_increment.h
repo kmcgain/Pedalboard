@@ -2,6 +2,7 @@
 
 #include "function.h"
 #include "../axe_controller.h"
+#include "../logger.h"
 
 class PresetIncrementFunction : public Function {
     private:
@@ -24,6 +25,6 @@ class PresetIncrementFunction : public Function {
 
     protected:
         void execute() {
-            this->axeController->sendPresetDecrement();
+            this->axeController->sendPresetIncrement();
         }
 };

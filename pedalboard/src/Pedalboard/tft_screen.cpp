@@ -9,18 +9,34 @@
 #define rst_pin 8
 // A0/DC
 #define dc_pin 53
-#define starting_screen_cs_pin 49;
+
+int screen_pins[] = { 
+	34, 36, 40, 42, 43,
+	41, 37, 35, 33, 45,
+	48, 47, 46, 49, 44 
+};
 
 TftScreen::TftScreen(int screenNumber) {
-	int cs_pin = starting_screen_cs_pin - screenNumber;
+	int cs_pin = screen_pins[screenNumber];
 	this->screen = new Adafruit_ST7735(cs_pin, dc_pin, rst_pin);
 
 	this->screen->initR(INITR_BLACKTAB);
 	this->screen->fillScreen(ST7735_RED);
 	this->screen->setTextColor(ST7735_WHITE);
+
+	this->screen->drawRect(5, 5, 119, 60, ST7735_YELLOW); // upper rectangle
+	this->screen->drawRect(5, 70, 119, 84, ST7735_YELLOW); // lower reactangle
+	this->screen->setCursor(30, 15); // put text in upper rectangle
+	this->screen->setTextSize(2); // select text size
+	this->screen->println(screenNumber);
+	this->screen->setCursor(30, 30);
+	this->screen->println("======");
+	this->screen->setTextSize(2); // select text size
+	this->screen->setCursor(22, 45);
 }
 
 void TftScreen::DisplayFunction(const Function::FunctionType functionType) {
+	return;
 	this->screen->setCursor(30, 30);
 	this->screen->setTextSize(4);
 

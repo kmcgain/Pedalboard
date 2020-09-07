@@ -4,10 +4,11 @@
 #include "function/function.h"
 #include "logger.h"
 
-Control::Control(Button* button, Function* function, Screen* screen) {        
+Control::Control(Button* button, Function* function, Screen* screen, int buttonNumber) {        
     this->button = button;
     this->function = function;
     this->screen = screen;
+    this->buttonNumber = buttonNumber;
 }
 
 // Standard loop will call this so we can handle any button presses
@@ -16,7 +17,12 @@ void Control::HandleState() {
     ButtonEvent btnEvent;
     do {
         btnEvent = this->button->TakeEvent();
+        
         if (btnEvent.IsSome()) {
+            Logger::log("Button ");
+            Logger::log(this->buttonNumber);
+            Logger::log(".\n");
+
             switch (btnEvent.EventType) {
                 case (ButtonEvent::button_event_type::Press):
                     Logger::log("Press\n");

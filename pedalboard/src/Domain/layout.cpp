@@ -37,8 +37,9 @@ void Layout::Exit(){}
 
 void Layout::ProcessOutstanding() {    
     for (int i = 0; i < this->rows; i++)
-        for (int j = 0; j < this->cols; j++)
+        for (int j = 0; j < this->cols; j++) {            
             this->controls[i][j]->HandleState();
+        }
 }
 
 void Layout::PrintDebug() {

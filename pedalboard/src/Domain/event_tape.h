@@ -11,7 +11,7 @@
 
 class EventTape {
 private:
-    static const int SIZE = 100;
+    static const int SIZE = 60;
     int next_pos = 0;
     int start = 0;
     volatile Event tape[SIZE];
