@@ -12,6 +12,7 @@ class Control {
     Function* function;
     Screen* screen;
     int buttonNumber;
+    bool isDirty;
 
   public:
     Control(Button* button, Function* function, Screen* screen, int buttonNumber);

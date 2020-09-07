@@ -9,6 +9,7 @@ Control::Control(Button* button, Function* function, Screen* screen, int buttonN
     this->function = function;
     this->screen = screen;
     this->buttonNumber = buttonNumber;
+    this->isDirty = true;
 }
 
 // Standard loop will call this so we can handle any button presses
@@ -22,6 +23,8 @@ void Control::HandleState() {
             Logger::log("Button ");
             Logger::log(this->buttonNumber);
             Logger::log(".\n");
+
+            this->isDirty = true;
 
             switch (btnEvent.EventType) {
                 case (ButtonEvent::button_event_type::Press):
@@ -53,5 +56,8 @@ void Control::PrintDebug() {
 }
 
 void Control::RefreshScreen() {
-    this->screen->DisplayFunction(this->function->Type());
+    if (this->isDirty) {
+        this->screen->DisplayFunction(this->function->Type());
+        this->isDirty = false;
+    }
 }
