@@ -37,12 +37,6 @@ void setup() {
   setup_interrupts(interruptRegistrar, boardConstants);  
 
   start_recording();
-
-
-
-  // Setup complete
-  pinMode(13, OUTPUT);
-  digitalWrite(13, 0);
 }
 
 
