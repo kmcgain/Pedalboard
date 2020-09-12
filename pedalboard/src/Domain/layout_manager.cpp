@@ -23,7 +23,7 @@ LayoutManager::~LayoutManager() {
     delete this->layoutChanger;
     
     if (this->layouts != nullptr) {
-        for (int i = 0; i < LAYOUTS; i++) {
+        for (char i = 0; i < LAYOUTS; i++) {
             if (this->layouts[i] != nullptr)
                 delete this->layouts[i];
         }
@@ -31,8 +31,8 @@ LayoutManager::~LayoutManager() {
     }
 
     if (this->buttons != nullptr) {
-        for (int row = 0; row < FS_ROWS; row++)
-            for (int col = 0; col < FS_COLS; col++)
+        for (char row = 0; row < FS_ROWS; row++)
+            for (char col = 0; col < FS_COLS; col++)
                 if (this->buttons[row][col] != nullptr)
                     delete this->buttons[row][col];
         delete this->buttons;
@@ -80,14 +80,14 @@ void LayoutManager::setup_functions(LayoutChanger* layoutChanger, FunctionFactor
 void LayoutManager::setup_layouts() {
     this->layouts = new Layout*[LAYOUTS];
 
-    for (int layout = 0; layout < LAYOUTS; layout++) {
+    for (char layout = 0; layout < LAYOUTS; layout++) {
         Control*** controls = new Control**[FS_ROWS];
         
-        for (int row = 0; row < FS_ROWS; row++) {
+        for (char row = 0; row < FS_ROWS; row++) {
             controls[row] = new Control*[FS_COLS];
             
-            for (int col = 0; col < FS_COLS; col++) {
-                controls[row][col] = new Control(this->buttons[row][col], this->functions[layoutDefinitions[layout][row][col]], this->screens[row][col], col + (row* FS_COLS));
+            for (char col = 0; col < FS_COLS; col++) {
+                controls[row][col] = new Control(this->buttons[row][col], this->functions[layoutDefinitions[layout][FS_ROWS-1-row][col]], this->screens[row][col], col + (row* FS_COLS));
             }
         }
 
@@ -101,10 +101,10 @@ void LayoutManager::setup_layouts() {
 void LayoutManager::setup_buttons() {
     this->buttons = new Button**[FS_ROWS];
     
-    for (int row = 0; row < FS_ROWS; row++) {
+    for (char row = 0; row < FS_ROWS; row++) {
         this->buttons[row] = new Button*[FS_COLS];
                 
-        for (int col = 0; col < FS_COLS; col++) {
+        for (char col = 0; col < FS_COLS; col++) {
             this->buttons[row][col] = new Button();
         }
     }
@@ -114,29 +114,29 @@ void LayoutManager::setup_buttons() {
 void LayoutManager::setup_screens() {
     this->screens = new Screen * *[FS_ROWS];
 
-    int screenNumber = 0;
-    for (int row = 0; row < FS_ROWS; row++) {
+    char screenNumber = 0;
+    for (char row = 0; row < FS_ROWS; row++) {
         this->screens[row] = new Screen * [FS_COLS];
 
-        for (int col = 0; col < FS_COLS; col++) {
+        for (char col = 0; col < FS_COLS; col++) {
             this->screens[row][col] = this->screenFactory->CreateScreen(screenNumber++);            
         }
     }
 }
 
-void LayoutManager::OnPress(int row, int col) {
+void LayoutManager::OnPress(char row, char col) {
     this->buttons[row][col]->OnPress();
 }
 
-void LayoutManager::OnRelease(int row, int col) {
+void LayoutManager::OnRelease(char row, char col) {
     this->buttons[row][col]->OnRelease();
 }
 
-void LayoutManager::ChangeLayoutCb(void * this_ptr, int number) {
+void LayoutManager::ChangeLayoutCb(void * this_ptr, char number) {
     ((LayoutManager*)this_ptr)->ChangeLayout(number);
 }
 
-void LayoutManager::ChangeLayout(int layoutNumber) {
+void LayoutManager::ChangeLayout(char layoutNumber) {
     if (layoutNumber > LAYOUTS || layoutNumber <= 0)
         return;
 
@@ -144,11 +144,11 @@ void LayoutManager::ChangeLayout(int layoutNumber) {
     this->activeLayout = layouts[layoutNumber-1];
 }
 
-void LayoutManager::IncrementLayoutCb(void * this_ptr, int number) {
+void LayoutManager::IncrementLayoutCb(void * this_ptr, char number) {
     ((LayoutManager*)this_ptr)->IncrementLayout(number);
 }
 
-void LayoutManager::IncrementLayout(int num) {
+void LayoutManager::IncrementLayout(char num) {
     this->activeLayout->Exit();
 
     this->layoutNumber += num;

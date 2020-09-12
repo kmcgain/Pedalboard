@@ -6,6 +6,8 @@
 #include "atomic_fn.h"
 #include "logger.h"
 
+#define MAX_DEBOUNCED 10
+
 void ButtonEventStream::RecordPress(unsigned long eventTime) {
     AtomicFnVoid<ButtonEventStream>::Run(*this, &ButtonEventStream::recordPressAux, eventTime);
 }
@@ -49,21 +51,20 @@ struct DebouncedEvent {
 
     bool WasPress;
     unsigned long TimeMs;
-    int FoundAtIndex;
+    char FoundAtIndex;
 };
 
-void cleanTape(int index, EventTape* tape) {
-    for (int i = 0; i <= index; i++)
+void cleanTape(char index, EventTape* tape) {
+    for (char i = 0; i <= index; i++)
         tape->TakeFromStart();
 }
 
 ButtonEvent ButtonEventStream::takeAux() {
-    const int MAX_DEBOUNCED = 10;
     DebouncedEvent events[MAX_DEBOUNCED];
 
     bool hasSome = true;
-    int eventIndex = 0;
-    int tapeIndex = 0;
+    char eventIndex = 0;
+    char tapeIndex = 0;
     while (hasSome && eventIndex < MAX_DEBOUNCED) {
         auto event = this->events.ReadFromStart(tapeIndex);
         hasSome = event.IsSome();
@@ -129,7 +130,7 @@ ButtonEvent ButtonEventStream::takeAux() {
     cleanTape(events[eventIndex].FoundAtIndex, &this->events);
 
     // We've got our 2 events to determine our outcome    
-    unsigned long timeHeld = events[eventIndex].TimeMs - events[0].TimeMs;
+    unsigned short timeHeld = events[eventIndex].TimeMs - events[0].TimeMs;
 
     if (timeHeld < ButtonEvent::LONG_HOLD_START_MS) {
         result.EventType = ButtonEvent::button_event_type::Press;

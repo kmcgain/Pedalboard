@@ -5,11 +5,11 @@
 
 class SceneDecrementFunction : public Function {
     private:
-        int decrementValue;
+        char decrementValue;
         AxeController* axeController;
 
     public:
-        SceneDecrementFunction(int decrementValue, AxeController* axeController) {
+        SceneDecrementFunction(char decrementValue, AxeController* axeController) {
             this->decrementValue = decrementValue;
             this->axeController = axeController;
         }
@@ -19,11 +19,15 @@ class SceneDecrementFunction : public Function {
         }
 
         const FunctionType Type() {
-            return Function::FunctionType::sceneDecrement;
+            return FunctionType::ftSceneDecrement;
         }
 
     protected:
         void execute() {
             this->axeController->sendSceneDecrement();
+        }
+
+        FunctionState* createState() {
+            return new ScalarFunctionState(this->decrementValue, this->Type());
         }
 };

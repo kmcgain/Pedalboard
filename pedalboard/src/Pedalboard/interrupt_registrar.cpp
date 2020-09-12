@@ -8,11 +8,11 @@ InterruptRegistrar::~InterruptRegistrar() {}
 
 
 
-void InterruptRegistrar::attachDigitalInterrupt(int digitalPin, void (*callback)(), unsigned int mode) {		
+void InterruptRegistrar::attachDigitalInterrupt(char digitalPin, void (*callback)(), unsigned char mode) {
 	attachInterrupt(digitalPinToInterrupt(digitalPin), callback, mode);
 }
 
 // TODO: This doesn't really belong here
-void InterruptRegistrar::inputPullup(int dwPin) {
+void InterruptRegistrar::inputPullup(char dwPin) {
 	pinMode(dwPin, INPUT_PULLUP);
 }

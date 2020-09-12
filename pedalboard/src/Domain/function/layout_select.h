@@ -5,11 +5,11 @@
 
 class LayoutSelectFunction : public Function {
     private:
-        int layout;
+        char layout;
         LayoutChanger* layoutChanger;
 
     public:
-        LayoutSelectFunction(int layout, LayoutChanger* layoutChanger) {
+        LayoutSelectFunction(char layout, LayoutChanger* layoutChanger) {
             this->layout = layout;
             this->layoutChanger = layoutChanger;
         }
@@ -19,11 +19,16 @@ class LayoutSelectFunction : public Function {
         }
 
         const FunctionType Type() {
-            return Function::FunctionType::layoutSelect;
+            return FunctionType::ftLayoutSelect;
         }
 
     protected:
         void execute() {
             //this->layoutChanger->SelectLayout(this->layout);
+        }
+
+
+        FunctionState* createState() {
+            return new ScalarFunctionState(this->layout, this->Type());
         }
 };

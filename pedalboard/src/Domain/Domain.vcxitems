@@ -40,9 +40,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)function\exp_toggle.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)function\function.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)function\function_factory.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)function\function_type.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)function\linked_list.cpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)function\linked_list.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)function\pch.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)function\state\function_state.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)interrupt_manager.cpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)interrupt_manager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)interrupt_registrar.h" />

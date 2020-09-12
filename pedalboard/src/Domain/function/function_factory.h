@@ -18,18 +18,18 @@ private:
 public:
 	FunctionFactory(LayoutChanger* layoutChanger, AxeController* axeController);
 	~FunctionFactory();
-	virtual Function* LayoutSelect(int layout);
+	virtual Function* LayoutSelect(char layout);
 
 	Function* LayoutIncrement();
 	Function* LayoutDecrement();
-	Function* SceneSelect(int scene);
-	Function* SceneIncrement(int value);
-	Function* SceneDecrement(int value);
-	Function* ExpToggle(int pedal);
+	Function* SceneSelect(char scene);
+	Function* SceneIncrement(char value);
+	Function* SceneDecrement(char value);
+	Function* ExpToggle(char pedal);
 	Function* TunerToggle();
 	Function* TapTempo();
-	Function* PresetIncrement(int value);
-	Function* PresetDecrement(int value);
+	Function* PresetIncrement(char value);
+	Function* PresetDecrement(char value);
 
 private:
 	Function* store(Function* fn);

@@ -17,11 +17,15 @@ class TapTempoFunction : public Function {
         }
 
         const FunctionType Type() {
-            return Function::FunctionType::tapTempo;
+            return FunctionType::ftTapTempo;
         }
 
     protected:
         void execute() {
             this->axeController->sendTap();
+        }
+
+        FunctionState* createState() {
+            return new FunctionState(this->Type());
         }
 };

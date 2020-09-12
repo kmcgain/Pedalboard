@@ -58,6 +58,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)axe_controller.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)screen.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)screen_factory.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)function\function_type.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)function\state\function_state.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="$(MSBuildThisFileDirectory)readme.txt" />

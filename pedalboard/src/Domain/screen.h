@@ -4,5 +4,5 @@
 
 class Screen {
 public:
-	virtual void DisplayFunction(const Function::FunctionType functionType) = 0;
+	virtual void DisplayFunction(FunctionState* functionState) = 0;
 };

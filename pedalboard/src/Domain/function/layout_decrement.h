@@ -17,12 +17,17 @@ class LayoutDecrementFunction : public Function {
         }
 
         const FunctionType Type() {
-            return Function::FunctionType::layoutDecrement;
+            return FunctionType::ftLayoutDecrement;
         }
 
 protected:
 
     void execute() {
         //this->layoutChanger->IncrementLayout(-1);
+    }
+
+
+    FunctionState* createState() {
+        return new FunctionState(this->Type());
     }
 };

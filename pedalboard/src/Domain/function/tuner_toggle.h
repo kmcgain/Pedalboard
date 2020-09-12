@@ -17,11 +17,15 @@ class TunerToggleFunction : public Function {
         }
 
         const FunctionType Type() {
-            return Function::FunctionType::tunerToggle;
+            return FunctionType::ftTunerToggle;
         }
 
     protected:
         void execute() {
             this->axeController->toggleTuner();
+        }
+
+        FunctionState* createState() {
+            return new FunctionState(this->Type());
         }
 };

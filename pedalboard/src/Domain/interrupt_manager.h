@@ -9,20 +9,20 @@
 // This is to avoid initial interrupt signals
 void start_recording();
 
-template<int N>
+template<char N>
 void pin_callback_press();
 
-template<int N>
+template<char N>
 void pin_callback_release();
 
 
-template<int N>
-void define_interrupts(InterruptRegistrar* interruptRegistrar, BoardConstants boardConstants, int* interruptPins, int numOfPins);
+template<char N>
+void define_interrupts(InterruptRegistrar* interruptRegistrar, BoardConstants boardConstants, char* interruptPins, char numOfPins);
 
 template<>
-void define_interrupts<-1>(InterruptRegistrar* interruptRegistrar, BoardConstants boardConstants, int* interruptPins, int numOfPins);
+void define_interrupts<-1>(InterruptRegistrar* interruptRegistrar, BoardConstants boardConstants, char* interruptPins, char numOfPins);
 
-void define_interrupt_to_layout(int* interruptPins, int numOfPins);
+void define_interrupt_to_layout(char* interruptPins, char numOfPins);
 
 void reset_interrupts();
 

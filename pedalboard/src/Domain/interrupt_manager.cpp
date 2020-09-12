@@ -4,8 +4,8 @@
 #include "logger.h"
 #include "pin.h"
 
-int pinToRow[MAX_DIGITAL_PIN+1];
-int pinToCol[MAX_DIGITAL_PIN+1];
+char pinToRow[MAX_DIGITAL_PIN+1];
+char pinToCol[MAX_DIGITAL_PIN+1];
 bool recording = false;
 
 void start_recording() {
@@ -25,10 +25,10 @@ void pin_callback_change() {
     }
 }
 
-template<int N>
-void define_interrupts(InterruptRegistrar* interruptRegistrar, BoardConstants boardConstants, int* interruptPins, int numOfPins) {
+template<char N>
+void define_interrupts(InterruptRegistrar* interruptRegistrar, BoardConstants boardConstants, char* interruptPins, char numOfPins) {
     bool included = false;
-    for (int i = 0; i < numOfPins; i++)
+    for (char i = 0; i < numOfPins; i++)
         if (interruptPins[i] == N)
             included = true;
 
@@ -43,37 +43,37 @@ void define_interrupts(InterruptRegistrar* interruptRegistrar, BoardConstants bo
 }
 
 template<>
-void define_interrupts<-1>(InterruptRegistrar* interruptRegistrar, BoardConstants boardConstants, int* interruptPins, int numOfPins) {
+void define_interrupts<-1>(InterruptRegistrar* interruptRegistrar, BoardConstants boardConstants, char* interruptPins, char numOfPins) {
     // No-op
 }
 
-void define_interrupt_to_layout(int* interruptPins, int numOfPins) {
-    for (int i = 0; i <= MAX_DIGITAL_PIN; i++) {
+void define_interrupt_to_layout(char* interruptPins, char numOfPins) {
+    for (char i = 0; i <= MAX_DIGITAL_PIN; i++) {
         pinToCol[i] = -1;
         pinToRow[i] = -1;
     }
 
-    for (int i = 0; i < numOfPins; i++) {
-        int pinNum = interruptPins[i];
+    for (char i = 0; i < numOfPins; i++) {
+        char pinNum = interruptPins[i];
         pinToCol[pinNum] = i % FS_COLS;
         pinToRow[pinNum] = i / FS_COLS; 
     }
 }
 
 void reset_interrupts() {
-    for (int i = 0; i <= MAX_DIGITAL_PIN; i++)
+    for (char i = 0; i <= MAX_DIGITAL_PIN; i++)
         pinToRow[i] = 0;
 }
 
 void setup_interrupts(InterruptRegistrar* interruptRegistrar, BoardConstants boardConstants) {
     // Don't use 4,10,52 for inputs - 10 puts into SPI slave mode. Pin 2 for PWM screen brightness
     // 8 interfere with spi reset?
-    int buttonPins[] = { 
+    char buttonPins[] = {
         3,  5,  6,  7,  9, 
         22, 11, 12, 13, 24, 
         27, 26, 25, 28, 23 
     };
-    int numPins = sizeof(buttonPins) / sizeof(int);    
+    char numPins = sizeof(buttonPins) / sizeof(char);
     
     define_interrupt_to_layout(buttonPins, numPins);
     define_interrupts<MAX_DIGITAL_PIN>(interruptRegistrar, boardConstants, buttonPins, numPins);        

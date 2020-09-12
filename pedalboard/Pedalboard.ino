@@ -15,7 +15,7 @@ void setup() {
   lastTime = millis();
   Serial.begin(9600); 
 
-  Serial.print("Setting up\n");
+  Serial.print(F("Setting up\n"));
 
   
   // Light up the screens
@@ -43,7 +43,7 @@ void setup() {
 void loop() {  
   if (millis() - lastTime > 1000) {
     lastTime = millis();
-    Serial.print("Alive\n");
+    Serial.print(F("Alive\n"));
   }
     
   workerProcess.OneStep();

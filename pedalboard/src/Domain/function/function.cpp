@@ -3,7 +3,13 @@
 #include "../logger.h"
 
 void Function::Execute() {
-	Logger::log(this->Name());
-	Logger::log("\n");
 	this->execute();
+}
+
+void Function::Init() {
+	this->state = this->createState();
+}
+
+FunctionState* Function::State() {
+	return this->state;
 }

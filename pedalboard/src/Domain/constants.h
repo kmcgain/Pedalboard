@@ -7,9 +7,9 @@
 #define LAYOUTS 1
 
 struct BoardConstants {
-	unsigned int Rising;
-	unsigned int Falling;
-	unsigned int Change;
+	unsigned char Rising;
+	unsigned char Falling;
+	unsigned char Change;
 };
 
 #endif

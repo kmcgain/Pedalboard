@@ -4,10 +4,10 @@
 
 class ExpToggleFunction : public Function {
     private:
-        int pedalNum;
+        char pedalNum;
 
     public:
-        ExpToggleFunction(int pedalNum) {
+        ExpToggleFunction(char pedalNum) {
             this->pedalNum = pedalNum;
         }
 
@@ -18,6 +18,13 @@ class ExpToggleFunction : public Function {
         }
 
         const FunctionType Type() {
-            return Function::FunctionType::expToggle;
+            return FunctionType::ftExpToggle;
         }
+
+protected:
+
+
+    FunctionState* createState() {
+        return new FunctionState(this->Type());
+    }
 };

@@ -6,11 +6,11 @@
 
 class PresetIncrementFunction : public Function {
     private:
-        int incrementValue;
+        char incrementValue;
         AxeController* axeController;
 
     public:
-        PresetIncrementFunction(int incrementValue, AxeController* axeController) {
+        PresetIncrementFunction(char incrementValue, AxeController* axeController) {
             this->incrementValue = incrementValue;
             this->axeController = axeController;
         }
@@ -20,11 +20,16 @@ class PresetIncrementFunction : public Function {
         }
 
         const FunctionType Type() {
-            return Function::FunctionType::presetIncrement;
+            return FunctionType::ftPresetIncrement;
         }
+
 
     protected:
         void execute() {
             this->axeController->sendPresetIncrement();
+        }
+
+        FunctionState* createState() {
+            return new ScalarFunctionState(this->incrementValue, this->Type());
         }
 };

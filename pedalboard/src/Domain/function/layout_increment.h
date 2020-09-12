@@ -17,7 +17,7 @@ class LayoutIncrementFunction : public Function {
         }
 
         const FunctionType Type() {
-            return Function::FunctionType::layoutIncrement;
+            return FunctionType::ftLayoutIncrement;
         }
 
     protected:
@@ -26,4 +26,7 @@ class LayoutIncrementFunction : public Function {
             //this->layoutChanger->IncrementLayout(1);
         }
 
+        FunctionState* createState() {
+            return new FunctionState(this->Type());
+        }
 };

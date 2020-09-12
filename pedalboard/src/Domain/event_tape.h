@@ -9,11 +9,12 @@
 #include "button_event_stream_event.h"
 #include "logger.h"
 
+#define SIZE 60
+
 class EventTape {
 private:
-    static const int SIZE = 60;
-    int next_pos = 0;
-    int start = 0;
+    char next_pos = 0;
+    char start = 0;
     volatile Event tape[SIZE];
 
 public:
@@ -32,8 +33,8 @@ public:
         }
     }
 
-    Event ReadFromStart(int pos) {
-        int idx = this->start + pos;
+    Event ReadFromStart(char pos) {
+        char idx = this->start + pos;
         while (idx >= SIZE)
             idx -= SIZE;
 
@@ -41,14 +42,14 @@ public:
     }
 
     Event LastAdded() {
-        int last = this->next_pos - 1;
+        char last = this->next_pos - 1;
         if (last == -1)
             last = SIZE - 1;
         return this->tape[last];
     }
 
     Event TakeFromStart() {
-        int idx = this->start;
+        char idx = this->start;
         while (idx >= SIZE)
             idx -= SIZE;
 

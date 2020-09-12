@@ -7,8 +7,8 @@ class InterruptRegistrar {
 public:
 	InterruptRegistrar();
 	virtual ~InterruptRegistrar();
-	virtual void attachDigitalInterrupt(int digitalPin, void (*callback)(), unsigned int mode);
-	virtual void inputPullup(int dwPin);
+	virtual void attachDigitalInterrupt(char digitalPin, void (*callback)(), unsigned char mode);
+	virtual void inputPullup(char dwPin);
 };
 
 #endif

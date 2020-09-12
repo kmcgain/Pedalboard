@@ -11,11 +11,11 @@ class Control {
     Button* button;
     Function* function;
     Screen* screen;
-    int buttonNumber;
+    unsigned char buttonNumber;
     bool isDirty;
 
   public:
-    Control(Button* button, Function* function, Screen* screen, int buttonNumber);
+    Control(Button* button, Function* function, Screen* screen, unsigned char buttonNumber);
     void HandleState();
     void PrintDebug();
     void RefreshScreen();

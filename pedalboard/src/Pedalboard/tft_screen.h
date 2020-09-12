@@ -2,6 +2,7 @@
 
 #include "../Domain/screen.h"
 #include "../Domain/function/function.h"
+#include "../Domain/function/state/function_state.h"
 
 #include <Adafruit_GFX.h> // core graphics library
 #include <Adafruit_ST7735.h> // hardware-specific library
@@ -12,6 +13,6 @@ private:
 	Adafruit_ST7735* screen;
 
 public: 
-	TftScreen(int screenNumber);
-	virtual void DisplayFunction(const Function::FunctionType functionType);
+	TftScreen(char screenNumber);
+	virtual void DisplayFunction(FunctionState* functionState);
 };

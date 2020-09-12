@@ -6,10 +6,10 @@
 class Layout { 
   private:
     Control*** controls;
-    int rows, cols;
+    char rows, cols;
       
   public:
-    Layout(Control*** controls, int rows, int cols);
+    Layout(Control*** controls, char rows, char cols);
     ~Layout();
     void init();
     void Exit();

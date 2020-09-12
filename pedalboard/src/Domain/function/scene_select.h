@@ -6,11 +6,11 @@
 
 class SceneSelectFunction : public Function {
     private:
-        int scene;
+        char scene;
         AxeController* axeController;
 
     public:
-        SceneSelectFunction(int scene, AxeController* axeController) {
+        SceneSelectFunction(char scene, AxeController* axeController) {
             this->scene = scene;
             this->axeController = axeController;
         }
@@ -20,11 +20,14 @@ class SceneSelectFunction : public Function {
         }
 
         const FunctionType Type() {
-            return Function::FunctionType::sceneSelect;
+            return FunctionType::ftSceneSelect;
         }
-
     protected:
         void execute() {
             this->axeController->SendSceneChange(this->scene);
+        }
+
+        FunctionState* createState() {
+            return new ScalarFunctionState(this->scene, this->Type());
         }
 };

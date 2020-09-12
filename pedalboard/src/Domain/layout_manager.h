@@ -15,9 +15,9 @@ class LayoutManager {
         Layout* activeLayout;
         Button*** buttons;
         Screen*** screens;
-        int numFunctions;
+        char numFunctions;
         Function** functions;
-        int layoutNumber;
+        char layoutNumber;
         LayoutChanger* layoutChanger;
         FunctionFactory* functionFactory;
         ScreenFactory* screenFactory;
@@ -28,16 +28,16 @@ class LayoutManager {
 
         void init();
 
-        void OnPress(int row, int col);
+        void OnPress(char row, char col);
 
-        void OnRelease(int row, int col);
+        void OnRelease(char row, char col);
 
-        void ChangeLayout(int number);
+        void ChangeLayout(char number);
 
-        void IncrementLayout(int num);
+        void IncrementLayout(char num);
 
-        static void ChangeLayoutCb(void * this_ptr, int number);
-        static void IncrementLayoutCb(void * this_ptr, int number);
+        static void ChangeLayoutCb(void * this_ptr, char number);
+        static void IncrementLayoutCb(void * this_ptr, char number);
 
         Layout* CurrentLayout();
 

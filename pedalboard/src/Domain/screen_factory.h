@@ -3,5 +3,5 @@
 
 class ScreenFactory {
 public:
-	virtual Screen* CreateScreen(int screenNumber);
+	virtual Screen* CreateScreen(char screenNumber);
 };

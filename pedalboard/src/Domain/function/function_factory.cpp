@@ -14,7 +14,7 @@ FunctionFactory::~FunctionFactory() {
 	}
 }
 
-Function* FunctionFactory::LayoutSelect(int layout) {
+Function* FunctionFactory::LayoutSelect(char layout) {
 	return this->store(new LayoutSelectFunction(layout, this->layoutChanger));
 }
 
@@ -26,19 +26,19 @@ Function* FunctionFactory::LayoutDecrement() {
 	return this->store(new LayoutDecrementFunction(this->layoutChanger));
 }
 
-Function* FunctionFactory::SceneSelect(int scene) {
+Function* FunctionFactory::SceneSelect(char scene) {
 	return this->store(new SceneSelectFunction(scene, this->axeController));
 }
 
-Function* FunctionFactory::SceneIncrement(int value) {
+Function* FunctionFactory::SceneIncrement(char value) {
 	return this->store(new SceneIncrementFunction(value, this->axeController));
 }
 
-Function* FunctionFactory::SceneDecrement(int value) {
+Function* FunctionFactory::SceneDecrement(char value) {
 	return this->store(new SceneDecrementFunction(value, this->axeController));
 }
 
-Function* FunctionFactory::ExpToggle(int pedal) {
+Function* FunctionFactory::ExpToggle(char pedal) {
 	return this->store(new ExpToggleFunction(pedal));
 }
 
@@ -50,15 +50,16 @@ Function* FunctionFactory::TapTempo() {
 	return this->store(new TapTempoFunction(this->axeController));
 }
 
-Function* FunctionFactory::PresetIncrement(int value) {
+Function* FunctionFactory::PresetIncrement(char value) {
 	return this->store(new PresetIncrementFunction(value, this->axeController));
 }
 
-Function* FunctionFactory::PresetDecrement(int value) {
+Function* FunctionFactory::PresetDecrement(char value) {
 	return this->store(new PresetDecrementFunction(value, this->axeController));
 }
 
 Function* FunctionFactory::store(Function* fn) {
+	fn->Init();
     this->functionsCreated.Add(fn);
 	return fn;
 }
