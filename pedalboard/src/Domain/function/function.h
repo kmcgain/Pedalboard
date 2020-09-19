@@ -3,6 +3,7 @@
 
 #include "function_type.h"
 #include "state/function_state.h"
+#include "../preset.h"
 
 class Function {   
     public:            
@@ -10,6 +11,7 @@ class Function {
         virtual const char* Name() = 0;
         virtual const FunctionType Type() = 0;
         FunctionState* State();
+        virtual void UpdateState(Preset* preset);
         void Init();
 
     protected:

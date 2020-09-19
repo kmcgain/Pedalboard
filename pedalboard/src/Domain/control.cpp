@@ -26,6 +26,8 @@ void Control::HandleState() {
                 case (ButtonEvent::button_event_type::Press):
                     this->function->Execute();
                     break;
+                case (ButtonEvent::button_event_type::Release):
+                    break;
                 case (ButtonEvent::button_event_type::LongPress):
                     this->function->Execute();
                     break;
@@ -47,10 +49,20 @@ void Control::PrintDebug() {
     this->button->PrintDebug();
 }
 
-void Control::RefreshScreen() {
-    if (this->isDirty) {
+void Control::RefreshScreen(Preset* currentPreset) {
+    if (currentPreset == nullptr)
+        return;
+
+    if (this->isDirty || (currentPreset->SequenceNumber() != this->sequenceNumber)) {
+        this->sequenceNumber = currentPreset->SequenceNumber();
+        this->function->UpdateState(currentPreset);
         FunctionState* state = this->function->State();
-        this->screen->DisplayFunction(state);
+        
+        auto newHashCode = state->HashCode();
+        if (this->isDirty || newHashCode != this->lastStateHash) {
+            this->lastStateHash = newHashCode;
+            this->screen->DisplayFunction(state, currentPreset);
+        }
         this->isDirty = false;
     }
 }

@@ -22,12 +22,17 @@ class SceneSelectFunction : public Function {
         const FunctionType Type() {
             return FunctionType::ftSceneSelect;
         }
+
+        void UpdateState(Preset* preset) {
+            SceneState* st = static_cast<SceneState*>(this->state);
+            st->UpdateState(preset->getSceneName(this->scene), this->scene);
+        }
     protected:
         void execute() {
             this->axeController->SendSceneChange(this->scene);
         }
 
         FunctionState* createState() {
-            return new ScalarFunctionState(this->scene, this->Type());
+            return new SceneState("", this->scene, this->Type());
         }
 };

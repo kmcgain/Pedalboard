@@ -6,6 +6,15 @@
 #include "../Domain/function/function.h"
 #include "../Domain/function/state/function_state.h"
 
+#include "../Domain/logger.h"
+
+#define screen_w 160
+#define screen_h 128
+#define font_w_px 6
+#define font_h_px 8
+#define border_w 10
+#define border_h 10
+
 // Due pin 8 is hardwired to SPI RESET
 #define rst_pin 8
 // A0/DC
@@ -20,7 +29,40 @@ char screen_pins[] = {
 
 char screenMessage[20];
 
-void sceneSelect(Adafruit_ST7735* screen, FunctionState* state) {
+
+void drawCentreString(Adafruit_ST7735* screen, const char* buf)
+{
+	// Draw the string to fit on screen
+	// Each font is 6x8 * font_size
+	auto txtLength = 0;
+	while (true) {
+		if (buf[txtLength] == '\0')
+			break;
+		txtLength++;
+	}
+
+	Logger::log(txtLength);
+	Logger::log("\n");
+
+	// TODO: Have a border in this calc.
+
+
+	auto maxWidthOfFont = (screen_w - (border_w*2)) / (font_w_px*txtLength); 
+	auto maxHeightOfFont = (screen_h - (border_h*2)) / font_h_px;
+	auto fontSize = maxWidthOfFont > maxHeightOfFont ? maxHeightOfFont : maxWidthOfFont;
+
+	screen->setTextSize(fontSize);
+
+	auto text_width_px = fontSize * font_w_px * txtLength;
+	auto text_height_px = fontSize * font_h_px;
+	auto x = (screen_w / 2) - (text_width_px / 2);
+	auto y = (screen_h / 2) - (text_height_px / 2);
+
+	screen->setCursor(x, y);
+	screen->print(buf);
+}
+
+void sceneSelect(Adafruit_ST7735* screen, FunctionState* state, Preset* currentPreset) {
 	ScalarFunctionState* st = static_cast<ScalarFunctionState*>(state);
 
 	switch (st->Scalar()) {
@@ -58,22 +100,36 @@ void sceneSelect(Adafruit_ST7735* screen, FunctionState* state) {
 		break;
 
 	}
-	screen->setCursor(30, 30);
-	screen->setTextSize(4);
 
-	sprintf(screenMessage, "Scene %d", st->Scalar());
-	screen->println(screenMessage);
 
+	if (currentPreset != nullptr) {
+		const char* sName = currentPreset->getSceneName(st->Scalar());
+		if (sName != nullptr && sName[0] != '\0') {
+			drawCentreString(screen, sName);
+			return;
+		}
+	}
+
+	sprintf(screenMessage, "%d", st->Scalar());
+	drawCentreString(screen, screenMessage);	
 }
 
 void presetCrement(Adafruit_ST7735* screen, FunctionState* state) {
 	ScalarFunctionState* st = static_cast<ScalarFunctionState*>(state);
 
 	screen->fillScreen(0x87F0);//GREEN
-	screen->setCursor(30, 30);
-	screen->setTextSize(4);	
+	screen->setTextColor(ST7735_BLACK);//black
 	sprintf(screenMessage, "%s%d Preset", state->Type() == FunctionType::ftPresetDecrement ? F("-") : F("+"), st->Scalar());
-	screen->println(screenMessage);
+	drawCentreString(screen, screenMessage);
+}
+
+
+void layoutSelect(Adafruit_ST7735* screen, FunctionState* state) {
+	ScalarFunctionState* st = static_cast<ScalarFunctionState*>(state);
+	screen->fillScreen(ST7735_RED);
+	screen->setTextColor(ST7735_WHITE);
+	sprintf(screenMessage, "LS %d", st->Scalar());
+	drawCentreString(screen, screenMessage);
 }
 
 TftScreen::TftScreen(char screenNumber) {
@@ -85,52 +141,27 @@ TftScreen::TftScreen(char screenNumber) {
 		this->screen->setRotation(3);
 	else 
 		this->screen->setRotation(1);
-
-	//this->screen->fillScreen(ST7735_RED);
-	//this->screen->setTextColor(ST7735_WHITE);
-
-	//this->screen->drawRect(5, 5, 60, 119, ST7735_YELLOW); // upper rectangle
-	//this->screen->drawRect(70, 5, 84, 119, ST7735_YELLOW); // lower reactangle
-	//this->screen->setCursor(30, 15); // put text in upper rectangle
-	//this->screen->setTextSize(2); // select text size
-	//this->screen->println(screenNumber);
-	//this->screen->setCursor(30, 30);
-	//this->screen->println("======");
-	//this->screen->setTextSize(2); // select text size
-	//this->screen->setCursor(22, 45);
 }
 
-void TftScreen::DisplayFunction(FunctionState* functionState) {
-	
-
+void TftScreen::DisplayFunction(FunctionState* functionState, Preset* currentPreset) {
 	switch (functionState->Type()) {
 	case FunctionType::ftExpToggle:
 		this->screen->fillScreen(ST7735_RED);
 		this->screen->setTextColor(ST7735_WHITE);
-		this->screen->setCursor(30, 30);
-		this->screen->setTextSize(4);
-		this->screen->println(F("Exp Toggle"));
+		drawCentreString(screen, "Exp Toggle");
 		break;
 	case FunctionType::ftLayoutDecrement:
 		this->screen->fillScreen(ST7735_RED);
 		this->screen->setTextColor(ST7735_WHITE);
-		this->screen->setCursor(30, 30);
-		this->screen->setTextSize(4);
-		this->screen->println(F("- Layout"));
+		drawCentreString(screen, "- Layout");
 		break;
 	case FunctionType::ftLayoutIncrement:
 		this->screen->fillScreen(ST7735_RED);
 		this->screen->setTextColor(ST7735_WHITE);
-		this->screen->setCursor(30, 30);
-		this->screen->setTextSize(4);
-		this->screen->println(F("+ Layout"));
+		drawCentreString(screen, "+ Layout");
 		break;		
 	case FunctionType::ftLayoutSelect:
-		this->screen->fillScreen(ST7735_RED);
-		this->screen->setTextColor(ST7735_WHITE);
-		this->screen->setCursor(30, 30);
-		this->screen->setTextSize(4);
-		this->screen->println(F("LS"));
+		layoutSelect(this->screen, functionState);
 		break;
 	case FunctionType::ftPresetDecrement:
 		presetCrement(this->screen, functionState);
@@ -143,33 +174,25 @@ void TftScreen::DisplayFunction(FunctionState* functionState) {
 	case FunctionType::ftSceneDecrement:
 		this->screen->fillScreen(ST7735_RED);
 		this->screen->setTextColor(ST7735_WHITE);
-		this->screen->setCursor(30, 30);
-		this->screen->setTextSize(4);
-		this->screen->println(F("- Scene"));
+		drawCentreString(screen, "- Scene");
 		break;
 	case FunctionType::ftSceneIncrement:
 		this->screen->fillScreen(ST7735_RED);
 		this->screen->setTextColor(ST7735_WHITE);
-		this->screen->setCursor(30, 30);
-		this->screen->setTextSize(4);
-		this->screen->println(F("+ Scene"));
+		drawCentreString(screen, "+ Scene");
 		break;
 	case FunctionType::ftSceneSelect:
-		sceneSelect(this->screen, functionState);
+		sceneSelect(this->screen, functionState, currentPreset);
 		break;
 	case FunctionType::ftTapTempo:
-		this->screen->fillScreen(ST7735_RED);
+		this->screen->fillScreen(ST7735_MAGENTA);
 		this->screen->setTextColor(ST7735_WHITE);
-		this->screen->setCursor(30, 30);
-		this->screen->setTextSize(4);
-		this->screen->println(F("Tap Tempo"));
+		drawCentreString(screen, "Tap Tempo");
 		break;
 	case FunctionType::ftTunerToggle:
-		this->screen->fillScreen(ST7735_RED);
-		this->screen->setTextColor(ST7735_WHITE);
-		this->screen->setCursor(30, 30);
-		this->screen->setTextSize(4);
-		this->screen->println(F("Tuner"));
+		this->screen->fillScreen(ST7735_YELLOW);
+		this->screen->setTextColor(ST7735_BLACK);
+		drawCentreString(screen, "Tuner");
 		break;
 	}
 }

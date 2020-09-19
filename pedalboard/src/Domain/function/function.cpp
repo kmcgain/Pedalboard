@@ -13,3 +13,5 @@ void Function::Init() {
 FunctionState* Function::State() {
 	return this->state;
 }
+
+void Function::UpdateState(Preset* preset) {}

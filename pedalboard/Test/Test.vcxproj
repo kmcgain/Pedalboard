@@ -50,6 +50,7 @@
     <ClCompile Include="fake_time_factory.cpp" />
     <ClCompile Include="impl\atomic_fn.cpp" />
     <ClCompile Include="impl\axe_controller.cpp" />
+    <ClCompile Include="fake_preset.h" />
     <ClCompile Include="impl\logger.cpp" />
     <ClCompile Include="impl\pin.cpp" />
     <ClCompile Include="interrupt_manager_test.cpp" />

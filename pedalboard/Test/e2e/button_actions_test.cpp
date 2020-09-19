@@ -9,6 +9,7 @@
 #include "../../src/Domain/interrupt_manager.cpp"
 
 #include "../fake_time_factory.h"
+#include "../fake_preset.h"
 
 using namespace fakeit;
 
@@ -27,6 +28,9 @@ struct ButtonActionsTest : testing::Test {
         this->interruptMgr->fireInterrupt(pinForBtn, bc.Falling);
     }
 };
+
+
+void cbTempo(){}
 
 TEST_F(ButtonActionsTest, ShouldPerformMidiActionOnButtonPress) {    
     this->interruptMgr = new FakeInterruptRegistrar(bc);
@@ -49,8 +53,8 @@ TEST_F(ButtonActionsTest, ShouldPerformMidiActionOnButtonPress) {
     this->holdButton(pinForSceneSelect1, 100);
 
     // Process loop
-	auto wp = WorkerProcess();
-    wp.OneStep();
+	auto wp = WorkerProcess(&axeController);
+    wp.OneStep(new FakePreset());
     
     Verify(Method(axeControllerMock, SendSceneChange)).Once();
 }

@@ -2,15 +2,15 @@
 
 typedef enum 
 {
-    ftLayoutIncrement = 0,
-    ftLayoutDecrement = 1,
-    ftPresetIncrement = 2,
-    ftPresetDecrement = 3,
-    ftLayoutSelect    = 4,
-    ftSceneIncrement  = 5,
-    ftSceneDecrement  = 6,
-    ftSceneSelect     = 7,
-    ftTapTempo        = 8,
-    ftTunerToggle     = 9,
-    ftExpToggle       = 10
+    ftLayoutIncrement = 1,
+    ftLayoutDecrement = 2,
+    ftPresetIncrement = 3,
+    ftPresetDecrement = 4,
+    ftLayoutSelect    = 5,
+    ftSceneIncrement  = 6,
+    ftSceneDecrement  = 7,
+    ftSceneSelect     = 8,
+    ftTapTempo        = 9,
+    ftTunerToggle     = 10,
+    ftExpToggle       = 11
 } FunctionType;

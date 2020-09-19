@@ -50,8 +50,8 @@ void Layout::PrintDebug() {
         }
 }
 
-void Layout::RefreshScreens() {
+void Layout::RefreshScreens(Preset* currentPreset) {
     for (char i = 0; i < this->rows; i++)
         for (char j = 0; j < this->cols; j++)
-            this->controls[i][j]->RefreshScreen();
+            this->controls[i][j]->RefreshScreen(currentPreset);
 }

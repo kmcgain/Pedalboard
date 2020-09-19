@@ -16,9 +16,11 @@ class ButtonEventStream {
     private:
         
         EventTape events;
+        unsigned long pressTime;
         
 
     public:
+        ButtonEventStream();
         void RecordPress(unsigned long eventTime);
 
         void RecordRelease(unsigned long eventTime);

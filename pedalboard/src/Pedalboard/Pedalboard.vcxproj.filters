@@ -33,6 +33,9 @@
     <ClInclude Include="tft_screen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Axe\preset_wrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="time_record.cpp">

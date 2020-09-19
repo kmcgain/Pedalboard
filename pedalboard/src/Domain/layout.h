@@ -2,6 +2,7 @@
 #define LAYOUT_H
 
 #include "control.h"
+#include "preset.h"
 
 class Layout { 
   private:
@@ -14,7 +15,7 @@ class Layout {
     void init();
     void Exit();
     void ProcessOutstanding();
-    void RefreshScreens();
+    void RefreshScreens(Preset* currentPreset);
     void PrintDebug();
 };
 #endif

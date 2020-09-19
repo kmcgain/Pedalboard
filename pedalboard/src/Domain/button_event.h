@@ -6,6 +6,7 @@
 struct ButtonEvent : public Some {
     enum button_event_type {
         Press,
+        Release,
         LongPress,
         Hold,
         None

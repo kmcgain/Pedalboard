@@ -65,6 +65,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)function\scene_increment.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)function\scene_select.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)pin.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)preset.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)screen.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)screen_factory.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)some.h" />

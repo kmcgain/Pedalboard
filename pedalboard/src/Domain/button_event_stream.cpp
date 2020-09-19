@@ -8,6 +8,10 @@
 
 #define MAX_DEBOUNCED 10
 
+ButtonEventStream::ButtonEventStream() {
+    this->pressTime = -1;
+}
+
 void ButtonEventStream::RecordPress(unsigned long eventTime) {
     AtomicFnVoid<ButtonEventStream>::Run(*this, &ButtonEventStream::recordPressAux, eventTime);
 }
@@ -59,6 +63,8 @@ void cleanTape(char index, EventTape* tape) {
         tape->TakeFromStart();
 }
 
+
+
 ButtonEvent ButtonEventStream::takeAux() {
     DebouncedEvent events[MAX_DEBOUNCED];
 
@@ -80,11 +86,8 @@ ButtonEvent ButtonEventStream::takeAux() {
                 events[eventIndex].FoundAtIndex = tapeIndex;
             }
             else {
-                // New Event!
-                eventIndex++;
-                events[eventIndex].TimeMs = event.TimeMs;
-                events[eventIndex].WasPress = event.WasPress;
-                events[eventIndex].FoundAtIndex = tapeIndex;
+                // New Event! - we only need 1
+                break;
             }
 
             tapeIndex++;
@@ -93,47 +96,40 @@ ButtonEvent ButtonEventStream::takeAux() {
 
     // Now we determine if we have useful debounced events, we may need to wait if we are still in hold position
     // It is also possible that a button press is a bit wonky and in 1 debounced event it is just a single release.
-     
+
     if (!events[0].IsSome())
         return ButtonEvent();
 
-    // Sequence options:
-    // Release -> Event
-    //
-    // Release + Release 
-    // Press + Press 
-    // Press + Release
-
-    // Approach, we must end on Release for it to be a press, we may never detect a full press event
-    // This means we can ignore Presses in a row
+    // All other cases we'll clean the event from the tape.
+    cleanTape(events[0].FoundAtIndex, &this->events);
 
     ButtonEvent result;
-    if (!events[0].WasPress) {
-        // This is a case where we couldn't identify a proper press/release sequence. Just suppress it otherwise we get false positives
-        cleanTape(events[0].FoundAtIndex, &this->events);
+    if (events[0].WasPress) {
+        if (this->pressTime == -1) {
+            pressTime = events[0].TimeMs;
+            
 
-        return ButtonEvent();
+            result.EventType = ButtonEvent::button_event_type::Press;
+            result.EventTimeMs = events[0].TimeMs;
+        }
+        //else {
+            // we've already given a press event so we suppress
+            // We could actually continue processing more events if we wanted to but to keep things simple we'll only deal with 1 event per cycle
+        //}
+        return result;
     }
 
-    eventIndex = 0;
-    while (events[eventIndex].IsSome() && events[eventIndex].WasPress)
-        eventIndex++;
-
-    // Now eventIndex-1 is the Press, and eventIndex is either nothing or release
-
-    if (!events[eventIndex].IsSome()) {
-        // We still only have a hanging press so leave it on tape
-        return ButtonEvent();
+    if (this->pressTime == -1) {
+        // we got a release but never recorded the press. Ignore
+        return result;
     }
 
-    // We got a press release cycle between events 0 and eventIndex
-    cleanTape(events[eventIndex].FoundAtIndex, &this->events);
-
-    // We've got our 2 events to determine our outcome    
-    unsigned short timeHeld = events[eventIndex].TimeMs - events[0].TimeMs;
+    // Release
+    unsigned short timeHeld = events[0].TimeMs - this->pressTime;
+    this->pressTime = -1;
 
     if (timeHeld < ButtonEvent::LONG_HOLD_START_MS) {
-        result.EventType = ButtonEvent::button_event_type::Press;
+        result.EventType = ButtonEvent::button_event_type::Release;
         result.EventTimeMs = events[eventIndex].TimeMs;
     }
     else if (timeHeld <= ButtonEvent::LONG_HOLD_LIMIT_MS) {
@@ -141,13 +137,105 @@ ButtonEvent ButtonEventStream::takeAux() {
         result.EventTimeMs = events[eventIndex].TimeMs;
     }
     else {
+        // TODO: Currently we can't react to hold mid hold.. only when the hold ends. Will fix when I find a use case
         result.EventType = ButtonEvent::button_event_type::Hold;
         result.EventTimeMs = events[0].TimeMs;
         result.HeldMs = timeHeld;
     }
-
     return result;
 }
+
+//
+//ButtonEvent ButtonEventStream::takeAux() {
+//    DebouncedEvent events[MAX_DEBOUNCED];
+//
+//    bool hasSome = true;
+//    char eventIndex = 0;
+//    char tapeIndex = 0;
+//    while (hasSome && eventIndex < MAX_DEBOUNCED) {
+//        auto event = this->events.ReadFromStart(tapeIndex);
+//        hasSome = event.IsSome();
+//        if (hasSome) {
+//            if (!events[eventIndex].IsSome()) {
+//                events[eventIndex].TimeMs = event.TimeMs;
+//                events[eventIndex].WasPress = event.WasPress;
+//                events[eventIndex].FoundAtIndex = tapeIndex;
+//            }
+//            else if (event.TimeMs < events[eventIndex].TimeMs + 20) {
+//                events[eventIndex].TimeMs = event.TimeMs;
+//                events[eventIndex].WasPress = event.WasPress;
+//                events[eventIndex].FoundAtIndex = tapeIndex;
+//            }
+//            else {
+//                // New Event!
+//                eventIndex++;
+//                events[eventIndex].TimeMs = event.TimeMs;
+//                events[eventIndex].WasPress = event.WasPress;
+//                events[eventIndex].FoundAtIndex = tapeIndex;
+//            }
+//
+//            tapeIndex++;
+//        }
+//    }
+//
+//    // Now we determine if we have useful debounced events, we may need to wait if we are still in hold position
+//    // It is also possible that a button press is a bit wonky and in 1 debounced event it is just a single release.
+//     
+//    if (!events[0].IsSome())
+//        return ButtonEvent();
+//
+//    // Sequence options:
+//    // Release -> Event
+//    //
+//    // Release + Release 
+//    // Press + Press 
+//    // Press + Release
+//
+//    // Approach, we must end on Release for it to be a press, we may never detect a full press event
+//    // This means we can ignore Presses in a row
+//
+//    ButtonEvent result;
+//    if (!events[0].WasPress) {
+//        // This is a case where we couldn't identify a proper press/release sequence. Just suppress it otherwise we get false positives
+//        cleanTape(events[0].FoundAtIndex, &this->events);
+//
+//        return ButtonEvent();
+//    }
+//
+//    eventIndex = 0;
+//    while (events[eventIndex].IsSome() && events[eventIndex].WasPress)
+//        eventIndex++;
+//
+//    // Now eventIndex-1 is the Press, and eventIndex is either nothing or release
+//
+//    if (!events[eventIndex].IsSome()) {
+//
+//        // We still only have a hanging press so leave it on tape
+//        return ButtonEvent();
+//    }
+//
+//    // We got a press release cycle between events 0 and eventIndex
+//    cleanTape(events[eventIndex].FoundAtIndex, &this->events);
+//
+//    // We've got our 2 events to determine our outcome    
+//    unsigned short timeHeld = events[eventIndex].TimeMs - events[0].TimeMs;
+//
+//    if (timeHeld < ButtonEvent::LONG_HOLD_START_MS) {
+//        result.EventType = ButtonEvent::button_event_type::Press;
+//        result.EventTimeMs = events[eventIndex].TimeMs;
+//    }
+//    else if (timeHeld <= ButtonEvent::LONG_HOLD_LIMIT_MS) {
+//        result.EventType = ButtonEvent::button_event_type::LongPress;
+//        result.EventTimeMs = events[eventIndex].TimeMs;
+//    }
+//    else {
+//        result.EventType = ButtonEvent::button_event_type::Hold;
+//        result.EventTimeMs = events[0].TimeMs;
+//        result.HeldMs = timeHeld;
+//    }
+//
+//    return result;
+//}
 
 
 ButtonEvent ButtonEventStream::Take() {
