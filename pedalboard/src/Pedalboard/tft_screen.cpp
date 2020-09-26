@@ -20,7 +20,7 @@
 // A0/DC
 #define dc_pin 53
 
-char screen_pins[] = {
+byte screen_pins[] = {
 	34, 36, 40, 42, 43,
 	41, 37, 35, 33, 45,
 	48, 47, 46, 49, 44 
@@ -34,15 +34,12 @@ void drawCentreString(Adafruit_ST7735* screen, const char* buf)
 {
 	// Draw the string to fit on screen
 	// Each font is 6x8 * font_size
-	auto txtLength = 0;
+	byte txtLength = 0;
 	while (true) {
 		if (buf[txtLength] == '\0')
 			break;
 		txtLength++;
 	}
-
-	Logger::log(txtLength);
-	Logger::log("\n");
 
 	// TODO: Have a border in this calc.
 
@@ -63,7 +60,7 @@ void drawCentreString(Adafruit_ST7735* screen, const char* buf)
 }
 
 void sceneSelect(Adafruit_ST7735* screen, FunctionState* state, Preset* currentPreset) {
-	ScalarFunctionState* st = static_cast<ScalarFunctionState*>(state);
+	SceneState* st = static_cast<SceneState*>(state);
 
 	switch (st->Scalar()) {
 	case 1:
@@ -114,12 +111,15 @@ void sceneSelect(Adafruit_ST7735* screen, FunctionState* state, Preset* currentP
 	drawCentreString(screen, screenMessage);	
 }
 
-void presetCrement(Adafruit_ST7735* screen, FunctionState* state) {
-	ScalarFunctionState* st = static_cast<ScalarFunctionState*>(state);
+void presetCrement(Adafruit_ST7735* screen, FunctionState* state) {	
+	PresetState* st = static_cast<PresetState*>(state);
+
+	Logger::log("PRST: ");
+	Logger::log(st->PresetNumber());
 
 	screen->fillScreen(0x87F0);//GREEN
 	screen->setTextColor(ST7735_BLACK);//black
-	sprintf(screenMessage, "%s%d Preset", state->Type() == FunctionType::ftPresetDecrement ? F("-") : F("+"), st->Scalar());
+	sprintf(screenMessage, "%d", state->Type() == FunctionType::ftPresetDecrement ? st->PresetNumber() - st->Scalar() : st->PresetNumber() + st->Scalar());
 	drawCentreString(screen, screenMessage);
 }
 
@@ -187,7 +187,7 @@ void TftScreen::DisplayFunction(FunctionState* functionState, Preset* currentPre
 	case FunctionType::ftTapTempo:
 		this->screen->fillScreen(ST7735_MAGENTA);
 		this->screen->setTextColor(ST7735_WHITE);
-		drawCentreString(screen, "Tap Tempo");
+		drawCentreString(screen, "Tap");
 		break;
 	case FunctionType::ftTunerToggle:
 		this->screen->fillScreen(ST7735_YELLOW);

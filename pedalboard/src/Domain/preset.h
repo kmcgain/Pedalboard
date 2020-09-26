@@ -11,10 +11,9 @@ struct SceneInfo {
 };
 
 class Preset {
-private:
+protected:
 	char sequenceNumber=0;
 
-protected:
 	SceneInfo scenes[NUM_SCENES];
 
 public:

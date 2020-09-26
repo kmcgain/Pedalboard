@@ -115,7 +115,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="atomic_fn.cpp" />
-    <ClInclude Include="Axe\axe_controller.h" />
     <ClInclude Include="Axe\preset_wrapper.h" />
     <ClInclude Include="tft_screen.h" />
     <ClInclude Include="__vm\.Pedalboard.vsarduino.h" />
@@ -128,7 +127,6 @@
     <ClCompile Include="screen_factory.cpp" />
     <ClCompile Include="tft_screen.cpp" />
     <ClCompile Include="time_record.cpp" />
-    <ClCompile Include="_.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -44,6 +44,35 @@ public:
 };
 
 
+class PresetState : public ScalarFunctionState {
+private:
+	const char* name;
+	unsigned short presetNumber;
+
+public:
+	PresetState(const char* name, unsigned short presetNumber, char relativeChange, FunctionType type) : ScalarFunctionState(relativeChange, type) {
+		this->name = name;
+		this->presetNumber = presetNumber;
+	}
+
+	void UpdateState(const char* name, unsigned short presetNumber) {
+		this->name = name;
+		this->presetNumber = presetNumber;
+	}
+
+	unsigned short PresetNumber() {
+		return this->presetNumber;
+	}
+
+	void ChangePreset(unsigned short presetNumber) {
+		this->presetNumber = presetNumber;
+	}
+
+	unsigned int HashCode() {
+		return ScalarFunctionState::HashCode() + this->presetNumber;
+	}
+};
+
 class SceneState : public ScalarFunctionState {
 private:
 	const char* name;
@@ -51,8 +80,7 @@ private:
 
 	unsigned int compute_hash(const char* s) {
 		// will overflow, but chance of conflict low
-		const int p = 31;
-		const int m = UINT_MAX;
+		const char p = 31;
 		unsigned int hash_value = 0;
 		unsigned int p_pow = 1;
 		unsigned short i = 0;
@@ -60,8 +88,8 @@ private:
 			if (s[i] == '\0')
 				break;
 
-			hash_value = (hash_value + (s[i++] - 'a' + 1) * p_pow) % m;
-			p_pow = (p_pow * p) % m;
+			hash_value = (hash_value + (s[i++] - 'a' + 1) * p_pow) % UINT_MAX;
+			p_pow = (p_pow * p) % UINT_MAX;
 		}
 
 		return hash_value;

@@ -23,14 +23,21 @@ class PresetDecrementFunction : public Function {
             return FunctionType::ftPresetDecrement;
         }
 
+        void UpdateState(Preset* preset) {
+            PresetState* st = static_cast<PresetState*>(this->state);
+            st->UpdateState(preset->getPresetName(), preset->getPresetNumber());
+        }
 
     protected:
         void execute() {
-            this->axeController->sendPresetDecrement();
+            PresetState* st = static_cast<PresetState*>(this->state);
+            auto newPreset = st->PresetNumber() - this->decrementValue;
+            this->axeController->sendPresetChange(newPreset);
+            //st->ChangePreset(newPreset);
         }
 
         FunctionState* createState() {
-            return new ScalarFunctionState(this->decrementValue, this->Type());
+            return new PresetState("", 1, this->decrementValue, this->Type());
         }
 
 };

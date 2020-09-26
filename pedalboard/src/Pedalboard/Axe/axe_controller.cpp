@@ -5,43 +5,59 @@
 #include "../../Domain/preset.h"
 #include "preset_wrapper.h"
 
+//A list of all of the scenes for this preset
+bool scenes[NUM_SCENES];
 
 AxeSystem axe;
 
 PresetWrapper* thePreset = nullptr;
 PresetChangeCallback outerPresetChangeCallback;
-uint8_t retrievedScene = 0;
 
 void onPresetChange(AxePreset axePreset) {
-	Logger::log("Got preset");
-
+	Logger::log("Preset: ");
+	Logger::log(axePreset.getPresetNumber());
 	thePreset->updatePreset(axePreset);
 	outerPresetChangeCallback(thePreset);	
 }
 
 void initSceneState() {
 	//Reset the scene list for the new preset
-	for (byte sceneNumber = 0; sceneNumber <= NUM_SCENES; sceneNumber++) {
+	for (byte sceneNumber = 1; sceneNumber <= NUM_SCENES; sceneNumber++) {
+		scenes[sceneNumber - 1] = false;
 		thePreset->setScene(sceneNumber, "");
 	}
-	retrievedScene = 0;
+	//retrievedScene = 0;
 }
 
 void onPresetChanging(const PresetNumber number) {
 	initSceneState();
 }
 
-
-char msg[30];
-
+char msg[10];
 void onSceneName(const SceneNumber sceneNumber, const char* name, const byte length) {	
 	thePreset->setScene(sceneNumber, name);
-	
-	if (++retrievedScene == sceneNumber)
+	scenes[sceneNumber - 1] = true;
+
+	//sprintf(msg, "Retr: %d\n", retrievedScene);
+	//Logger::log(msg);
+
+	//sprintf(msg, "%d\n", sceneNumber);
+	//Logger::log(msg);
+
+	// TODO: Investigate issue where we get duplicate calls to this
+
+	for (int i = 0; i < NUM_SCENES; i++) {
+		if (!scenes[i]) {
+			axe.requestSceneName(i + 1);
+			break;
+		}
+	}
+
+	/*if (++retrievedScene == sceneNumber)
 		retrievedScene++;
 	if (retrievedScene > NUM_SCENES)
 		return;
-	axe.requestSceneName(retrievedScene);
+	axe.requestSceneName(retrievedScene);*/
 }
 
 void AxeController::Init(void (*tapTempoCallback)(), PresetChangeCallback presetChangeCallback) {
@@ -98,4 +114,11 @@ void AxeController::sendTap() {
 
 void AxeController::toggleTuner() {
 	axe.toggleTuner();
+}
+
+void AxeController::sendExpressionPedalValue(unsigned short expNum, unsigned short expValue) {
+	/*sprintf(msg, "%d: %d\n", expNum, expValue);
+	Logger::log(msg);*/
+
+	axe.sendControlChange(expNum == 1 ? 63 : 62, expValue, AxeSystem::DEFAULT_MIDI_CHANNEL);
 }

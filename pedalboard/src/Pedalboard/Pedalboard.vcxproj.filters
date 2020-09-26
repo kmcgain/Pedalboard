@@ -27,9 +27,6 @@
     <ClInclude Include="atomic_fn.cpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Axe\axe_controller.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="tft_screen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -39,9 +36,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="time_record.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="_.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="interrupt_registrar.cpp">

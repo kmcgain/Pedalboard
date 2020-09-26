@@ -10,6 +10,7 @@ Control::Control(Button* button, Function* function, Screen* screen, unsigned ch
     this->screen = screen;
     this->buttonNumber = buttonNumber;
     this->isDirty = true;
+    this->lastStateHash = -1;
 }
 
 // Standard loop will call this so we can handle any button presses
@@ -53,16 +54,16 @@ void Control::RefreshScreen(Preset* currentPreset) {
     if (currentPreset == nullptr)
         return;
 
-    if (this->isDirty || (currentPreset->SequenceNumber() != this->sequenceNumber)) {
-        this->sequenceNumber = currentPreset->SequenceNumber();
+    //if (this->isDirty || (currentPreset->SequenceNumber() != this->sequenceNumber)) {
+        //this->sequenceNumber = currentPreset->SequenceNumber();
         this->function->UpdateState(currentPreset);
         FunctionState* state = this->function->State();
         
         auto newHashCode = state->HashCode();
-        if (this->isDirty || newHashCode != this->lastStateHash) {
+        if (this->lastStateHash == -1 || newHashCode != this->lastStateHash) {
             this->lastStateHash = newHashCode;
             this->screen->DisplayFunction(state, currentPreset);
         }
-        this->isDirty = false;
-    }
+      //  this->isDirty = false;
+    //}
 }

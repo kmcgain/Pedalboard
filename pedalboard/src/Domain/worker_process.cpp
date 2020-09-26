@@ -3,8 +3,11 @@
 #include "layout_setup.h"
 #include "preset.h"
 
+
 WorkerProcess::WorkerProcess(AxeController* axeController) {
 	this->axeController = axeController;
+	this->exp1 = new Expression(1, axeController);
+	this->exp2 = new Expression(2, axeController);
 }
 
 void WorkerProcess::OneStep(Preset* currentPreset) {
@@ -12,6 +15,9 @@ void WorkerProcess::OneStep(Preset* currentPreset) {
 	auto lm = GetLayoutManager();
 	if (lm == nullptr)
 	    return;
+
+	this->exp1->OneStep();
+	this->exp2->OneStep();
 
 	lm->CurrentLayout()->ProcessOutstanding();
 	this->axeController->Update();

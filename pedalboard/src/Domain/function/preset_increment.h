@@ -23,13 +23,20 @@ class PresetIncrementFunction : public Function {
             return FunctionType::ftPresetIncrement;
         }
 
+        void UpdateState(Preset* preset) {
+            PresetState* st = static_cast<PresetState*>(this->state);
+            st->UpdateState(preset->getPresetName(), preset->getPresetNumber());
+        }
 
     protected:
         void execute() {
-            this->axeController->sendPresetIncrement();
+            PresetState* st = static_cast<PresetState*>(this->state);
+            auto newPreset = st->PresetNumber() + this->incrementValue;
+            this->axeController->sendPresetChange(newPreset);
+            //st->ChangePreset(newPreset);
         }
 
         FunctionState* createState() {
-            return new ScalarFunctionState(this->incrementValue, this->Type());
+            return new PresetState("", 1, this->incrementValue, this->Type());
         }
 };

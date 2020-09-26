@@ -13,8 +13,8 @@
 
 class EventTape {
 private:
-    char next_pos = 0;
-    char start = 0;
+    volatile char next_pos = 0;
+    volatile char start = 0;
     volatile Event tape[SIZE];
 
 public:
@@ -22,7 +22,7 @@ public:
     void Add(Event item) {
         if (this->tape[this->next_pos].IsSome()) {
             this->start = this->next_pos + 1;
-            if (this->start >= this->start)
+            if (this->start >= SIZE)
                 this->start = 0;
         }
 

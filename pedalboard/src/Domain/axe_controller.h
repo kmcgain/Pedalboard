@@ -17,4 +17,5 @@ public:
     virtual void sendSceneChange(const unsigned short scene);
     virtual void sendTap();
     virtual void toggleTuner();
+    virtual void sendExpressionPedalValue(unsigned short expNumber, unsigned short pedalValue);
 };

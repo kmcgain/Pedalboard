@@ -10,6 +10,7 @@ private:
 public:
 	void updatePreset(AxePreset& preset) {
 		this-> preset = preset;
+		this->sequenceNumber++;
 	}
 
 	unsigned short getPresetNumber() {
