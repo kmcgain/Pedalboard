@@ -20,20 +20,25 @@ private:
 public:
     EventTape() {}
     void Add(Event item) {
-        if (this->tape[this->next_pos].IsSome()) {
-            this->start = this->next_pos + 1;
-            if (this->start >= SIZE)
-                this->start = 0;
+        char nextIndex = this->next_pos;
+        if (nextIndex >= SIZE) {
+            nextIndex = 0;
         }
 
-        this->tape[this->next_pos++] = item;
-
-        if (this->next_pos >= SIZE) {
-            this->next_pos = 0;
+        if (this->tape[nextIndex].IsSome()) {
+            this->start = nextIndex + 1 >= SIZE ? 0 : nextIndex + 1;            
         }
+
+        this->tape[nextIndex] = item;
+
+        nextIndex = this->next_pos + 1;
+        this->next_pos = nextIndex >= SIZE ? 0 : nextIndex;
     }
 
     Event ReadFromStart(char pos) {
+        if (pos < 0)
+            return Event();
+
         char idx = this->start + pos;
         while (idx >= SIZE)
             idx -= SIZE;
@@ -43,7 +48,7 @@ public:
 
     Event LastAdded() {
         char last = this->next_pos - 1;
-        if (last == -1)
+        if (last <= -1)
             last = SIZE - 1;
         return this->tape[last];
     }
@@ -75,8 +80,9 @@ public:
 
 private:
     void incrStart() {
-        this->start += 1;
-        if (this->start >= SIZE)
-            this->start = 0;
+        char nextStart = this->start + 1;
+        this->start = (nextStart >= SIZE) 
+            ? 0
+            : nextStart;        
     }
 };

@@ -17,6 +17,7 @@ class ButtonEventStream {
         
         EventTape events;
         unsigned long pressTime;
+        unsigned long lastReleaseTime;
         
 
     public:

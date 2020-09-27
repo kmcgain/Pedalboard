@@ -14,6 +14,8 @@ struct ButtonEvent : public Some {
 
     static const unsigned short LONG_HOLD_LIMIT_MS = 1500;
     static const unsigned short LONG_HOLD_START_MS = 500;
+    static const unsigned short PRESS_BUFFER_MS = 50;
+    static const unsigned short RELEASE_TO_PRESS_BUFFER = 100;
 
     button_event_type EventType;
 
