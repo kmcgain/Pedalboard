@@ -36,6 +36,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)constants.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)control.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)event_tape.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)expression.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)function\all_functions.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)function\exp_toggle.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)function\function.h" />

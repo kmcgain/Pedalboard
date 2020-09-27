@@ -61,6 +61,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)function\function_type.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)function\state\function_state.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)preset.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)expression.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="$(MSBuildThisFileDirectory)readme.txt" />

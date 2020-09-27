@@ -18,7 +18,7 @@ extern "C" char *sbrk(int i);
 char *ramstart=(char *)0x20070000;
 char *ramend=(char *)0x20088000;
 
-#define TAP_TEMPO_LED_PIN 31
+#define TAP_TEMPO_LED_PIN 29
 
 uint32_t lastTime;
 WorkerProcess* workerProcess;  
