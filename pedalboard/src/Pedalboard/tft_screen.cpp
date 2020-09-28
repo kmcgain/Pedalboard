@@ -28,6 +28,7 @@ byte screen_pins[] = {
 };
 #define screenToRotate 9
 
+
 char screenMessage[50];
 char logMessage[80];
 
@@ -97,42 +98,12 @@ void drawCentreString(Adafruit_ST7735* screen, const char* buf)
 void sceneSelect(Adafruit_ST7735* screen, FunctionState* state, Preset* currentPreset) {
 	SceneState* st = static_cast<SceneState*>(state);
 
-	switch (st->Scalar()) {
-	case 1:
-		screen->fillScreen(0x641F);
-		screen->setTextColor(ST7735_WHITE);
-		break;
-	case 2:
-		screen->fillScreen(0x5BDF);
-		screen->setTextColor(ST7735_WHITE);
-		break;
-	case 3:
-		screen->fillScreen(0x537F);
-		screen->setTextColor(ST7735_WHITE);
-		break;
-	case 4:
-		screen->fillScreen(0x433F);
-		screen->setTextColor(ST7735_WHITE);
-		break;
-	case 5:
-		screen->fillScreen(0x3ADF);
-		screen->setTextColor(ST7735_WHITE);
-		break;
-	case 6:
-		screen->fillScreen(0x329F);
-		screen->setTextColor(ST7735_WHITE);
-		break;
-	case 7:
-		screen->fillScreen(0x2A3F);
-		screen->setTextColor(ST7735_WHITE);
-		break;
-	case 8:
-		screen->fillScreen(0x19FF);
-		screen->setTextColor(ST7735_WHITE);
-		break;
+	bool isSelected = currentPreset->getSelectedSceneNumber() == st->Scalar();
+	screen->fillScreen(isSelected ? ST7735_RED : 0x59F);
 
-	}
+	//screen->drawRect(0, 0, screen_w, screen_h, ST7735_RED);
 
+	screen->setTextColor(ST7735_WHITE);
 
 	if (currentPreset != nullptr) {
 		const char* sName = currentPreset->getSceneName(st->Scalar());

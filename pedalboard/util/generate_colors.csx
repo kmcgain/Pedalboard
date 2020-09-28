@@ -1,3 +1,5 @@
+// dotnet script generate_colors.csx
+
 int ConvertRGB(int R, int G, int B)
 {
 	return (((R & 0xF8) << 8) | ((G & 0xFC) << 3) | (B >> 3));
@@ -15,6 +17,9 @@ var sceneColours = new List<(int r,int g ,int b, string name)>{
     (20, 50, 255, "scene 1"),
     (128, 255, 132, "preset -"),
     (128, 255, 132, "preset +"),
+    (255,0,177, "scene selected"),
+    (0,177,255, "scene bg"),
+    (177,255,0, "scene bg"),
 };
 
 foreach (var c in sceneColours) {

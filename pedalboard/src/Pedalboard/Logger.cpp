@@ -1,7 +1,7 @@
 #include "../Domain/logger.h"
 #include <Arduino.h>
 
-const int SIZE = 10;
+const int SIZE = 20;
 char pending[SIZE][50];
 int next = 0;
 

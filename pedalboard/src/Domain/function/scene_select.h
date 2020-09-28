@@ -25,7 +25,7 @@ class SceneSelectFunction : public Function {
 
         void UpdateState(Preset* preset) {
             SceneState* st = static_cast<SceneState*>(this->state);
-            st->UpdateState(preset->getSceneName(this->scene), this->scene);
+            st->UpdateState(preset->getSceneName(this->scene), this->scene, preset->getSelectedSceneNumber());
         }
     protected:
         void execute() {

@@ -108,7 +108,7 @@ public:
 class SceneState : public ScalarFunctionState {
 private:
 	const char* name;
-
+	unsigned short isSelected = false;
 
 	unsigned int compute_hash(const char* s) {
 		// will overflow, but chance of conflict low
@@ -132,13 +132,14 @@ public:
 		this->name = name;
 	}
 
-	void UpdateState(const char* name, char number) {
+	void UpdateState(const char* name, char number, unsigned short selectedScene) {
 		this->name = name;
 		this->scalar = number;
+		this->isSelected = selectedScene == number;
 	}
 
 	unsigned int HashCode() {
 		// May overflow, but that's ok
-		return ScalarFunctionState::HashCode() + this->compute_hash(this->name);
+		return ScalarFunctionState::HashCode() + this->compute_hash(this->name) + this->isSelected;
 	}
 };
