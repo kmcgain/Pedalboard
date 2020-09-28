@@ -25,6 +25,7 @@ enum FunctionName {
     preset_decr     = 18,
     preset_incr     = 19,
     preset_incr_10  = 20,
+    preset_display  = 21,
     // Just to signal end of enum
     Last            = 999
 };
@@ -33,7 +34,7 @@ enum FunctionName {
 const FunctionName layoutDefinitions[LAYOUTS][FS_ROWS][FS_COLS]
 {
     {
-        { FunctionName::layout_select_1,  FunctionName::layout_select_2,  FunctionName::preset_decr,    FunctionName::preset_incr,    FunctionName::preset_incr_10},
+        { FunctionName::layout_select_1,  FunctionName::layout_select_2,  FunctionName::preset_decr,    FunctionName::preset_incr,    FunctionName::preset_display},
         { FunctionName::tuner_toggle,     FunctionName::scene_select_6,   FunctionName::scene_select_7, FunctionName::scene_select_8, FunctionName::tap_tempo },
         { FunctionName::scene_select_1,   FunctionName::scene_select_2,   FunctionName::scene_select_3, FunctionName::scene_select_4, FunctionName::scene_select_5}
     }

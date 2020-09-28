@@ -1,8 +1,18 @@
 #pragma once
 
 #include "../function_type.h"
+#include "../../logger.h"
+#include "../../str_fn.h"
+
+#ifdef ARDUINO
+#include <Arduino.h>
+#else
+#include <cstdio>
+#endif
 
 #define UINT_MAX 4294967295
+// 32 + null term
+#define MAX_SCENE_NAME_LENGTH 33 
 
 class FunctionState {
 protected:
@@ -43,20 +53,35 @@ public:
 	}
 };
 
-
 class PresetState : public ScalarFunctionState {
 private:
-	const char* name;
+	char name[MAX_SCENE_NAME_LENGTH];
 	unsigned short presetNumber;
+	char asdfMsg[50];
+
+
+	unsigned int nameHash() {
+		unsigned int hash = 0;
+		if (name == nullptr || name == "")
+			return hash;
+
+		int idx = 0;
+		while (name[idx] != '\0' && idx < 5) {
+			int x = name[idx++] - '0';
+			hash = (hash*10) + x;
+		}
+		
+		return hash;
+	}
 
 public:
 	PresetState(const char* name, unsigned short presetNumber, char relativeChange, FunctionType type) : ScalarFunctionState(relativeChange, type) {
-		this->name = name;
+		strTerm(this->name, name, MAX_SCENE_NAME_LENGTH);
 		this->presetNumber = presetNumber;
 	}
 
 	void UpdateState(const char* name, unsigned short presetNumber) {
-		this->name = name;
+		strTerm(this->name, name, MAX_SCENE_NAME_LENGTH);
 		this->presetNumber = presetNumber;
 	}
 
@@ -64,12 +89,19 @@ public:
 		return this->presetNumber;
 	}
 
+	const char* PresetName() {
+		return this->name;
+	}
+
 	void ChangePreset(unsigned short presetNumber) {
 		this->presetNumber = presetNumber;
 	}
 
 	unsigned int HashCode() {
-		return ScalarFunctionState::HashCode() + this->presetNumber;
+		
+		unsigned int nHash = nameHash();
+		unsigned int hash = ScalarFunctionState::HashCode() + this->presetNumber + nHash;
+		return hash;
 	}
 };
 

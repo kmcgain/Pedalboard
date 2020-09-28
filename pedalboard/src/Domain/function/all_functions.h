@@ -6,6 +6,7 @@
 #include "layout_select.h"
 #include "preset_decrement.h"
 #include "preset_increment.h"
+#include "preset_display.h"
 #include "scene_decrement.h"
 #include "scene_increment.h"
 #include "scene_select.h"

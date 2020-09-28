@@ -12,5 +12,6 @@ typedef enum
     ftSceneSelect     = 8,
     ftTapTempo        = 9,
     ftTunerToggle     = 10,
-    ftExpToggle       = 11
+    ftExpToggle       = 11,
+    ftPresetDisplay   = 12
 } FunctionType;

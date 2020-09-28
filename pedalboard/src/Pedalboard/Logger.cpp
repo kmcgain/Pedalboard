@@ -1,8 +1,8 @@
 #include "../Domain/logger.h"
 #include <Arduino.h>
 
-const int SIZE = 5;
-char pending[SIZE][15];
+const int SIZE = 10;
+char pending[SIZE][50];
 int next = 0;
 
 // We use a flushing system to allow us to log during interrupts. Even logging when in an atomic block from main loop will cause

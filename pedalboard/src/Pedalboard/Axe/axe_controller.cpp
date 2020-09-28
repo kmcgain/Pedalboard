@@ -14,8 +14,6 @@ PresetWrapper* thePreset = nullptr;
 PresetChangeCallback outerPresetChangeCallback;
 
 void onPresetChange(AxePreset axePreset) {
-	Logger::log("Preset: ");
-	Logger::log(axePreset.getPresetNumber());
 	thePreset->updatePreset(axePreset);
 	outerPresetChangeCallback(thePreset);	
 }
@@ -34,6 +32,11 @@ void onPresetChanging(const PresetNumber number) {
 }
 
 char msg[10];
+
+void onPresetName(const PresetNumber presetNumber, const char* name, const byte length) {
+
+}
+
 void onSceneName(const SceneNumber sceneNumber, const char* name, const byte length) {	
 	thePreset->setScene(sceneNumber, name);
 	scenes[sceneNumber - 1] = true;
@@ -67,7 +70,8 @@ void AxeController::Init(void (*tapTempoCallback)(), PresetChangeCallback preset
 
 	thePreset = new PresetWrapper();
 	initSceneState();
-
+	axe.fetchEffects(true);
+	axe.registerPresetNameCallback(onPresetName);
 	axe.registerPresetChangingCallback(onPresetChanging);
 	axe.registerPresetChangeCallback(onPresetChange);
 	axe.registerTapTempoCallback(tapTempoCallback);

@@ -50,7 +50,7 @@ void LayoutManager::init() {
 }
 
 void LayoutManager::setup_functions(LayoutChanger* layoutChanger, FunctionFactory* functionFactory) {
-    this->numFunctions = 21;
+    this->numFunctions = 22;
     this->functions = new Function*[this->numFunctions];
 
     
@@ -75,6 +75,7 @@ void LayoutManager::setup_functions(LayoutChanger* layoutChanger, FunctionFactor
     this->functions[FunctionName::preset_decr] = functionFactory->PresetDecrement(1);
     this->functions[FunctionName::preset_incr] = functionFactory->PresetIncrement(1);
     this->functions[FunctionName::preset_incr_10] = functionFactory->PresetIncrement(10);
+    this->functions[FunctionName::preset_display] = functionFactory->PresetDisplay();
 }
 
 void LayoutManager::setup_layouts() {

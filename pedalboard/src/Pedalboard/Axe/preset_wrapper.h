@@ -2,6 +2,7 @@
 
 #include <AxeFxControl.h>
 #include "../../Domain/preset.h"
+#include "../../Domain/str_fn.h"
 
 class PresetWrapper : public Preset {
 private:
@@ -21,7 +22,7 @@ public:
 		return this->preset.getSceneNumber();
 	}
 
-	const char* getPresetName() {
-		return this->preset.getPresetName();
+	void getPresetName(char* presetNameOut, short capacity) {
+		strTerm(presetNameOut, this->preset.getPresetName(), capacity);
 	}
 };

@@ -1,13 +1,13 @@
 #pragma once
 
 #define NUM_SCENES 8
-#define MAX_SCENE_NAME_LENGTH 32
+#define MAX_SCENE_NAME_LENGTH 33
 
 #include "logger.h"
 
 struct SceneInfo {
 	short number = -1;
-	char name[MAX_SCENE_NAME_LENGTH+1];
+	char name[MAX_SCENE_NAME_LENGTH];
 };
 
 class Preset {
@@ -26,7 +26,7 @@ public:
 
 	virtual unsigned short getPresetNumber() = 0;
 	virtual unsigned short getSelectedSceneNumber() = 0;
-	virtual const char* getPresetName() = 0;
+	virtual void getPresetName(char* presetNameOut, short capacity) = 0;
 	virtual const char* getSceneName(char sceneNumber) {
 		return scenes[sceneNumber - 1].name;
 	}
@@ -45,6 +45,8 @@ public:
 			this->scenes[sceneNumber - 1].name[i] = name[i];
 		}
 		
+		if (i == MAX_SCENE_NAME_LENGTH)
+			i--;
 		this->scenes[sceneNumber - 1].name[i] = '\0';
 		this->scenes[sceneNumber - 1].number = sceneNumber;
 		this->sequenceNumber++;

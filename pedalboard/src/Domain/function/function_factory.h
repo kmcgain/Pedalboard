@@ -30,6 +30,7 @@ public:
 	Function* TapTempo();
 	Function* PresetIncrement(char value);
 	Function* PresetDecrement(char value);
+	Function* PresetDisplay();
 
 private:
 	Function* store(Function* fn);

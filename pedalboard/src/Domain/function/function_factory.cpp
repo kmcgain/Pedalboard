@@ -58,6 +58,10 @@ Function* FunctionFactory::PresetDecrement(char value) {
 	return this->store(new PresetDecrementFunction(value, this->axeController));
 }
 
+Function* FunctionFactory::PresetDisplay() {
+	return this->store(new PresetDisplayFunction(this->axeController));
+}
+
 Function* FunctionFactory::store(Function* fn) {
 	fn->Init();
     this->functionsCreated.Add(fn);

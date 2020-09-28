@@ -23,6 +23,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)layout_changer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)layout_manager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)layout_setup.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)preset.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)preset_collection.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)str_fn.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)tape.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)worker_process.cpp" />
   </ItemGroup>
@@ -45,6 +48,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)function\linked_list.cpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)function\linked_list.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)function\pch.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)function\preset_display.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)function\state\function_state.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)interrupt_manager.cpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)interrupt_manager.h" />
@@ -67,9 +71,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)function\scene_select.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)pin.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)preset.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)preset_collection.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)screen.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)screen_factory.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)some.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)str_fn.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)tape.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)function\tap_tempo.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)time_record.h" />

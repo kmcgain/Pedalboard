@@ -9,7 +9,7 @@ class FakePreset : public Preset {
 		return 1;
 	}
 
-	const char* getPresetName() {
-		return "";
+	void getPresetName(char* presetNameOut, short capacity) {
+		presetNameOut[0] = '\0';
 	}
 };

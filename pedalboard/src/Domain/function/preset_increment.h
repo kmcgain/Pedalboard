@@ -25,7 +25,9 @@ class PresetIncrementFunction : public Function {
 
         void UpdateState(Preset* preset) {
             PresetState* st = static_cast<PresetState*>(this->state);
-            st->UpdateState(preset->getPresetName(), preset->getPresetNumber());
+            char presetName[MAX_SCENE_NAME_LENGTH];
+            preset->getPresetName(presetName, MAX_SCENE_NAME_LENGTH);
+            st->UpdateState(presetName, preset->getPresetNumber());
         }
 
     protected:

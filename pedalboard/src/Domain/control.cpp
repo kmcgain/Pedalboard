@@ -4,6 +4,12 @@
 #include "function/function.h"
 #include "logger.h"
 
+#ifdef ARDUINO
+#include <Arduino.h>
+#else
+#include <cstdio>
+#endif
+
 Control::Control(Button* button, Function* function, Screen* screen, unsigned char buttonNumber) {
     this->button = button;
     this->function = function;
@@ -30,10 +36,10 @@ void Control::HandleState() {
                 case (ButtonEvent::button_event_type::Release):
                     break;
                 case (ButtonEvent::button_event_type::LongPress):
-                    this->function->Execute();
+                    //this->function->Execute();
                     break;
                 case (ButtonEvent::button_event_type::Hold):
-                    this->function->Execute();
+                    //this->function->Execute();
                     break;
                 default:
                     break;
@@ -49,7 +55,7 @@ void Control::handlePress() {
 void Control::PrintDebug() {
     this->button->PrintDebug();
 }
-
+char logMsg[50];
 void Control::RefreshScreen(Preset* currentPreset) {
     if (currentPreset == nullptr)
         return;
@@ -61,6 +67,10 @@ void Control::RefreshScreen(Preset* currentPreset) {
         
         auto newHashCode = state->HashCode();
         if (this->lastStateHash == -1 || newHashCode != this->lastStateHash) {
+            
+            //sprintf(logMsg, "Updating screen %d\n", this->lastStateHash);
+            //Logger::log(logMsg);
+
             this->lastStateHash = newHashCode;
             this->screen->DisplayFunction(state, currentPreset);
         }
