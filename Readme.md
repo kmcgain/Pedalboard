@@ -10,6 +10,12 @@ The design includes:
 * 2 1/4" expression pedal inputs
 * 9v adapter input
 
+Layout 1
+![Layout 1](/docs/demo_layout_1.jpg)
+
+Layout 2
+![Layout 2](/docs/demo_layout_2.jpg)
+
 ### Micro-controller
 The Arduino Due was chosen due to the number of pins available, support for controlling many SPI devices concurrently, increased clock-speed over the Arduino Mega.
 
