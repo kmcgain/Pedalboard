@@ -39,6 +39,9 @@ public:
 	}
 
 	void changeEffectStatus(unsigned short effectIndex, bool enable) {
+		if (preset.getEffectCount() <= effectIndex || effectIndex < 0)
+			return; // out of bounds
+
 		// We first get effect by index but then go via id because it gives us a pointer to original meaning the state is synced correctly
 		AxeEffect effect = preset.getEffectAt(effectIndex);
 		AxeEffect *theEffect = preset.getEffectById(effect.getEffectId());

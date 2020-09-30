@@ -29,7 +29,7 @@ public:
         EffectState* st = static_cast<EffectState*>(this->state);
         char effectTag[10];
         
-        if (preset->getEffectCount() < this->position) {
+        if (preset->getEffectCount() <= this->position) {
             st->UpdateState("", this->position - 1, true);
         }
         else {

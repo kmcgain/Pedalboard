@@ -18,6 +18,24 @@ class FunctionState {
 protected:
 	FunctionType type;
 
+
+	unsigned int str_hash(const char* s) {
+		// will overflow, but chance of conflict low
+		const char p = 31;
+		unsigned int hash_value = 0;
+		unsigned int p_pow = 1;
+		unsigned short i = 0;
+		while (true) {
+			if (s == nullptr || s[i] == '\0')
+				break;
+
+			hash_value = (hash_value + (s[i++] - 'a' + 1) * p_pow) % UINT_MAX;
+			p_pow = (p_pow * p) % UINT_MAX;
+		}
+
+		return hash_value;
+	}
+
 public:
 	FunctionState(FunctionType type) {
 		this->type = type;
@@ -59,21 +77,6 @@ private:
 	unsigned short presetNumber;
 	char asdfMsg[50];
 
-
-	unsigned int nameHash() {
-		unsigned int hash = 0;
-		if (name == nullptr || name == "")
-			return hash;
-
-		int idx = 0;
-		while (name[idx] != '\0' && idx < 5) {
-			int x = name[idx++] - '0';
-			hash = (hash*10) + x;
-		}
-		
-		return hash;
-	}
-
 public:
 	PresetState(const char* name, unsigned short presetNumber, char relativeChange, FunctionType type) : ScalarFunctionState(relativeChange, type) {
 		strTerm(this->name, name, MAX_SCENE_NAME_LENGTH);
@@ -98,9 +101,7 @@ public:
 	}
 
 	unsigned int HashCode() {
-		
-		unsigned int nHash = nameHash();
-		unsigned int hash = ScalarFunctionState::HashCode() + this->presetNumber + nHash;
+		unsigned int hash = ScalarFunctionState::HashCode() + this->presetNumber + this->str_hash(this->name);
 		return hash;
 	}
 };
@@ -109,23 +110,6 @@ class SceneState : public ScalarFunctionState {
 private:
 	char name[MAX_SCENE_NAME_LENGTH];
 	unsigned short isSelected = false;
-
-	unsigned int compute_hash(const char* s) {
-		// will overflow, but chance of conflict low
-		const char p = 31;
-		unsigned int hash_value = 0;
-		unsigned int p_pow = 1;
-		unsigned short i = 0;
-		while (true) {
-			if (s[i] == '\0')
-				break;
-
-			hash_value = (hash_value + (s[i++] - 'a' + 1) * p_pow) % UINT_MAX;
-			p_pow = (p_pow * p) % UINT_MAX;
-		}
-
-		return hash_value;
-	}
 
 public:
 	SceneState(const char* name, char number, FunctionType type) : ScalarFunctionState(number, type) {
@@ -140,7 +124,8 @@ public:
 
 	unsigned int HashCode() {
 		// May overflow, but that's ok
-		return ScalarFunctionState::HashCode() + this->compute_hash(this->name) + this->isSelected;
+		auto nmHash = this->str_hash(this->name);
+		return ScalarFunctionState::HashCode() + nmHash + this->isSelected;
 	}
 };
 
@@ -171,6 +156,6 @@ public:
 
 	unsigned int HashCode() {
 		// May overflow, but that's ok
-		return ScalarFunctionState::HashCode() + this->bypassed;
+		return ScalarFunctionState::HashCode() + this->bypassed + this->str_hash(this->name);
 	}
 };

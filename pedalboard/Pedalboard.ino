@@ -25,7 +25,7 @@ WorkerProcess* workerProcess;
 volatile unsigned long tapTempoPulseTime = -1;
 bool tempoLedOn = false;
 Preset* currentPreset = nullptr;
-
+  
 void onTapTempo() {
   tapTempoPulseTime = millis();
 }
