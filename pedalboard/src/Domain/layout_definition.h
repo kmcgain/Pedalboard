@@ -47,6 +47,11 @@ const FunctionName layoutDefinitions[LAYOUTS][FS_ROWS][FS_COLS]
         { FunctionName::layout_select_1,  FunctionName::layout_select_2,  FunctionName::preset_decr,    FunctionName::preset_incr,    FunctionName::preset_display},
         { FunctionName::tuner_toggle,     FunctionName::effect1,   FunctionName::effect2, FunctionName::effect3, FunctionName::tap_tempo },
         { FunctionName::scene_select_1,   FunctionName::scene_select_2,   FunctionName::scene_select_3, FunctionName::scene_select_4, FunctionName::scene_select_5}
+    },
+    {
+        { FunctionName::layout_select_1,  FunctionName::layout_select_2,  FunctionName::preset_decr,    FunctionName::preset_incr,    FunctionName::preset_display},
+        { FunctionName::tuner_toggle,     FunctionName::effect6,   FunctionName::effect7, FunctionName::effect8, FunctionName::tap_tempo },
+        { FunctionName::effect1,   FunctionName::effect2,   FunctionName::effect3, FunctionName::effect4, FunctionName::effect5}
     }
 };
 

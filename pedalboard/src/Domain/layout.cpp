@@ -34,6 +34,12 @@ void Layout::init() {
 
 void Layout::Exit(){}
 
+void Layout::Invalidate() {
+    for (char i = 0; i < this->rows; i++)
+        for (char j = 0; j < this->cols; j++)
+            this->controls[i][j]->Invalidate();
+}
+
 
 void Layout::ProcessOutstanding() {    
     for (char i = 0; i < this->rows; i++)

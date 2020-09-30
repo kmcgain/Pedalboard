@@ -16,6 +16,7 @@ class Layout {
     void Exit();
     void ProcessOutstanding();
     void RefreshScreens(Preset* currentPreset);
+    void Invalidate();
     void PrintDebug();
 };
 #endif

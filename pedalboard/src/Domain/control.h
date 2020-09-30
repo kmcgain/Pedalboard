@@ -22,6 +22,7 @@ class Control {
     void HandleState();
     void PrintDebug();
     void RefreshScreen(Preset* currentPreset);
+    void Invalidate();
 
   private:
     void handlePress();

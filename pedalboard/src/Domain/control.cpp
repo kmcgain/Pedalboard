@@ -27,8 +27,6 @@ void Control::HandleState() {
         btnEvent = this->button->TakeEvent();
         
         if (btnEvent.IsSome()) {
-            this->isDirty = true;
-
             switch (btnEvent.EventType) {
                 case (ButtonEvent::button_event_type::Press):
                     this->function->Execute();
@@ -60,17 +58,17 @@ void Control::RefreshScreen(Preset* currentPreset) {
     if (currentPreset == nullptr)
         return;
 
-        this->function->UpdateState(currentPreset);
-        FunctionState* state = this->function->State();
+    this->function->UpdateState(currentPreset);
+    FunctionState* state = this->function->State();
         
-        auto newHashCode = state->HashCode();
-        if (this->lastStateHash == -1 || newHashCode != this->lastStateHash) {
-            
-            //sprintf(logMsg, "Updating screen %d\n", this->lastStateHash);
-            //Logger::log(logMsg);
+    auto newHashCode = state->HashCode();
+    if (this->isDirty || this->lastStateHash == -1 || newHashCode != this->lastStateHash) {            
+        this->lastStateHash = newHashCode;
+        this->screen->DisplayFunction(state, currentPreset);
+        this->isDirty = false;
+    }
+}
 
-            this->lastStateHash = newHashCode;
-            this->screen->DisplayFunction(state, currentPreset);
-        }
-
+void Control::Invalidate() {
+    this->isDirty = true;
 }

@@ -23,7 +23,7 @@ class LayoutDecrementFunction : public Function {
 protected:
 
     void execute() {
-        //this->layoutChanger->IncrementLayout(-1);
+        this->layoutChanger->IncrementLayout(-1);
     }
 
 

@@ -153,6 +153,7 @@ void LayoutManager::ChangeLayout(char layoutNumber) {
 
     this->activeLayout->Exit();
     this->activeLayout = layouts[layoutNumber-1];
+    this->activeLayout->Invalidate();
 }
 
 void LayoutManager::IncrementLayoutCb(void * this_ptr, char number) {
