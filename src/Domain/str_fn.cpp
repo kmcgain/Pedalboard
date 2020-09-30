@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "str_fn.h"
 
 void strTerm(char* output, const char* src, short length) {

@@ -4,3 +4,7 @@
 bool digitalPinHigh(int pinNumber) {
 	return 1;
 }
+
+int analogPinRead(int pinNumber) {
+	return 4096;
+}

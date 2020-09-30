@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "../../src/Domain/preset.h"
 
 class FakePreset : public Preset {
@@ -11,5 +12,17 @@ class FakePreset : public Preset {
 
 	void getPresetName(char* presetNameOut, short capacity) {
 		presetNameOut[0] = '\0';
+	}
+
+	unsigned short getEffectCount() {
+		return 0;
+	}
+	
+	void getEffectName(unsigned short index, char* nameOut, unsigned short capacity) {
+		nameOut = "";
+	}
+
+	bool getEffectBypassed(unsigned short index) {
+		return false;
 	}
 };
