@@ -40,3 +40,8 @@ packages
 
 Debug
 Release
+
+__vm
+
+.idea
+.vscode
