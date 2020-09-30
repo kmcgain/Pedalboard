@@ -12,8 +12,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)worker_process.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)layout_setup.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)function\function.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)preset.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)preset_collection.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)str_fn.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -65,9 +63,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)function\state\function_state.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)preset.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)expression.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)preset_collection.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)function\preset_display.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)str_fn.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)function\effect_function.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="$(MSBuildThisFileDirectory)readme.txt" />

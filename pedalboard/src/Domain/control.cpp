@@ -55,13 +55,11 @@ void Control::handlePress() {
 void Control::PrintDebug() {
     this->button->PrintDebug();
 }
-char logMsg[50];
+//char logMsg[50];
 void Control::RefreshScreen(Preset* currentPreset) {
     if (currentPreset == nullptr)
         return;
 
-    //if (this->isDirty || (currentPreset->SequenceNumber() != this->sequenceNumber)) {
-        //this->sequenceNumber = currentPreset->SequenceNumber();
         this->function->UpdateState(currentPreset);
         FunctionState* state = this->function->State();
         
@@ -74,6 +72,5 @@ void Control::RefreshScreen(Preset* currentPreset) {
             this->lastStateHash = newHashCode;
             this->screen->DisplayFunction(state, currentPreset);
         }
-      //  this->isDirty = false;
-    //}
+
 }

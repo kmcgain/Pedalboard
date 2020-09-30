@@ -21,8 +21,7 @@ void WorkerProcess::OneStep(Preset* currentPreset) {
 
 	lm->CurrentLayout()->ProcessOutstanding();
 	this->axeController->Update();
-	lm->CurrentLayout()->RefreshScreens(currentPreset);
-	// Handle screen updates (lower priority)
+	lm->CurrentLayout()->RefreshScreens(currentPreset);	
 }
 
 void WorkerProcess::PrintDebug() {

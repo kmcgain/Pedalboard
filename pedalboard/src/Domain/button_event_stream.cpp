@@ -75,21 +75,17 @@ ButtonEvent ButtonEventStream::takeAux() {
         auto event = this->events.ReadFromStart(tapeIndex);
         hasSome = event.IsSome();
         if (hasSome) {
-            Logger::log("some\n");
             if (!debouncedEvent.IsSome()) {
-                Logger::log("a\n");
                 debouncedEvent.TimeMs = event.TimeMs;
                 debouncedEvent.WasPress = event.WasPress;
                 debouncedEvent.FoundAtIndex = tapeIndex;
             }
             else if (event.TimeMs < debouncedEvent.TimeMs + 20) {
-                Logger::log("b\n");
                 debouncedEvent.TimeMs = event.TimeMs;
                 debouncedEvent.WasPress = event.WasPress;
                 debouncedEvent.FoundAtIndex = tapeIndex;
             }
             else {
-                Logger::log("c\n");
                 // New Event! - we only need 1
                 break;
             }
@@ -103,19 +99,15 @@ ButtonEvent ButtonEventStream::takeAux() {
 
     if (!debouncedEvent.IsSome())
         return ButtonEvent();
-    Logger::log("Got\n");
-    this->events.PrintDebug();
+
     // All other cases we'll clean the event from the tape.
     cleanTape(debouncedEvent.FoundAtIndex, &this->events);
 
     ButtonEvent result;
     if (debouncedEvent.WasPress || this->pressTime == -1) { // this->pressTime == -1 => Is really a release.. but we never pressed, assume bad event detection.
-        Logger::log("PRRR\n");
         if (this->pressTime == -1) {
-            Logger::log("TTT\n");
             if (this->lastReleaseTime != -1 && debouncedEvent.TimeMs - this->lastReleaseTime < ButtonEvent::RELEASE_TO_PRESS_BUFFER) {
                 // bad press detected, suppress
-                Logger::log("SSS\n");
                 return result;
             }
 
@@ -129,10 +121,8 @@ ButtonEvent ButtonEventStream::takeAux() {
             // we've already given a press event so we suppress
             // We could actually continue processing more events if we wanted to but to keep things simple we'll only deal with 1 event per cycle
         //}
-        Logger::log("RET\n");
         return result;
     }
-    Logger::log("OT\n");
     //if (this->pressTime == -1) {
     //    Logger::log("BBG\n");
     //    

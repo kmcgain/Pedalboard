@@ -12,3 +12,4 @@
 #include "scene_select.h"
 #include "tap_tempo.h"
 #include "tuner_toggle.h"
+#include "effect_function.h"

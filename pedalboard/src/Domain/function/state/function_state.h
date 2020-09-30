@@ -107,7 +107,7 @@ public:
 
 class SceneState : public ScalarFunctionState {
 private:
-	const char* name;
+	char name[MAX_SCENE_NAME_LENGTH];
 	unsigned short isSelected = false;
 
 	unsigned int compute_hash(const char* s) {
@@ -129,11 +129,11 @@ private:
 
 public:
 	SceneState(const char* name, char number, FunctionType type) : ScalarFunctionState(number, type) {
-		this->name = name;
+		strTerm(this->name, name, MAX_SCENE_NAME_LENGTH);
 	}
 
 	void UpdateState(const char* name, char number, unsigned short selectedScene) {
-		this->name = name;
+		strTerm(this->name, name, MAX_SCENE_NAME_LENGTH);
 		this->scalar = number;
 		this->isSelected = selectedScene == number;
 	}
@@ -141,5 +141,36 @@ public:
 	unsigned int HashCode() {
 		// May overflow, but that's ok
 		return ScalarFunctionState::HashCode() + this->compute_hash(this->name) + this->isSelected;
+	}
+};
+
+
+class EffectState : public ScalarFunctionState {
+private:
+	char name[10];
+	bool bypassed = false;
+
+public:
+	EffectState(const char* name, char number, FunctionType type) : ScalarFunctionState(number, type) {
+		strTerm(this->name, name, 10);
+	}
+
+	void UpdateState(const char* name, char effectNum, bool bypassed) {
+		strTerm(this->name, name, 10);
+		this->scalar = effectNum;
+		this->bypassed = bypassed;
+	}
+
+	bool Bypassed() {
+		return this->bypassed;
+	}
+
+	const char* Name() {
+		return name;
+	}
+
+	unsigned int HashCode() {
+		// May overflow, but that's ok
+		return ScalarFunctionState::HashCode() + this->bypassed;
 	}
 };

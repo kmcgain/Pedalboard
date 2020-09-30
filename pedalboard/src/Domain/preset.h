@@ -55,4 +55,8 @@ public:
 	char SequenceNumber() {
 		return this->sequenceNumber;
 	}
+
+	virtual unsigned short getEffectCount() = 0;
+	virtual void getEffectName(unsigned short index, char* nameOut, unsigned short capacity) = 0;
+	virtual bool getEffectBypassed(unsigned short index) = 0;
 };

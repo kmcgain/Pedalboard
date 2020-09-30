@@ -24,7 +24,7 @@ class LayoutSelectFunction : public Function {
 
     protected:
         void execute() {
-            //this->layoutChanger->SelectLayout(this->layout);
+            this->layoutChanger->SelectLayout(this->layout);
         }
 
 

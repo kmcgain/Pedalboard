@@ -15,8 +15,7 @@ class LayoutManager {
         Layout* activeLayout;
         Button*** buttons;
         Screen*** screens;
-        char numFunctions;
-        Function** functions;
+        Function* functions[32];
         char layoutNumber;
         LayoutChanger* layoutChanger;
         FunctionFactory* functionFactory;

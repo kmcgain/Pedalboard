@@ -18,6 +18,12 @@ void onPresetChange(AxePreset axePreset) {
 	outerPresetChangeCallback(thePreset);	
 }
 
+void onEffectsChange(const PresetNumber number, AxePreset axePreset) {
+	Logger::log("EFFECTS REC");
+	thePreset->updatePreset(axePreset);
+	outerPresetChangeCallback(thePreset);
+}
+
 void initSceneState() {
 	//Reset the scene list for the new preset
 	for (byte sceneNumber = 1; sceneNumber <= NUM_SCENES; sceneNumber++) {
@@ -74,6 +80,7 @@ void AxeController::Init(void (*tapTempoCallback)(), PresetChangeCallback preset
 	axe.registerPresetNameCallback(onPresetName);
 	axe.registerPresetChangingCallback(onPresetChanging);
 	axe.registerPresetChangeCallback(onPresetChange);
+	axe.registerEffectsReceivedCallback(onEffectsChange);
 	axe.registerTapTempoCallback(tapTempoCallback);
 	axe.registerSceneNameCallback(onSceneName);
 	axe.requestPresetDetails();
@@ -125,4 +132,8 @@ void AxeController::sendExpressionPedalValue(unsigned short expNum, unsigned sho
 	Logger::log(msg);*/
 
 	axe.sendControlChange(expNum == 1 ? 63 : 62, expValue, AxeSystem::DEFAULT_MIDI_CHANNEL);
+}
+
+void AxeController::changeEffectStatus(unsigned short effectIndex, bool enable) {
+	thePreset->changeEffectStatus(effectIndex, enable);
 }

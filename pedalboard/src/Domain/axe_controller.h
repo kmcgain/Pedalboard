@@ -18,4 +18,5 @@ public:
     virtual void sendTap();
     virtual void toggleTuner();
     virtual void sendExpressionPedalValue(unsigned short expNumber, unsigned short pedalValue);
+    virtual void changeEffectStatus(unsigned short effectIndex, bool enable);
 };

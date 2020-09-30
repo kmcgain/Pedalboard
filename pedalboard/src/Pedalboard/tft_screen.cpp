@@ -95,6 +95,17 @@ void drawCentreString(Adafruit_ST7735* screen, const char* buf)
 	}	
 }
 
+void effect(Adafruit_ST7735* screen, FunctionState* state, Preset* currentPreset) {
+	EffectState* st = static_cast<EffectState*>(state);
+
+	screen->fillScreen(!st->Bypassed() ? ST7735_RED : 0x59F);
+
+	if (st->Name() != "") {
+		screen->setTextColor(ST7735_WHITE);
+		drawCentreString(screen, st->Name());
+	}
+}
+
 void sceneSelect(Adafruit_ST7735* screen, FunctionState* state, Preset* currentPreset) {
 	SceneState* st = static_cast<SceneState*>(state);
 
@@ -211,6 +222,9 @@ void TftScreen::DisplayFunction(FunctionState* functionState, Preset* currentPre
 		this->screen->fillScreen(ST7735_YELLOW);
 		this->screen->setTextColor(ST7735_BLACK);
 		drawCentreString(screen, "Tuner");
+		break;
+	case FunctionType::ftEffect:
+		effect(this->screen, functionState, currentPreset);
 		break;
 	}
 }
