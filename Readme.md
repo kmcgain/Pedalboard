@@ -39,7 +39,7 @@ NOTE: Some of the below are still in development (marked in italics)
   * Preset/scene increment,decrement,select. Can increment/decrement by 1 or more. Select allows for an arbitrary preset/scene number to be selected eg. jump to preset 100
   * Expression pedal switch
     * *Although 2 expression pedals are supported, if you want to use 1 pedal but switch between controlling volume, wah, pitch or others a button press can do this - effectively changing expression pedal 1/2 to become 1-4.* (TODO)
-  * Tap tempo
+  * Tap tempo - LED on front panel in sync
   * Tuner toggle
   * Stomp box - bypass drive, delay and other functions
     * Display colour per type, dimmed display when already bypassed
