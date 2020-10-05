@@ -57,3 +57,5 @@ Core domain project is not coupled to Arduino or Tysonit. This allows for unit t
 If you want to setup your own layouts then just modify layout_definitions.h 
 
 Please visit the [Build Tutorial](docs/tutorial.md)
+
+[How to add a new function](docs/new_function.md)

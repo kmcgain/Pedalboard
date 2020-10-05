@@ -31,6 +31,7 @@ public:
 	Function* PresetIncrement(char value);
 	Function* PresetDecrement(char value);
 	Function* PresetDisplay();
+	Function* Mute();
 	Function* Effect(unsigned short position);
 
 private:

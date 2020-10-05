@@ -33,9 +33,13 @@ class PresetDecrementFunction : public Function {
     protected:
         void execute() {
             PresetState* st = static_cast<PresetState*>(this->state);
-            auto newPreset = st->PresetNumber() - this->decrementValue;
-            this->axeController->sendPresetChange(newPreset);
-            //st->ChangePreset(newPreset);
+            st->ChangePreset(st->PresetNumber() - this->decrementValue);
+            if (this->decrementValue == 1) {
+                this->axeController->sendPresetDecrement();
+            }
+            else {
+                this->axeController->sendPresetChange(st->PresetNumber());
+            }
         }
 
         FunctionState* createState() {

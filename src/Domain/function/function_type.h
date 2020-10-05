@@ -14,5 +14,6 @@ typedef enum
     ftTunerToggle     = 10,
     ftExpToggle       = 11,
     ftPresetDisplay   = 12,
-    ftEffect          = 13
+    ftEffect          = 13,
+    ftMute            = 14
 } FunctionType;

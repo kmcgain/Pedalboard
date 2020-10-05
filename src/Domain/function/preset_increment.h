@@ -33,9 +33,13 @@ class PresetIncrementFunction : public Function {
     protected:
         void execute() {
             PresetState* st = static_cast<PresetState*>(this->state);
-            auto newPreset = st->PresetNumber() + this->incrementValue;
-            this->axeController->sendPresetChange(newPreset);
-            //st->ChangePreset(newPreset);
+            st->ChangePreset(st->PresetNumber() + this->incrementValue);
+            if (this->incrementValue == 1) {
+                this->axeController->sendPresetIncrement();
+            }
+            else {
+                this->axeController->sendPresetChange(st->PresetNumber());
+            }
         }
 
         FunctionState* createState() {

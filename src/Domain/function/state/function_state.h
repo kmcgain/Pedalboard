@@ -48,7 +48,29 @@ public:
 
 	virtual unsigned int HashCode() {
 		// 4billion sliced into sections per the total number of types
-		return UINT_MAX / this->type;
+		return (UINT_MAX-1) / this->type;
+	}
+};
+
+class ToggleFunctionState : public FunctionState {
+protected:
+	bool toggle = true;
+
+public:
+	ToggleFunctionState(FunctionType type) : FunctionState(type) {
+	}
+
+	unsigned int HashCode() {
+		// Won't clash with different function type hashcodes
+		return (UINT_MAX - 1) / this->type + (int)toggle;
+	}
+
+	void Toggle() {
+		toggle = !toggle;
+	}
+
+	bool Current() {
+		return toggle;
 	}
 };
 

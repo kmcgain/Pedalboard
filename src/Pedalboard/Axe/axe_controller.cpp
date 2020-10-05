@@ -5,6 +5,8 @@
 #include "../../Domain/preset.h"
 #include "preset_wrapper.h"
 
+#define MIDI_CC_OUTPUT1_VOL 100
+
 //A list of all of the scenes for this preset
 unsigned long sceneRequestTime[NUM_SCENES];
 bool scenesArrived[NUM_SCENES];
@@ -122,4 +124,8 @@ void AxeController::sendExpressionPedalValue(unsigned short expNum, unsigned sho
 
 void AxeController::changeEffectStatus(unsigned short effectIndex, bool enable) {
 	thePreset->changeEffectStatus(effectIndex, enable);
+}
+
+void AxeController::sendMute(bool mute) {
+	axe.sendControlChange(MIDI_CC_OUTPUT1_VOL, mute ? 0 : 127, AxeSystem::DEFAULT_MIDI_CHANNEL);
 }

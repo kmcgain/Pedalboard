@@ -62,6 +62,10 @@ Function* FunctionFactory::PresetDisplay() {
 	return this->store(new PresetDisplayFunction(this->axeController));
 }
 
+Function* FunctionFactory::Mute() {
+	return this->store(new MuteFunction(this->axeController));
+}
+
 Function* FunctionFactory::Effect(unsigned short position) {
 	return this->store(new EffectFunction(this->axeController, position));
 }

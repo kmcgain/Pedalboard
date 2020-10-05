@@ -226,6 +226,12 @@ void TftScreen::DisplayFunction(FunctionState* functionState, Preset* currentPre
 	case FunctionType::ftEffect:
 		effect(this->screen, functionState, currentPreset);
 		break;
+	case FunctionType::ftMute:
+		ToggleFunctionState* st = static_cast<ToggleFunctionState*>(functionState);
+		this->screen->fillScreen(ST7735_WHITE);
+		this->screen->setTextColor(ST7735_BLACK);
+		drawCentreString(screen, st->Current() ? "Mute" : "Unmute");
+		break;
 	}
 }
 

@@ -66,6 +66,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)function\preset_display.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)str_fn.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)function\effect_function.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)function\mute.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="$(MSBuildThisFileDirectory)readme.txt" />

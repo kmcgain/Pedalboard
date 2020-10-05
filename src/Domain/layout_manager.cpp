@@ -86,6 +86,7 @@ void LayoutManager::setup_functions(LayoutChanger* layoutChanger, FunctionFactor
     this->functions[FunctionName::effect8] = functionFactory->Effect(8);
     this->functions[FunctionName::effect9] = functionFactory->Effect(9);
     this->functions[FunctionName::effect10] = functionFactory->Effect(10);
+    this->functions[FunctionName::mute] = functionFactory->Mute();
 }
 
 void LayoutManager::setup_layouts() {
@@ -98,7 +99,13 @@ void LayoutManager::setup_layouts() {
             controls[row] = new Control*[FS_COLS];
             
             for (char col = 0; col < FS_COLS; col++) {
-                controls[row][col] = new Control(this->buttons[row][col], this->functions[layoutDefinitions[layout][FS_ROWS-1-row][col]], this->screens[row][col], col + (row* FS_COLS));
+                auto functionIndex = layoutDefinitions[layout][FS_ROWS - 1 - row][col];
+                if (functionIndex >= sizeof(this->functions) / sizeof(this->functions[0])) {
+                    Logger::log("Bad function defintion, will assign unexpected function");
+                    functionIndex = FunctionName::layout_select_1;
+                }
+                
+                controls[row][col] = new Control(this->buttons[row][col], this->functions[functionIndex], this->screens[row][col], col + (row * FS_COLS));                
             }
         }
 
@@ -171,6 +178,7 @@ void LayoutManager::IncrementLayout(char num) {
         this->layoutNumber += LAYOUTS;
     }
     this->activeLayout = layouts[this->layoutNumber];
+    this->activeLayout->Invalidate();
 }
 
 Layout* LayoutManager::CurrentLayout() {
