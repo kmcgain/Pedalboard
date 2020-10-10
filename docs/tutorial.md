@@ -126,7 +126,7 @@ This is straight forward as the switches should have been threaded and come with
 ## Arduino
 The arduino will come with female pin headers for easy prototyping. For the most secure finish you should desolder these and solder wires straight onto the board. However I recommend doing this after the project is completely tested - we will use a more temporary solution through this tutorial allowing easy swappout of the arduino board if there are any issues / misconfiguration.
 
-Like the screens you should use plastic stand-offs beneath the board and on top to secure it without shorting anything. You may find the gaps between pin headers are too small to rotate a nut, so use a screw-driver to tighten these. If any gaps are too small to even fit a nut, then see how secure the board is with the other holes locked down. You can always file down the plastic nuts to fit into the gaps as I did. [Photo](arduino_installation.png)
+Like the screens you should use plastic stand-offs beneath the board and on top to secure it without shorting anything. I needed to use 2 between enclosure and board. You may find the gaps between pin headers are too small to rotate a nut, so use a screw-driver to tighten these. If any gaps are too small to even fit a nut, then see how secure the board is with the other holes locked down. You can always file down the plastic nuts to fit into the gaps as I did. [Photo](arduino_side.png)
 
 ## Other components
 The other components will be similar to the footswitches - a simple matter of securing with provided nuts. The DIN sockets I used did require me to drill some holes and secure with screws. Just ensure you leave a bit of space between the components to make life easy when soldering these later.
