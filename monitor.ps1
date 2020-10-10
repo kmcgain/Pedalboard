@@ -1,3 +1,6 @@
+# Monitor serial output of arduino. 
+# Uses file watching to communicate with upload process and pause / resume monitoring so it doesn't interfere with upload process
+
 . .\build-helper.ps1
 
 $port = openSerialPort()
