@@ -148,6 +148,8 @@ Refer to [schematic](schematic_board.png) on how to wire this.
 * On the back-side of the PCB solder in a [bridge](solder_bridge.png) between where you connected to wire, and the leg of resistor
 * For the 3.3v midi lines you can bridge the 2 resistors (on the side connecting to arduino, not the side connecting to midi) and bridge this to a pin header to connect to arduino
 
+[The result](midi_resistor.jpg)
+
 [PCB Backside](pcb_solder_bridge.jpg)
 
 ## Footswitch
@@ -196,5 +198,5 @@ Check the [schematic](schematic_board.png)
 
 # Midi-Box
 [Schematic](schematic_midibox.png)
-[Image](midi_box.png)
+[Image](midi_box.jpg)
 
