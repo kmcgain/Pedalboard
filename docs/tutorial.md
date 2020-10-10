@@ -148,9 +148,9 @@ Refer to [schematic](schematic_board.png) on how to wire this.
 * On the back-side of the PCB solder in a [bridge](solder_bridge.png) between where you connected to wire, and the leg of resistor
 * For the 3.3v midi lines you can bridge the 2 resistors (on the side connecting to arduino, not the side connecting to midi) and bridge this to a pin header to connect to arduino
 
-[The result](midi_resistor.jpg)
-
-[PCB Backside](pcb_solder_bridge.jpg)
+[PCB frontside](midi_resistor.jpg)
+[PCB backside](pcb_solder_bridge.jpg)
+[Midi socket](midi_dc_in_2.jpg)
 
 ## Footswitch
 Rather than connecting the footswitches directly to the arduino it is better to wire the footswitches to a PCB, this allows for using dupont cables for testing / changing pin numbers per switch easily
@@ -186,6 +186,8 @@ VCC => Should connect to the 3.3v pin on arduino
 
 NOTE: the screens can run on 5v as well, I believe this may increase brightness so am planning on experimenting with this.
 
+## Expression
+TODO
 
 ## LED
 I have digital pin 29 assigned to a tempo LED.
@@ -197,6 +199,7 @@ Check the [schematic](schematic_board.png)
 [Photo](led.jpg)
 
 # Midi-Box
+TODO: Details
 [Schematic](schematic_midibox.png)
 [Image](midi_box.jpg)
 
