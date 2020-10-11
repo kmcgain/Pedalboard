@@ -30,7 +30,9 @@ The software was written from scratch with the exception of the great [Tysonit l
 Current tweaks to out of the box software:
 * Increased Arduino Due buffer size in {User folder}\AppData\Local\Arduino15\packages\arduino\hardware\sam\1.6.12\cores\arduino\RingBuffer.h to 512
 * Tysonit - added ability to interpret sysex sequences that were being thrown away when a subsequence was valid
-* TFT Screen - reduced time sleeping during setup/screen writes
+* TFT Screen 
+    - reduced time sleeping during setup/screen writes
+    - modified the clockspeed from 4MHZ to 24MHZ (Adafruit_ST7735.h:361)
 
 ## Features
 NOTE: Some of the below are still in development (marked in italics)
