@@ -3,7 +3,7 @@
 
 . .\build-helper.ps1
 
-$port = openSerialPort()
+$port = createSerialPort
 
 $performingUpload = $false
 

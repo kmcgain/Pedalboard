@@ -30,6 +30,7 @@ void Control::HandleState() {
             switch (btnEvent.EventType) {
                 case (ButtonEvent::button_event_type::Press):
                     this->function->Execute();
+                    Logger::log("Event: Press\n");
                     break;
                 case (ButtonEvent::button_event_type::Release):
                     break;
@@ -54,11 +55,9 @@ void Control::PrintDebug() {
     this->button->PrintDebug();
 }
 //char logMsg[50];
-void Control::RefreshScreen(Preset* currentPreset) {
-    if (currentPreset == nullptr)
-        return;
-
-    this->function->UpdateState(currentPreset);
+void Control::RefreshScreen(Preset* currentPreset) {    
+    if (currentPreset != nullptr)
+        this->function->UpdateState(currentPreset);
     FunctionState* state = this->function->State();
         
     auto newHashCode = state->HashCode();

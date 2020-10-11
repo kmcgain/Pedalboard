@@ -27,6 +27,11 @@ A standard hammond enclosure was used, CAD designs were developed using FreeCad 
 ## Software
 The software was written from scratch with the exception of the great [Tysonit library](https://forum.fractalaudio.com/threads/arduino-axe-fx-control-library.147477/) and included Arduino libraries.
 
+Current tweaks to out of the box software:
+* Increased Arduino Due buffer size in {User folder}\AppData\Local\Arduino15\packages\arduino\hardware\sam\1.6.12\cores\arduino\RingBuffer.h to 512
+* Tysonit - added ability to interpret sysex sequences that were being thrown away when a subsequence was valid
+* TFT Screen - reduced time sleeping during setup/screen writes
+
 ## Features
 NOTE: Some of the below are still in development (marked in italics)
 * Button short press, long press, hold

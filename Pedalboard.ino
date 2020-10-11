@@ -47,7 +47,7 @@ void setup() {
   
   // Light up the screens
   pinMode(2, OUTPUT);
-  digitalWrite(2, 1);
+  digitalWrite(2, HIGH);
 
   // Setup tempo led
   pinMode(TAP_TEMPO_LED_PIN, OUTPUT);
@@ -104,27 +104,11 @@ void ShowMemory(void)
   char *heapend=sbrk(0);
   register char * stack_ptr asm("sp");
 
-  /*printf("    arena=%d\n",mi.arena);
-  printf("  ordblks=%d\n",mi.ordblks);
-  printf(" uordblks=%d\n",mi.uordblks);
-  printf(" fordblks=%d\n",mi.fordblks);
-  printf(" keepcost=%d\n",mi.keepcost);
-  
-  printf("RAM Start %lx\n", (unsigned long)ramstart);
-  printf("Data/Bss end %lx\n", (unsigned long)&_end);
-  printf("Heap End %lx\n", (unsigned long)heapend);
-  printf("Stack Ptr %lx\n",(unsigned long)stack_ptr);
-  printf("RAM End %lx\n", (unsigned long)ramend);
-
-  printf("Heap RAM Used: %d\n",mi.uordblks);
-  printf("Program RAM Used %d\n",&_end - ramstart);
-  printf("Stack RAM Used %d\n",ramend - stack_ptr);*/
-
   printf("Estimated Free RAM: %d\n\n",stack_ptr - heapend + mi.fordblks);
 }
 
 void loop() {  
-  if (millis() - lastTime > 1000) {
+  if (millis() - lastTime > 3000) {
     lastTime = millis();
     Logger::log("Alive\n");    
     ShowMemory();

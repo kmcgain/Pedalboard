@@ -1,4 +1,7 @@
-﻿#include "../../Domain/axe_controller.h"
+﻿#define AXE_DEBUG 1
+#define AXE_DEBUG_SYSEX 1
+
+#include "../../Domain/axe_controller.h"
 #include <AxeFxControl.h>
 #include <Arduino.h>
 #include "../../Domain/logger.h"
@@ -7,9 +10,12 @@
 
 #define MIDI_CC_OUTPUT1_VOL 100
 
+#define MIDI_CHANNEL 1
+
 //A list of all of the scenes for this preset
 unsigned long sceneRequestTime[NUM_SCENES];
 bool scenesArrived[NUM_SCENES];
+bool presetArrived = false;
 
 AxeSystem axe;
 
@@ -17,8 +23,11 @@ PresetWrapper* thePreset = nullptr;
 PresetChangeCallback outerPresetChangeCallback;
 
 void onPresetChange(AxePreset axePreset) {
+	Logger::log("Preset change");
 	thePreset->updatePreset(axePreset);
 	outerPresetChangeCallback(thePreset);	
+
+	presetArrived = true;
 }
 
 void onEffectsChange(const PresetNumber number, AxePreset axePreset) {
@@ -36,27 +45,40 @@ void initSceneState() {
 }
 
 void onPresetChanging(const PresetNumber number) {
+	Logger::log("Preset changing");
+	presetArrived = false;
 	initSceneState();
 }
 
 char msg[10];
 
 void onPresetName(const PresetNumber presetNumber, const char* name, const byte length) {
-
+	Logger::log("Preset name: ");
+	Logger::log(name);
+	Logger::log("\n");
 }
 
-void onSceneName(const SceneNumber sceneNumber, const char* name, const byte length) {	
+void onSceneName(const SceneNumber sceneNumber, const char* name, const byte length) {
+	Logger::log("Scene name");
 	if (scenesArrived[sceneNumber - 1]) // don't process duplicate
 		return;
 
-	thePreset->setScene(sceneNumber, name);
 	scenesArrived[sceneNumber - 1] = true;
+	thePreset->setScene(sceneNumber, name);
+
+	for (int i = 0; i < NUM_SCENES; i++) {
+		if (!scenesArrived[i]) {
+			sceneRequestTime[i] = millis();
+			axe.requestSceneName(i + 1);
+			break;
+		}
+	}
 }
 
 void AxeController::Init(void (*tapTempoCallback)(), PresetChangeCallback presetChangeCallback) {
 	outerPresetChangeCallback = presetChangeCallback;	
 
-	axe.begin(Serial2);
+	axe.begin(Serial2, MIDI_CHANNEL);
 
 	thePreset = new PresetWrapper();
 	initSceneState();
@@ -71,13 +93,6 @@ void AxeController::Init(void (*tapTempoCallback)(), PresetChangeCallback preset
 }
 
 void AxeController::Update() {
-	for (int i = 0; i < NUM_SCENES; i++) {
-		if (!scenesArrived[i] && (sceneRequestTime[i] == -1 || millis() - sceneRequestTime[i] > 100)) {
-			sceneRequestTime[i] = millis();
-			axe.requestSceneName(i + 1);
-		}
-	}
-
 	axe.update();
 }
 
@@ -119,7 +134,7 @@ void AxeController::toggleTuner() {
 }
 
 void AxeController::sendExpressionPedalValue(unsigned short expNum, unsigned short expValue) {
-	axe.sendControlChange(expNum == 1 ? 63 : 62, expValue, AxeSystem::DEFAULT_MIDI_CHANNEL);
+	axe.sendControlChange(expNum == 1 ? 63 : 62, expValue, MIDI_CHANNEL);
 }
 
 void AxeController::changeEffectStatus(unsigned short effectIndex, bool enable) {
@@ -127,5 +142,5 @@ void AxeController::changeEffectStatus(unsigned short effectIndex, bool enable) 
 }
 
 void AxeController::sendMute(bool mute) {
-	axe.sendControlChange(MIDI_CC_OUTPUT1_VOL, mute ? 0 : 127, AxeSystem::DEFAULT_MIDI_CHANNEL);
+	axe.sendControlChange(MIDI_CC_OUTPUT1_VOL, mute ? 0 : 127, MIDI_CHANNEL);
 }

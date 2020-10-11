@@ -106,10 +106,10 @@ void effect(Adafruit_ST7735* screen, FunctionState* state, Preset* currentPreset
 	}
 }
 
-void sceneSelect(Adafruit_ST7735* screen, FunctionState* state, Preset* currentPreset) {
+void sceneSelect(Adafruit_ST7735* screen, FunctionState* state, Preset* currentPreset) {	
 	SceneState* st = static_cast<SceneState*>(state);
 
-	bool isSelected = currentPreset->getSelectedSceneNumber() == st->Scalar();
+	bool isSelected = currentPreset == nullptr ? false : currentPreset->getSelectedSceneNumber() == st->Scalar();
 	screen->fillScreen(isSelected ? ST7735_RED : 0x59F);
 
 	//screen->drawRect(0, 0, screen_w, screen_h, ST7735_RED);
@@ -161,12 +161,15 @@ void layoutSelect(Adafruit_ST7735* screen, FunctionState* state) {
 TftScreen::TftScreen(char screenNumber) {
 	char cs_pin = screen_pins[screenNumber];
 	this->screen = new Adafruit_ST7735(cs_pin, dc_pin, rst_pin);
-
+	
+	
 	this->screen->initR(INITR_BLACKTAB);
+	
 	if (screenNumber == screenToRotate)
 		this->screen->setRotation(3);
 	else 
 		this->screen->setRotation(1);
+	this->screen->fillScreen(ST7735_BLACK);
 }
 
 void TftScreen::DisplayFunction(FunctionState* functionState, Preset* currentPreset) {

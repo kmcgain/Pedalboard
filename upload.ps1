@@ -18,6 +18,17 @@ function upload() {
     }
 }
 
+function reset() {
+    $port = createSerialPort
+    $port.RtsEnable = $true;
+    $port.DtrEnable = $true;
+    $port.open()
+
+    Start-Sleep -Seconds 3
+    $port.close()
+    $port.dispose()
+}
+
 try {New-Item -Name "./.uploading" -ItemType File | Out-Null }catch{}
 
 while (Test-Path ./.monitoring) {
@@ -25,21 +36,11 @@ while (Test-Path ./.monitoring) {
     Start-Sleep -milliseconds 1000
 }
 
-Write-Output "Resetting"
-
-$port = createSerialPort
-$port.RtsEnable = $true;
-$port.DtrEnable = $true;
-$port.open()
-
-Start-Sleep -Seconds 3
-$port.close()
-$port.dispose()
 
 try {
     build
     if ($LastExitCode -eq 0) {
-        upload    
+        upload 
     }
 }
 finally {
