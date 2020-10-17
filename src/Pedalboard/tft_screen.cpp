@@ -162,15 +162,21 @@ void layoutSelect(Adafruit_ST7735* screen, FunctionState* state) {
 
 char lastNote[2];
 char lastFineTune;
+bool hasCleared = false;
+int noteFontSize = 6;
+GFXcanvas1 tunerNoteCanvas(noteFontSize*font_w_px*2, screen_h / 2); 
 void displayTuner(Adafruit_ST7735* screen, TunerData& tuner) {
-	auto skipNoteDisplay = (tuner.Note[0] == lastNote[0] && tuner.Note[1] == lastNote[1]);
+	auto skipNoteDisplay = hasCleared && (tuner.Note[0] == lastNote[0] && tuner.Note[1] == lastNote[1]);
 	lastNote[0] = tuner.Note[0];
-	lastNote[1] = tuner.Note[1];
+	lastNote[1] = tuner.Note[1];	
+
+	if (!hasCleared) {
+		screen->fillScreen(ST7735_BLACK);
+		hasCleared = true;
+	}
+
 
 	if (!skipNoteDisplay) {
-		screen->fillScreen(ST7735_BLACK);
-		screen->setTextColor(ST7735_GREEN);
-			
 		sprintf(screenMessage, "%s", tuner.Note);
 		if (tuner.Note[1] == '#' || tuner.Note[1] == 'b') {
 			screenMessage[2] = '\0';
@@ -178,7 +184,12 @@ void displayTuner(Adafruit_ST7735* screen, TunerData& tuner) {
 		else {
 			screenMessage[1] = '\0';
 		}
-		drawCentreString(screen, screenMessage, -40);
+		//drawCentreString(screen, screenMessage, -40);
+		tunerNoteCanvas.fillScreen(ST7735_BLACK);
+		tunerNoteCanvas.setTextSize(noteFontSize);
+		tunerNoteCanvas.setCursor(0, 10);
+		tunerNoteCanvas.print(screenMessage);
+		screen->drawBitmap((screen_w /2) -1 - noteFontSize*font_w_px/2, 0, tunerNoteCanvas.getBuffer(), noteFontSize*font_w_px*2, screen_h / 2, ST7735_GREEN, ST7735_BLACK);
 
 		// Draw h ruler
 		screen->fillRect(0, screen_h-50-1-3, screen_w, 3, ST7735_YELLOW);
@@ -190,7 +201,6 @@ void displayTuner(Adafruit_ST7735* screen, TunerData& tuner) {
 		screen->fillCircle(x, screen_h - 25, 15, ST7735_BLACK);
 
 		// draw center line
-		//screen->drawLine(screen_w/2, screen_h-25-1, screen_w/2, screen_h-1, ST7735_WHITE);
 		screen->fillRect(screen_w/2-1-3, screen_h-50-1, 5, 50, ST7735_WHITE);
 
 		// draw new marker
@@ -208,18 +218,28 @@ TftScreen::TftScreen(char screenNumber) {
 	
 	
 	this->screen->initR(INITR_BLACKTAB);
+	if (screenNumber == 7) {
+		tunerNoteCanvas.setRotation(0);
+	}
 	
-	if (screenNumber == screenToRotate)
+	if (screenNumber == screenToRotate) {
 		this->screen->setRotation(3);
-	else 
+	}
+	else {
 		this->screen->setRotation(1);
+	}
 	this->screen->fillScreen(ST7735_BLACK);
 }
 
 void TftScreen::DisplayFunction(FunctionState* functionState, Preset* currentPreset, TunerData& tuner) {
-	if (tuner.Active && screenNumber == 7) {
-		displayTuner(screen, tuner);
-		return;
+	if (this->screenNumber == 7) {
+		if (tuner.Active) {
+			displayTuner(screen, tuner);
+			return;
+		}
+		else {
+			hasCleared = false;
+		}
 	}
 
 
