@@ -8,7 +8,7 @@
 #include "../Domain/tuner.h"
 
 #include <Adafruit_GFX.h> // core graphics library
-#include <Adafruit_ST7735.h> // hardware-specific library
+#include "../libraries/Adafruit_ST7735/Adafruit_ST7735.h" // hardware-specific library
 #include <SPI.h>
 
 class TftScreen : public Screen {

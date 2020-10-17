@@ -47,10 +47,10 @@ NOTE: Some of the below are still in development (marked in italics)
   * Expression pedal switch
     * *Although 2 expression pedals are supported, if you want to use 1 pedal but switch between controlling volume, wah, pitch or others a button press can do this - effectively changing expression pedal 1/2 to become 1-4.* (TODO)
   * Tap tempo - LED on front panel in sync
-  * Tuner toggle
+  * Tuner toggle + tuner display
+  * Mute button
   * Stomp box - bypass drive, delay and other functions
-    * Display colour per type, dimmed display when already bypassed
-  * *Tuner display on the board + auto set volume to 0 while tuning* (TODO)
+    * Display colour per type, dimmed display when already bypassed  
 
 ### Design choices
 Button presses signalled by interrupts - priority given to recording presses rather than screen updates / sending axe messages. 
@@ -61,8 +61,6 @@ Core domain project is not coupled to Arduino or Tysonit. This allows for unit t
 
 
 ### Getting Started
-If you want to setup your own layouts then just modify layout_definitions.h 
+Please visit the [Build Tutorial](docs/tutorial.md) for information on how to construct your own system
+For details on how to work with the software visit [Software Tutorial](docs/tutorial-software.md)
 
-Please visit the [Build Tutorial](docs/tutorial.md)
-
-[How to add a new function](docs/new_function.md)
