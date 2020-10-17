@@ -58,15 +58,17 @@ void lengthOfLongestWord(const char* buf, byte& longestLength, byte& numWords) {
 		longestLength = currentLen;
 }
 
-void drawCentreString(Adafruit_ST7735* screen, const char* buf)
+void drawCentreString(Adafruit_ST7735* screen, const char* buf, int yOffset = 0)
 {
 	// Draw the string to fit on screen
 	// Each font is 6x8 * font_size
 	byte txtLength, numWords;
 	lengthOfLongestWord(buf, txtLength, numWords);
 
+	auto absYOffset = yOffset > 0 ? yOffset : -1*yOffset;
+
 	auto maxWidthOfFont = (screen_w - (border_w*2)) / (font_w_px*txtLength); 
-	auto maxHeightOfFont = ((screen_h - (border_h*2)) / font_h_px) / numWords; // 1 word per line
+	auto maxHeightOfFont = ((screen_h-absYOffset - (border_h*2)) / font_h_px) / numWords; // 1 word per line
 	auto fontSize = maxWidthOfFont > maxHeightOfFont ? maxHeightOfFont : maxWidthOfFont;
 
 	screen->setTextSize(fontSize);
@@ -89,7 +91,7 @@ void drawCentreString(Adafruit_ST7735* screen, const char* buf)
 		auto text_width_px = fontSize * font_w_px * wordIndex;
 		auto text_height_px = fontSize * font_h_px;
 		auto x = (screen_w / 2) - (text_width_px / 2);
-		auto y = ((wordNum * screen_h) / (numWords+1)) - (text_height_px / 2);
+		auto y = ((wordNum * (screen_h+yOffset)) / (numWords+1)) - (text_height_px / 2);
 		screen->setCursor(x, y);
 		screen->print(screenMessage);
 	}	
@@ -158,7 +160,49 @@ void layoutSelect(Adafruit_ST7735* screen, FunctionState* state) {
 	drawCentreString(screen, screenMessage);
 }
 
+char lastNote[2];
+char lastFineTune;
+void displayTuner(Adafruit_ST7735* screen, TunerData& tuner) {
+	auto skipNoteDisplay = (tuner.Note[0] == lastNote[0] && tuner.Note[1] == lastNote[1]);
+	lastNote[0] = tuner.Note[0];
+	lastNote[1] = tuner.Note[1];
+
+	if (!skipNoteDisplay) {
+		screen->fillScreen(ST7735_BLACK);
+		screen->setTextColor(ST7735_GREEN);
+			
+		sprintf(screenMessage, "%s", tuner.Note);
+		if (tuner.Note[1] == '#' || tuner.Note[1] == 'b') {
+			screenMessage[2] = '\0';
+		}
+		else {
+			screenMessage[1] = '\0';
+		}
+		drawCentreString(screen, screenMessage, -40);
+
+		// Draw h ruler
+		screen->fillRect(0, screen_h-50-1-3, screen_w, 3, ST7735_YELLOW);
+	}
+	
+	if (lastFineTune != tuner.FineTune) {
+		// black out last marker (more efficient than full screen)
+		int x = (lastFineTune / 127.0) * screen_w;
+		screen->fillCircle(x, screen_h - 25, 15, ST7735_BLACK);
+
+		// draw center line
+		//screen->drawLine(screen_w/2, screen_h-25-1, screen_w/2, screen_h-1, ST7735_WHITE);
+		screen->fillRect(screen_w/2-1-3, screen_h-50-1, 5, 50, ST7735_WHITE);
+
+		// draw new marker
+		lastFineTune = tuner.FineTune;
+		auto tunerColour = tuner.FineTune > 60 && tuner.FineTune < 64 ? ST7735_GREEN : ST7735_RED;
+		x = (tuner.FineTune / 127.0) * screen_w;
+		screen->fillCircle(x, screen_h - 25, 15, tunerColour);
+	}	
+}
+
 TftScreen::TftScreen(char screenNumber) {
+	this->screenNumber = screenNumber;
 	char cs_pin = screen_pins[screenNumber];
 	this->screen = new Adafruit_ST7735(cs_pin, dc_pin, rst_pin);
 	
@@ -172,7 +216,13 @@ TftScreen::TftScreen(char screenNumber) {
 	this->screen->fillScreen(ST7735_BLACK);
 }
 
-void TftScreen::DisplayFunction(FunctionState* functionState, Preset* currentPreset) {
+void TftScreen::DisplayFunction(FunctionState* functionState, Preset* currentPreset, TunerData& tuner) {
+	if (tuner.Active && screenNumber == 7) {
+		displayTuner(screen, tuner);
+		return;
+	}
+
+
 	switch (functionState->Type()) {
 	case FunctionType::ftExpToggle:
 		this->screen->fillScreen(ST7735_RED);

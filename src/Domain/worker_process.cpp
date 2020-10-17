@@ -10,7 +10,7 @@ WorkerProcess::WorkerProcess(AxeController* axeController) {
 	this->exp2 = new Expression(2, axeController);
 }
 
-void WorkerProcess::OneStep(Preset* currentPreset) {
+void WorkerProcess::OneStep(Preset* currentPreset, TunerData& tuner) {
 	// Handle button presses
 	auto lm = GetLayoutManager();
 	if (lm == nullptr)
@@ -19,9 +19,11 @@ void WorkerProcess::OneStep(Preset* currentPreset) {
 	this->exp1->OneStep();
 	this->exp2->OneStep();
 
+	tuner.Active = this->axeController->tunerEngaged();
+
 	lm->CurrentLayout()->ProcessOutstanding();
 	this->axeController->Update();
-	lm->CurrentLayout()->RefreshScreens(currentPreset);	
+	lm->CurrentLayout()->RefreshScreens(currentPreset, tuner);	
 }
 
 void WorkerProcess::PrintDebug() {

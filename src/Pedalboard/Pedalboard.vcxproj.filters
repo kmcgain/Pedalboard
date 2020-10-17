@@ -21,6 +21,7 @@
     <None Include="..\..\Pedalboard.ino" />
     <None Include="..\..\monitor.ps1" />
     <None Include="..\..\upload.ps1" />
+    <None Include="..\..\Readme.md" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__vm\.Pedalboard.vsarduino.h">

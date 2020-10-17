@@ -56,8 +56,8 @@ void Layout::PrintDebug() {
         }
 }
 
-void Layout::RefreshScreens(Preset* currentPreset) {
+void Layout::RefreshScreens(Preset* currentPreset, TunerData& tuner) {
     for (char i = 0; i < this->rows; i++)
         for (char j = 0; j < this->cols; j++)
-            this->controls[i][j]->RefreshScreen(currentPreset);
+            this->controls[i][j]->RefreshScreen(currentPreset, tuner);
 }

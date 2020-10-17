@@ -23,7 +23,6 @@ public:
 	}
 
 	void OneStep() {
-		return;
 		int newValue = analogPinRead(this->pin) / 32; // 0-4095 => 0-127
 		if (oldValue == -1) {
 			oldValue = newValue;

@@ -8,6 +8,7 @@
 #include "src/Domain/axe_controller.h"
 #include "src/Domain/screen_factory.h"
 #include "src/Domain/preset.h"
+#include "src/Domain/tuner.h"
 
 #include <malloc.h>
 #include <stdlib.h>
@@ -25,6 +26,7 @@ WorkerProcess* workerProcess;
 volatile unsigned long tapTempoPulseTime = -1;
 bool tempoLedOn = false;
 Preset* currentPreset = nullptr;
+TunerData tuner;
   
 void onTapTempo() {
   tapTempoPulseTime = millis();
@@ -32,6 +34,12 @@ void onTapTempo() {
 
 void onPresetChange(Preset* axePreset) {
   currentPreset = axePreset;
+}
+
+void onTunerData(const char* note, const short string, const short fineTune) {
+  strcpy(tuner.Note, note);
+  tuner.FineTune = fineTune;
+  tuner.String = string;
 }
 
 void setup() {  
@@ -55,7 +63,7 @@ void setup() {
 
   auto layoutChanger = new LayoutChanger();
   auto axeController = new AxeController();
-  axeController->Init(onTapTempo, onPresetChange);
+  axeController->Init(onTapTempo, onPresetChange, onTunerData);
   registerLayoutManager(new LayoutManager(new FunctionFactory(layoutChanger, axeController), layoutChanger, new ScreenFactory()));
     
   InterruptRegistrar* interruptRegistrar = new InterruptRegistrar();
@@ -125,6 +133,6 @@ void loop() {
     tempoLedOn = false;
   }
     
-  workerProcess->OneStep(currentPreset);
+  workerProcess->OneStep(currentPreset, tuner);
   Logger::flush();
 }

@@ -6,6 +6,7 @@
 #include "button.h"
 #include "screen.h"
 #include "preset.h"
+#include "tuner.h"
 
 class Control {    
   private:
@@ -21,7 +22,7 @@ class Control {
     Control(Button* button, Function* function, Screen* screen, unsigned char buttonNumber);
     void HandleState();
     void PrintDebug();
-    void RefreshScreen(Preset* currentPreset);
+    void RefreshScreen(Preset* currentPreset, TunerData& tuner);
     void Invalidate();
 
   private:

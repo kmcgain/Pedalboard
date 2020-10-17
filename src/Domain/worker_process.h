@@ -2,6 +2,7 @@
 #include "axe_controller.h"
 #include "preset.h"
 #include "expression.h"
+#include "tuner.h"
 
 class WorkerProcess {
 private:
@@ -11,6 +12,6 @@ private:
 
 public:
 	WorkerProcess(AxeController* axeController);
-	void OneStep(Preset* currentPreset);
+	void OneStep(Preset* currentPreset, TunerData& tuner);
 	void PrintDebug();
 };

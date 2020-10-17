@@ -21,6 +21,7 @@ AxeSystem axe;
 
 PresetWrapper* thePreset = nullptr;
 PresetChangeCallback outerPresetChangeCallback;
+TheTunerDataCallback outerTunerData;
 
 void onPresetChange(AxePreset axePreset) {
 	Logger::log("Preset change");
@@ -75,8 +76,13 @@ void onSceneName(const SceneNumber sceneNumber, const char* name, const byte len
 	}
 }
 
-void AxeController::Init(void (*tapTempoCallback)(), PresetChangeCallback presetChangeCallback) {
+void onTunerData(const char* note, const byte string, const byte fineTune) {
+	outerTunerData(note, string, fineTune);
+}
+
+void AxeController::Init(void (*tapTempoCallback)(), PresetChangeCallback presetChangeCallback, TheTunerDataCallback tunerData) {
 	outerPresetChangeCallback = presetChangeCallback;	
+	outerTunerData = tunerData;
 
 	axe.begin(Serial2, MIDI_CHANNEL);
 
@@ -89,6 +95,7 @@ void AxeController::Init(void (*tapTempoCallback)(), PresetChangeCallback preset
 	axe.registerEffectsReceivedCallback(onEffectsChange);
 	axe.registerTapTempoCallback(tapTempoCallback);
 	axe.registerSceneNameCallback(onSceneName);
+	axe.registerTunerDataCallback(onTunerData);
 	axe.requestPresetDetails();
 }
 
@@ -99,7 +106,6 @@ void AxeController::Update() {
 void AxeController::SendSceneChange(int scene) {
 	axe.sendSceneChange(scene);
 }
-
 
 void AxeController::sendPresetIncrement() {
 	axe.sendPresetIncrement();
@@ -143,4 +149,8 @@ void AxeController::changeEffectStatus(unsigned short effectIndex, bool enable) 
 
 void AxeController::sendMute(bool mute) {
 	axe.sendControlChange(MIDI_CC_OUTPUT1_VOL, mute ? 0 : 127, MIDI_CHANNEL);
+}
+
+bool AxeController::tunerEngaged() {
+	return axe.isTunerEngaged();
 }

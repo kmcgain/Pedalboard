@@ -3,6 +3,7 @@
 
 #include "control.h"
 #include "preset.h"
+#include "tuner.h"
 
 class Layout { 
   private:
@@ -15,7 +16,7 @@ class Layout {
     void init();
     void Exit();
     void ProcessOutstanding();
-    void RefreshScreens(Preset* currentPreset);
+    void RefreshScreens(Preset* currentPreset, TunerData& tuner);
     void Invalidate();
     void PrintDebug();
 };

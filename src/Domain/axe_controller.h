@@ -2,11 +2,12 @@
 #include "preset.h"
 
 typedef void (*PresetChangeCallback)(Preset*);
+typedef void (*TheTunerDataCallback)(const char *, const short, const short); // note, string (1-6), fineTune
 
 class AxeController {
 
 public:
-    virtual void Init(void (*tapTempoCallback)(), PresetChangeCallback presetChangeCallback);
+    virtual void Init(void (*tapTempoCallback)(), PresetChangeCallback presetChangeCallback, TheTunerDataCallback tunerDataCallback);
     virtual void Update();
     virtual void SendSceneChange(int scene);
     virtual void sendPresetIncrement();
@@ -20,4 +21,5 @@ public:
     virtual void sendExpressionPedalValue(unsigned short expNumber, unsigned short pedalValue);
     virtual void changeEffectStatus(unsigned short effectIndex, bool enable);
     virtual void sendMute(bool mute);
+    virtual bool tunerEngaged();
 };

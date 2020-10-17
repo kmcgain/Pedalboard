@@ -111,6 +111,7 @@
   <ItemGroup>
     <None Include="..\..\monitor.ps1" />
     <None Include="..\..\Pedalboard.ino" />
+    <None Include="..\..\Readme.md" />
     <None Include="..\..\upload.ps1" />
     <None Include="src\arduino folders read me.txt">
     </None>

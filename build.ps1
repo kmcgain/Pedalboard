@@ -1,1 +1,1 @@
-d:\apps\arduino\arduino-cli.exe compile -b arduino:sam:arduino_due_x_dbg "$PSScriptRoot\Pedalboard.ino"
+d:\apps\arduino\arduino-cli.exe compile --output-dir "$PSScriptRoot/.build-out" --build-path "$PSScriptRoot/.build" --build-cache-path "$PSScriptRoot/.build-cache" -b arduino:sam:arduino_due_x_dbg "$PSScriptRoot\Pedalboard.ino"

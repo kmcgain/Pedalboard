@@ -55,15 +55,20 @@ void Control::PrintDebug() {
     this->button->PrintDebug();
 }
 //char logMsg[50];
-void Control::RefreshScreen(Preset* currentPreset) {    
+
+bool flushedAfterTuner = false;
+void Control::RefreshScreen(Preset* currentPreset, TunerData& tuner) {    
     if (currentPreset != nullptr)
         this->function->UpdateState(currentPreset);
     FunctionState* state = this->function->State();
         
     auto newHashCode = state->HashCode();
-    if (this->isDirty || this->lastStateHash == -1 || newHashCode != this->lastStateHash) {            
+
+    if ((this->buttonNumber == 7 && (tuner.Active || !flushedAfterTuner)) || this->isDirty || this->lastStateHash == -1 || newHashCode != this->lastStateHash) {                    
+        flushedAfterTuner = this->buttonNumber == 7 && !tuner.Active; // this ensures we do a screen update after the tuner is switched off
+
         this->lastStateHash = newHashCode;
-        this->screen->DisplayFunction(state, currentPreset);
+        this->screen->DisplayFunction(state, currentPreset, tuner);
         this->isDirty = false;
     }
 }
