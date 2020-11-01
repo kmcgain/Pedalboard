@@ -10,6 +10,7 @@ $performingUpload = $false
 function markAsMonitoring() {
     if (-Not (Test-Path "./.monitoring")) {
         New-Item -Name "./.monitoring" -ItemType File | Out-Null
+        Write-Output "-----------------------------------------------------------------"
     }
 }
 

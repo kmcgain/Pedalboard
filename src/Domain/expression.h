@@ -22,6 +22,10 @@ public:
 		this->expNumber = expNumber;
 	}
 
+	void ChangeExp(short expNumber) {
+		this->expNumber = expNumber;
+	}
+
 	void OneStep() {
 		int newValue = analogPinRead(this->pin) / 32; // 0-4095 => 0-127
 		if (oldValue == -1) {

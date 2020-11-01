@@ -8,6 +8,7 @@
 #include "linked_list.cpp"
 
 #include "../axe_controller.h"
+#include "../expression.h"
 
 class FunctionFactory {
 private:
@@ -25,7 +26,7 @@ public:
 	Function* SceneSelect(char scene);
 	Function* SceneIncrement(char value);
 	Function* SceneDecrement(char value);
-	Function* ExpToggle(char pedal);
+	Function* ExpToggle(char pedal, short* extControls, short numControls, Expression* exp);
 	Function* TunerToggle();
 	Function* TapTempo();
 	Function* PresetIncrement(char value);

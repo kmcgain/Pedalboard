@@ -11,7 +11,7 @@ private:
 	Expression* exp2;
 
 public:
-	WorkerProcess(AxeController* axeController);
+	WorkerProcess(AxeController* axeController, Expression* exp1, Expression* exp2);
 	void OneStep(Preset* currentPreset, TunerData& tuner);
 	void PrintDebug();
 };

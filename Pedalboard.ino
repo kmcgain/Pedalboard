@@ -10,6 +10,11 @@
 #include "src/Domain/preset.h"
 #include "src/Domain/tuner.h"
 
+#include "generated/settings.h"
+#include "src/Domain/pedal_settings.h"
+
+#include <ArduinoJson.h>
+
 #include <malloc.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -59,12 +64,21 @@ void setup() {
 
   // Setup tempo led
   pinMode(TAP_TEMPO_LED_PIN, OUTPUT);
+
+  // Load settings
+  auto error = deserializeJson(PedalSettings, jsonSettings);
+  if (error) {
+    Logger::log("Failed to setup due to bad settings");
+    return;
+  }
   
 
   auto layoutChanger = new LayoutChanger();
   auto axeController = new AxeController();
   axeController->Init(onTapTempo, onPresetChange, onTunerData);
-  registerLayoutManager(new LayoutManager(new FunctionFactory(layoutChanger, axeController), layoutChanger, new ScreenFactory()));
+  auto exp1 = new Expression(1, axeController);
+  auto exp2 = new Expression(2, axeController);
+  registerLayoutManager(new LayoutManager(new FunctionFactory(layoutChanger, axeController), layoutChanger, new ScreenFactory(), exp1, exp2));
     
   InterruptRegistrar* interruptRegistrar = new InterruptRegistrar();
   BoardConstants boardConstants = BoardConstants();
@@ -75,7 +89,7 @@ void setup() {
   GetLayoutManager()->init();
   setup_interrupts(interruptRegistrar, boardConstants);  
 
-  workerProcess = new WorkerProcess(axeController);
+  workerProcess = new WorkerProcess(axeController, exp1, exp2);
 
   start_recording();
 }
@@ -116,11 +130,13 @@ void ShowMemory(void)
 }
 
 void loop() {  
+#ifdef DEBUG
   if (millis() - lastTime > 3000) {
     lastTime = millis();
     Logger::log("Alive\n");    
     ShowMemory();
   }
+#endif
 
   if (!tempoLedOn && tapTempoPulseTime != -1) {
     digitalWrite(TAP_TEMPO_LED_PIN, HIGH);

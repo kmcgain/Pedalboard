@@ -52,6 +52,43 @@ public:
 	}
 };
 
+class ExpressionFunctionState : public FunctionState {
+protected:
+	short selectedExt, totalPedals;
+	short* pedals;
+	
+public:
+	ExpressionFunctionState(short selectedExt, short pedals[], short totalPedals, FunctionType type) : FunctionState(type) {
+		this->selectedExt = selectedExt;
+		this->pedals = (short*)malloc(totalPedals * sizeof(short));
+		memcpy(this->pedals, pedals, totalPedals * sizeof(short));
+		this->totalPedals = totalPedals;
+	}
+
+	unsigned int HashCode() {
+		// Won't clash with different function type hashcodes
+		return (UINT_MAX - 1) / this->type + (int)selectedExt;
+	}
+
+	void Switch() {
+		this->selectedExt++;
+		if (this->selectedExt > totalPedals)
+			this->selectedExt = 1;		
+	}
+
+	short Selected() {
+		return this->selectedExt;
+	}
+
+	short* Pedals() {
+		return this->pedals;
+	}
+
+	short NumOfPedals() {
+		return this->totalPedals;
+	}
+};
+
 class ToggleFunctionState : public FunctionState {
 protected:
 	bool toggle = true;

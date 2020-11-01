@@ -20,9 +20,11 @@ class LayoutManager {
         LayoutChanger* layoutChanger;
         FunctionFactory* functionFactory;
         ScreenFactory* screenFactory;
+        Expression* exp1;
+        Expression* exp2;
 
     public:
-        LayoutManager(FunctionFactory* functionFactory, LayoutChanger* layoutChanger, ScreenFactory* screenFactory);
+        LayoutManager(FunctionFactory* functionFactory, LayoutChanger* layoutChanger, ScreenFactory* screenFactory, Expression* exp1, Expression* exp2);
         ~LayoutManager();
 
         void init();

@@ -16,9 +16,9 @@ The software uses midi channel 1 and makes a few other assumptions. Here are the
 * General / Program Change: On
 * General / Send Midi PC: CHAN 1
 * General / Initial Value / External Control 1/2: 100% (This is optional but recommended so if you don't have an expression pedal plugged in your patches default to 100% volume etc)
-* External / External Control # 1: CC #63
-* External / External Control # 2: CC #62
-* Other / Output 1 Volume: CC #100
+* External / External Control # 1: CC #1
+* External / External Control # 2: CC #2
+* Other / Output 1 Volume: CC #2 (using external control 2 as the global volume)
 
 # Layouts
 If you want to setup your own layouts then just modify src/Domain/layout_definition.h 

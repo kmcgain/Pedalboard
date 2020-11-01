@@ -2,6 +2,9 @@
 
 
 function build() {
+    $settings = (cat .\settings.json)
+    Write-Output "const char *jsonSettings = R""""""""(`n$($settings)`n)"""""""";" > .\generated\settings.h
+
     d:\apps\arduino\arduino-cli.exe compile --output-dir "$PSScriptRoot/.build-out" --build-path "$PSScriptRoot/.build" --build-cache-path "$PSScriptRoot/.build-cache" -b arduino:sam:arduino_due_x_dbg "$PSScriptRoot\Pedalboard.ino"
 }
 

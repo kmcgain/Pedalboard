@@ -12,11 +12,13 @@
 #include "function/function_factory.h"
 #include "screen_factory.h"
 
-LayoutManager::LayoutManager(FunctionFactory* functionFactory, LayoutChanger* layoutChanger, ScreenFactory* screenFactory) {
+LayoutManager::LayoutManager(FunctionFactory* functionFactory, LayoutChanger* layoutChanger, ScreenFactory* screenFactory, Expression* exp1, Expression* exp2) {
     this->functionFactory = functionFactory;
     this->screenFactory = screenFactory;
 
     this->layoutChanger = layoutChanger;
+    this->exp1 = exp1;
+    this->exp2 = exp2;
 }
 
 LayoutManager::~LayoutManager() {
@@ -67,8 +69,10 @@ void LayoutManager::setup_functions(LayoutChanger* layoutChanger, FunctionFactor
     this->functions[FunctionName::scene_select_8] = functionFactory->SceneSelect(8);
     this->functions[FunctionName::scene_decr] = functionFactory->SceneDecrement(1);
     this->functions[FunctionName::scene_icnr] = functionFactory->SceneIncrement(1);
-    this->functions[FunctionName::exp_1_toggle] = functionFactory->ExpToggle(1);
-    this->functions[FunctionName::exp_2_toggle] = functionFactory->ExpToggle(2);
+    short exp1Options[3] = {1,2,3};
+    short exp2Options[3] = {4,5,6};
+    this->functions[FunctionName::exp_1_toggle] = functionFactory->ExpToggle(1, exp1Options, 3, this->exp1);
+    this->functions[FunctionName::exp_2_toggle] = functionFactory->ExpToggle(2, exp2Options, 3, this->exp2);
     this->functions[FunctionName::tuner_toggle] = functionFactory->TunerToggle();
     this->functions[FunctionName::tap_tempo] = functionFactory->TapTempo();
     this->functions[FunctionName::preset_decr] = functionFactory->PresetDecrement(1);

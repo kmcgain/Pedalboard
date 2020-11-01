@@ -46,7 +46,6 @@ void initSceneState() {
 }
 
 void onPresetChanging(const PresetNumber number) {
-	Logger::log("Preset changing");
 	presetArrived = false;
 	initSceneState();
 }
@@ -54,13 +53,10 @@ void onPresetChanging(const PresetNumber number) {
 char msg[10];
 
 void onPresetName(const PresetNumber presetNumber, const char* name, const byte length) {
-	Logger::log("Preset name: ");
-	Logger::log(name);
-	Logger::log("\n");
+
 }
 
 void onSceneName(const SceneNumber sceneNumber, const char* name, const byte length) {
-	Logger::log("Scene name");
 	if (scenesArrived[sceneNumber - 1]) // don't process duplicate
 		return;
 
@@ -140,7 +136,8 @@ void AxeController::toggleTuner() {
 }
 
 void AxeController::sendExpressionPedalValue(unsigned short expNum, unsigned short expValue) {
-	axe.sendControlChange(expNum == 1 ? 63 : 62, expValue, MIDI_CHANNEL);
+	// We pass expNum as #CC num (needs to be mapped like this on axe fx)
+	axe.sendControlChange(expNum, expValue, MIDI_CHANNEL);
 }
 
 void AxeController::changeEffectStatus(unsigned short effectIndex, bool enable) {

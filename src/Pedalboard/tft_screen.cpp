@@ -8,13 +8,15 @@
 
 #include "../Domain/logger.h"
 
+#include "../Domain/pedal_settings.h"
+
 
 #define screen_w 160
 #define screen_h 128
 #define font_w_px 6
 #define font_h_px 8
-#define border_w 10
-#define border_h 10
+#define default_border_w 10
+#define default_border_h 10
 
 // Due pin 8 is hardwired to SPI RESET
 #define rst_pin 8
@@ -58,20 +60,18 @@ void lengthOfLongestWord(const char* buf, byte& longestLength, byte& numWords) {
 		longestLength = currentLen;
 }
 
-void drawCentreString(Adafruit_ST7735* screen, const char* buf, int yOffset = 0)
+void drawCentreString(Adafruit_GFX* canvas, const char* buf, int canvasWidth = screen_w, int canvasHeight = screen_h, int border_width = default_border_w, int border_height = default_border_h)
 {
 	// Draw the string to fit on screen
 	// Each font is 6x8 * font_size
 	byte txtLength, numWords;
 	lengthOfLongestWord(buf, txtLength, numWords);
 
-	auto absYOffset = yOffset > 0 ? yOffset : -1*yOffset;
-
-	auto maxWidthOfFont = (screen_w - (border_w*2)) / (font_w_px*txtLength); 
-	auto maxHeightOfFont = ((screen_h-absYOffset - (border_h*2)) / font_h_px) / numWords; // 1 word per line
+	auto maxWidthOfFont = (canvasWidth - (border_width*2)) / (font_w_px*txtLength); 
+	auto maxHeightOfFont = ((canvasHeight - (border_height*2)) / font_h_px) / numWords; // 1 word per line
 	auto fontSize = maxWidthOfFont > maxHeightOfFont ? maxHeightOfFont : maxWidthOfFont;
 
-	screen->setTextSize(fontSize);
+	canvas->setTextSize(fontSize);
 
 	byte bufIndex = 0;
 	byte wordIndex = 0;
@@ -90,10 +90,10 @@ void drawCentreString(Adafruit_ST7735* screen, const char* buf, int yOffset = 0)
 		
 		auto text_width_px = fontSize * font_w_px * wordIndex;
 		auto text_height_px = fontSize * font_h_px;
-		auto x = (screen_w / 2) - (text_width_px / 2);
-		auto y = ((wordNum * (screen_h+yOffset)) / (numWords+1)) - (text_height_px / 2);
-		screen->setCursor(x, y);
-		screen->print(screenMessage);
+		auto x = (canvasWidth / 2) - (text_width_px / 2);
+		auto y = ((wordNum * (canvasHeight)) / (numWords+1)) - (text_height_px / 2);
+		canvas->setCursor(x, y);
+		canvas->print(screenMessage);
 	}	
 }
 
@@ -231,6 +231,23 @@ TftScreen::TftScreen(char screenNumber) {
 	this->screen->fillScreen(ST7735_BLACK);
 }
 
+void expToggle(Adafruit_ST7735* screen, FunctionState* state) {
+	ExpressionFunctionState* st = static_cast<ExpressionFunctionState*>(state);
+	auto selected = st->Selected();
+
+	for (int i = 0; i < st->NumOfPedals(); i++) {
+		auto canvasHeight = screen_h / st->NumOfPedals();
+		GFXcanvas1 expCanvas(screen_w, canvasHeight);
+
+		auto expName = PedalSettings["expressionNames"][i];
+		drawCentreString(&expCanvas, expName, screen_w, canvasHeight, 2, 2);
+		screen->drawBitmap(0, i * canvasHeight, expCanvas.getBuffer(), 
+			screen_w, canvasHeight, 
+			selected == st->Pedals()[i] ? ST7735_WHITE : ST7735_BLUE, 
+			selected == st->Pedals()[i] ? ST7735_RED : ST7735_WHITE);
+	}
+}
+
 void TftScreen::DisplayFunction(FunctionState* functionState, Preset* currentPreset, TunerData& tuner) {
 	if (this->screenNumber == 7) {
 		if (tuner.Active) {
@@ -245,9 +262,7 @@ void TftScreen::DisplayFunction(FunctionState* functionState, Preset* currentPre
 
 	switch (functionState->Type()) {
 	case FunctionType::ftExpToggle:
-		this->screen->fillScreen(ST7735_RED);
-		this->screen->setTextColor(ST7735_WHITE);
-		drawCentreString(screen, "Exp Toggle");
+		expToggle(this->screen, functionState);		
 		break;
 	case FunctionType::ftLayoutDecrement:
 		this->screen->fillScreen(ST7735_RED);

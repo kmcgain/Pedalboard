@@ -51,7 +51,7 @@ const FunctionName layoutDefinitions[LAYOUTS][FS_ROWS][FS_COLS]
     },
     {
         { FunctionName::layout_incr,  FunctionName::mute,  FunctionName::preset_decr,    FunctionName::preset_incr,    FunctionName::preset_display},
-        { FunctionName::tuner_toggle,     FunctionName::effect6,   FunctionName::effect7, FunctionName::effect8, FunctionName::tap_tempo },
+        { FunctionName::tuner_toggle,     FunctionName::effect6,   FunctionName::effect7, FunctionName::exp_1_toggle, FunctionName::tap_tempo },
         { FunctionName::effect1,   FunctionName::effect2,   FunctionName::effect3, FunctionName::effect4, FunctionName::effect5}
     }
 };

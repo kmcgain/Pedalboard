@@ -4,10 +4,10 @@
 #include "preset.h"
 
 
-WorkerProcess::WorkerProcess(AxeController* axeController) {
+WorkerProcess::WorkerProcess(AxeController* axeController, Expression* exp1, Expression* exp2) {
 	this->axeController = axeController;
-	this->exp1 = new Expression(1, axeController);
-	this->exp2 = new Expression(2, axeController);
+	this->exp1 = exp1;
+	this->exp2 = exp2;
 }
 
 void WorkerProcess::OneStep(Preset* currentPreset, TunerData& tuner) {

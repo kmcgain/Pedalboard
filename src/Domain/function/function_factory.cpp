@@ -38,8 +38,8 @@ Function* FunctionFactory::SceneDecrement(char value) {
 	return this->store(new SceneDecrementFunction(value, this->axeController));
 }
 
-Function* FunctionFactory::ExpToggle(char pedal) {
-	return this->store(new ExpToggleFunction(pedal));
+Function* FunctionFactory::ExpToggle(char pedal, short extControls[], short numControls, Expression* exp) {
+	return this->store(new ExpToggleFunction(pedal, extControls, numControls, exp));
 }
 
 Function* FunctionFactory::TunerToggle() {
