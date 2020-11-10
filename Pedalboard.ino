@@ -19,6 +19,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "src/Pedalboard/gframe.h"
+
+#define DEBUG
+
 extern char _end;
 extern "C" char *sbrk(int i);
 char *ramstart=(char *)0x20070000;
@@ -26,7 +30,7 @@ char *ramend=(char *)0x20088000;
 
 #define TAP_TEMPO_LED_PIN 29
 
-uint32_t lastTime;
+uint32_t lastTime, startTime;
 WorkerProcess* workerProcess;  
 volatile unsigned long tapTempoPulseTime = -1;
 bool tempoLedOn = false;
@@ -47,52 +51,6 @@ void onTunerData(const char* note, const short string, const short fineTune) {
   tuner.String = string;
 }
 
-void setup() {  
-  lastTime = millis();
-  Serial.begin(9600); 
-  while (!Serial);
-
-  Serial.print(F("Setting up\n"));
-
-  analogReadResolution(12);
-  pinMode (A0, INPUT);
-  pinMode (A1, INPUT);
-  
-  // Light up the screens
-  pinMode(2, OUTPUT);
-  digitalWrite(2, HIGH);
-
-  // Setup tempo led
-  pinMode(TAP_TEMPO_LED_PIN, OUTPUT);
-
-  // Load settings
-  auto error = deserializeJson(PedalSettings, jsonSettings);
-  if (error) {
-    Logger::log("Failed to setup due to bad settings");
-    return;
-  }
-  
-
-  auto layoutChanger = new LayoutChanger();
-  auto axeController = new AxeController();
-  axeController->Init(onTapTempo, onPresetChange, onTunerData);
-  auto exp1 = new Expression(1, axeController);
-  auto exp2 = new Expression(2, axeController);
-  registerLayoutManager(new LayoutManager(new FunctionFactory(layoutChanger, axeController), layoutChanger, new ScreenFactory(), exp1, exp2));
-    
-  InterruptRegistrar* interruptRegistrar = new InterruptRegistrar();
-  BoardConstants boardConstants = BoardConstants();
-  boardConstants.Rising = RISING;
-  boardConstants.Falling = FALLING;
-  boardConstants.Change = CHANGE;
-
-  GetLayoutManager()->init();
-  setup_interrupts(interruptRegistrar, boardConstants);  
-
-  workerProcess = new WorkerProcess(axeController, exp1, exp2);
-
-  start_recording();
-}
 
 #ifdef __arm__
 // should use uinstd.h to define sbrk but Due causes a conflict
@@ -129,6 +87,62 @@ void ShowMemory(void)
   printf("Estimated Free RAM: %d\n\n",stack_ptr - heapend + mi.fordblks);
 }
 
+
+void setup() {    
+  Serial.begin(9600); 
+  while (!Serial);
+
+  Serial.print(F("Setting up\n"));
+
+  analogReadResolution(12);
+  pinMode (A0, INPUT);
+  pinMode (A1, INPUT);
+  
+  // Light up the screens
+  pinMode(2, OUTPUT);
+  digitalWrite(2, HIGH);
+
+  // Setup tempo led
+  pinMode(TAP_TEMPO_LED_PIN, OUTPUT);  
+
+  // Load settings
+  auto error = deserializeJson(PedalSettings, jsonSettings);
+  if (error) {
+    Logger::log("Failed to setup due to bad settings");
+    return;
+  }
+  
+  //buffer = new ScreenBuffer();
+
+  auto layoutChanger = new LayoutChanger();
+  auto axeController = new AxeController();
+  axeController->Init(onTapTempo, onPresetChange, onTunerData);
+  auto exp1 = new Expression(1, axeController);
+  auto exp2 = new Expression(2, axeController);
+  registerLayoutManager(new LayoutManager(new FunctionFactory(layoutChanger, axeController), layoutChanger, new ScreenFactory(), exp1, exp2));
+    
+  InterruptRegistrar* interruptRegistrar = new InterruptRegistrar();
+  BoardConstants boardConstants = BoardConstants();
+  boardConstants.Rising = RISING;
+  boardConstants.Falling = FALLING;
+  boardConstants.Change = CHANGE;
+  
+  GetLayoutManager()->init();
+  setup_interrupts(interruptRegistrar, boardConstants);  
+
+  workerProcess = new WorkerProcess(axeController, exp1, exp2);
+
+  start_recording();
+
+  Serial.print(F("Setup complete\n"));
+  startTime = millis();
+  lastTime = millis();
+
+  #ifdef DEBUG
+    ShowMemory();
+  #endif
+}
+
 void loop() {  
 #ifdef DEBUG
   if (millis() - lastTime > 3000) {
@@ -138,17 +152,21 @@ void loop() {
   }
 #endif
 
-  if (!tempoLedOn && tapTempoPulseTime != -1) {
-    digitalWrite(TAP_TEMPO_LED_PIN, HIGH);
-    tempoLedOn = true;
-  }
+  // More time for setup to run??
+  //if (millis() - 3100 > startTime) {
+    if (!tempoLedOn && tapTempoPulseTime != -1) {
+      digitalWrite(TAP_TEMPO_LED_PIN, HIGH);
+      tempoLedOn = true;
+    }
 
-  if (tempoLedOn && tapTempoPulseTime < millis()-50) {
-    tapTempoPulseTime = -1;
-    digitalWrite(TAP_TEMPO_LED_PIN, LOW);
-    tempoLedOn = false;
-  }
-    
-  workerProcess->OneStep(currentPreset, tuner);
+    if (tempoLedOn && tapTempoPulseTime < millis()-50) {
+      tapTempoPulseTime = -1;
+      digitalWrite(TAP_TEMPO_LED_PIN, LOW);
+      tempoLedOn = false;
+    }
+
+      workerProcess->OneStep(currentPreset, tuner);
+  //}
+
   Logger::flush();
 }

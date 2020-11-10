@@ -1,7 +1,8 @@
 #include "tft_screen.h"
 
 #include <Adafruit_GFX.h> // core graphics library
-#include "../libraries/Adafruit_ST7735/Adafruit_ST7735.h" // hardware-specific library
+//#include "../libraries/Adafruit_ST7735/Adafruit_ST7735.h" // hardware-specific library
+#include "gframe.h"
 #include <SPI.h>
 #include "../Domain/function/function.h"
 #include "../Domain/function/state/function_state.h"
@@ -97,7 +98,7 @@ void drawCentreString(Adafruit_GFX* canvas, const char* buf, int canvasWidth = s
 	}	
 }
 
-void effect(Adafruit_ST7735* screen, FunctionState* state, Preset* currentPreset) {
+void effect(Adafruit_GFX* screen, FunctionState* state, Preset* currentPreset) {
 	EffectState* st = static_cast<EffectState*>(state);
 
 	screen->fillScreen(!st->Bypassed() ? ST7735_RED : 0x59F);
@@ -108,7 +109,7 @@ void effect(Adafruit_ST7735* screen, FunctionState* state, Preset* currentPreset
 	}
 }
 
-void sceneSelect(Adafruit_ST7735* screen, FunctionState* state, Preset* currentPreset) {	
+void sceneSelect(Adafruit_GFX* screen, FunctionState* state, Preset* currentPreset) {	
 	SceneState* st = static_cast<SceneState*>(state);
 
 	bool isSelected = currentPreset == nullptr ? false : currentPreset->getSelectedSceneNumber() == st->Scalar();
@@ -130,7 +131,7 @@ void sceneSelect(Adafruit_ST7735* screen, FunctionState* state, Preset* currentP
 	drawCentreString(screen, screenMessage);	
 }
 
-void presetCrement(Adafruit_ST7735* screen, FunctionState* state) {	
+void presetCrement(Adafruit_GFX* screen, FunctionState* state) {	
 	PresetState* st = static_cast<PresetState*>(state);
 
 	screen->fillScreen(0x87F0);//GREEN
@@ -139,7 +140,7 @@ void presetCrement(Adafruit_ST7735* screen, FunctionState* state) {
 	drawCentreString(screen, screenMessage);
 }
 
-void presetDisplay(Adafruit_ST7735* screen, FunctionState* state) {
+void presetDisplay(Adafruit_GFX* screen, FunctionState* state) {
 	PresetState* st = static_cast<PresetState*>(state);
 
 	screen->fillScreen(ST7735_BLACK);
@@ -152,7 +153,7 @@ void presetDisplay(Adafruit_ST7735* screen, FunctionState* state) {
 	drawCentreString(screen, screenMessage);
 }
 
-void layoutSelect(Adafruit_ST7735* screen, FunctionState* state) {
+void layoutSelect(Adafruit_GFX* screen, FunctionState* state) {
 	ScalarFunctionState* st = static_cast<ScalarFunctionState*>(state);
 	screen->fillScreen(ST7735_RED);
 	screen->setTextColor(ST7735_WHITE);
@@ -165,7 +166,7 @@ char lastFineTune;
 bool hasCleared = false;
 int noteFontSize = 6;
 GFXcanvas1 tunerNoteCanvas(noteFontSize*font_w_px*2, screen_h / 2); 
-void displayTuner(Adafruit_ST7735* screen, TunerData& tuner) {
+void displayTuner(Adafruit_GFX* screen, TunerData& tuner) {
 	auto skipNoteDisplay = hasCleared && (tuner.Note[0] == lastNote[0] && tuner.Note[1] == lastNote[1]);
 	lastNote[0] = tuner.Note[0];
 	lastNote[1] = tuner.Note[1];	
@@ -211,11 +212,17 @@ void displayTuner(Adafruit_ST7735* screen, TunerData& tuner) {
 	}	
 }
 
+
+
 TftScreen::TftScreen(char screenNumber) {
 	this->screenNumber = screenNumber;
 	char cs_pin = screen_pins[screenNumber];
-	this->screen = new Adafruit_ST7735(cs_pin, dc_pin, rst_pin);
+	//auto innerScreen = new Adafruit_ST7735(cs_pin, dc_pin, rst_pin);
 	
+	
+	//this->screen = new aFrameBuffer(screen_w, screen_h, cs_pin, dc_pin, innerScreen);
+	this->screen = new GFrame(cs_pin, dc_pin, rst_pin);
+	this->screen->reset();
 	
 	this->screen->initR(INITR_BLACKTAB);
 	if (screenNumber == 7) {
@@ -228,10 +235,11 @@ TftScreen::TftScreen(char screenNumber) {
 	else {
 		this->screen->setRotation(1);
 	}
-	this->screen->fillScreen(ST7735_BLACK);
+	//this->screen->fillScreen(ST7735_BLUE);
+	//this->screen->display();
 }
 
-void expToggle(Adafruit_ST7735* screen, FunctionState* state) {
+void expToggle(Adafruit_GFX* screen, FunctionState* state) {
 	ExpressionFunctionState* st = static_cast<ExpressionFunctionState*>(state);
 	auto selected = st->Selected();
 
@@ -242,16 +250,26 @@ void expToggle(Adafruit_ST7735* screen, FunctionState* state) {
 		auto expName = PedalSettings["expressionNames"][i];
 		drawCentreString(&expCanvas, expName, screen_w, canvasHeight, 2, 2);
 		screen->drawBitmap(0, i * canvasHeight, expCanvas.getBuffer(), 
-			screen_w, canvasHeight, 
+			screen_w, canvasHeight,  
 			selected == st->Pedals()[i] ? ST7735_WHITE : ST7735_BLUE, 
 			selected == st->Pedals()[i] ? ST7735_RED : ST7735_WHITE);
 	}
 }
 
-void TftScreen::DisplayFunction(FunctionState* functionState, Preset* currentPreset, TunerData& tuner) {
+void TftScreen:: DisplayFunction(FunctionState* functionState, Preset* currentPreset, TunerData& tuner) {
+	this->screen->reset();
+
+	// this->screen->fillScreen(ST7735_BLUE);
+	// this->screen->display();	
+	// return;
+	/// TEMP Disable complex functions
+
+
+
 	if (this->screenNumber == 7) {
 		if (tuner.Active) {
 			displayTuner(screen, tuner);
+			this->screen->display();
 			return;
 		}
 		else {
@@ -263,62 +281,74 @@ void TftScreen::DisplayFunction(FunctionState* functionState, Preset* currentPre
 	switch (functionState->Type()) {
 	case FunctionType::ftExpToggle:
 		expToggle(this->screen, functionState);		
+		this->screen->display();
 		break;
 	case FunctionType::ftLayoutDecrement:
 		this->screen->fillScreen(ST7735_RED);
 		this->screen->setTextColor(ST7735_WHITE);
 		drawCentreString(screen, "- Layout");
+		this->screen->display();
 		break;
 	case FunctionType::ftLayoutIncrement:
 		this->screen->fillScreen(ST7735_RED);
 		this->screen->setTextColor(ST7735_WHITE);
 		drawCentreString(screen, "+ Layout");
+		this->screen->display();
 		break;		
 	case FunctionType::ftLayoutSelect:
 		layoutSelect(this->screen, functionState);
+		this->screen->display();
 		break;
 	case FunctionType::ftPresetDecrement:
 		presetCrement(this->screen, functionState);
-		
+		this->screen->display();
 		break;
 	case FunctionType::ftPresetIncrement:
 		presetCrement(this->screen, functionState);
-
+		this->screen->display();
 		break;
 	case FunctionType::ftPresetDisplay:
 		presetDisplay(this->screen, functionState);
+		this->screen->display();
 		break;
 	case FunctionType::ftSceneDecrement:
 		this->screen->fillScreen(ST7735_RED);
 		this->screen->setTextColor(ST7735_WHITE);
 		drawCentreString(screen, "- Scene");
+		this->screen->display();
 		break;
 	case FunctionType::ftSceneIncrement:
 		this->screen->fillScreen(ST7735_RED);
 		this->screen->setTextColor(ST7735_WHITE);
 		drawCentreString(screen, "+ Scene");
+		this->screen->display();
 		break;
 	case FunctionType::ftSceneSelect:
 		sceneSelect(this->screen, functionState, currentPreset);
+		this->screen->display();
 		break;
 	case FunctionType::ftTapTempo:
 		this->screen->fillScreen(ST7735_MAGENTA);
 		this->screen->setTextColor(ST7735_WHITE);
 		drawCentreString(screen, "Tap");
+		this->screen->display();
 		break;
 	case FunctionType::ftTunerToggle:
 		this->screen->fillScreen(ST7735_YELLOW);
 		this->screen->setTextColor(ST7735_BLACK);
 		drawCentreString(screen, "Tuner");
+		this->screen->display();
 		break;
 	case FunctionType::ftEffect:
 		effect(this->screen, functionState, currentPreset);
+		this->screen->display();
 		break;
 	case FunctionType::ftMute:
 		ToggleFunctionState* st = static_cast<ToggleFunctionState*>(functionState);
 		this->screen->fillScreen(ST7735_WHITE);
 		this->screen->setTextColor(ST7735_BLACK);
 		drawCentreString(screen, st->Current() ? "Mute" : "Unmute");
+		this->screen->display();
 		break;
 	}
 }

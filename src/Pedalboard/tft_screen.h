@@ -10,10 +10,12 @@
 #include <Adafruit_GFX.h> // core graphics library
 #include "../libraries/Adafruit_ST7735/Adafruit_ST7735.h" // hardware-specific library
 #include <SPI.h>
+#include "gframe.h"
 
 class TftScreen : public Screen {
 private:
-	Adafruit_ST7735* screen;
+	// Adafruit_ST7735* screen2;
+	GFrame* screen;
 	int screenNumber;
 
 public: 
