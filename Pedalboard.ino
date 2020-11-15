@@ -19,7 +19,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "src/Pedalboard/gframe.h"
+#include "src/libraries/GFrame/gframe.h"
 
 #define DEBUG
 

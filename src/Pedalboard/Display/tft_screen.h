@@ -1,16 +1,15 @@
 #pragma once
 
-#include "../Domain/screen.h"
-#include "../Domain/function/function.h"
-#include "../Domain/function/state/function_state.h"
+#include "../../Domain/screen.h"
+#include "../../Domain/function/function.h"
+#include "../../Domain/function/state/function_state.h"
 
-#include "../Domain/preset.h"
-#include "../Domain/tuner.h"
+#include "../../Domain/preset.h"
+#include "../../Domain/tuner.h"
 
 #include <Adafruit_GFX.h> // core graphics library
-#include "../libraries/Adafruit_ST7735/Adafruit_ST7735.h" // hardware-specific library
 #include <SPI.h>
-#include "gframe.h"
+#include "../../libraries/GFrame/gframe.h"
 
 class TftScreen : public Screen {
 private:

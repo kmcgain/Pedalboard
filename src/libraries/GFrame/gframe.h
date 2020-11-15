@@ -140,6 +140,8 @@ public:
 extern ScreenBuffer buffer;
 
 class GFrame : public Adafruit_GFX {
+ private:
+  bool inTransaction;
 
  public:
 
@@ -159,8 +161,10 @@ class GFrame : public Adafruit_GFX {
            fillRect(int16_t x, int16_t y, int16_t w, int16_t h,
              uint16_t color),
            setRotation(uint8_t r),
-            reset(),
-            display(),
+            //reset(),
+            //display(),
+            beginDraw(),
+            endDraw(),
            invertDisplay(boolean i);
   uint16_t Color565(uint8_t r, uint8_t g, uint8_t b) { return newColorX(r, g, b);}
 
