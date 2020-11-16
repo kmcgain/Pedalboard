@@ -166,8 +166,6 @@ class GFrame : public Adafruit_GFX {
             beginDraw(),
             endDraw(),
            invertDisplay(boolean i);
-  uint16_t Color565(uint8_t r, uint8_t g, uint8_t b) { return newColorX(r, g, b);}
-
   
   /* These are not for current use, 8-bit protocol only!
   uint8_t  readdata(void),
