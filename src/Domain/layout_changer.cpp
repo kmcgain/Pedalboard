@@ -13,8 +13,22 @@ void LayoutChanger::SubscribeToLayoutIncrement(void (*callback)(void*, char), vo
 
 void LayoutChanger::SelectLayout(char layout) {
     this->layoutSelectCallbacks(this->layoutSelectCbThis, layout);
+    selectedLayout = layout;
 }
 
 void LayoutChanger::IncrementLayout(char num) {
     this->layoutIncrementCallbacks(this->layoutIncrementCbThis, num);
+    selectedLayout += num;
+}
+
+#define preset_select_layout_number 0
+void LayoutChanger::PresetSelect() {
+    if (presetSelect) {
+        presetSelect = false;    
+        this->layoutSelectCallbacks(this->layoutSelectCbThis, selectedLayout);
+        return;
+    }
+
+    presetSelect = true;
+    this->layoutSelectCallbacks(this->layoutSelectCbThis, preset_select_layout_number);
 }

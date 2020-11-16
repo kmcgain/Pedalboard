@@ -8,6 +8,8 @@ class LayoutChanger {
         void* layoutSelectCbThis;
         void* layoutIncrementCbThis;
 
+        int selectedLayout = 1;
+        bool presetSelect = false;
     public:
         void SubscribeToLayoutSelect(void (*callback)(void*, char), void* layoutSelectCbThis);
 
@@ -16,6 +18,8 @@ class LayoutChanger {
         void SelectLayout(char layout);
         
         void IncrementLayout(char num);
+
+        void PresetSelect();
 };
 
 #endif

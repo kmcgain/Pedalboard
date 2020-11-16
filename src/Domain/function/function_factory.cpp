@@ -59,7 +59,7 @@ Function* FunctionFactory::PresetDecrement(char value) {
 }
 
 Function* FunctionFactory::PresetDisplay() {
-	return this->store(new PresetDisplayFunction(this->axeController));
+	return this->store(new PresetDisplayFunction(this->axeController, this->layoutChanger));
 }
 
 Function* FunctionFactory::Mute() {
@@ -68,6 +68,10 @@ Function* FunctionFactory::Mute() {
 
 Function* FunctionFactory::Effect(unsigned short position) {
 	return this->store(new EffectFunction(this->axeController, position));
+}
+
+Function* FunctionFactory::PresetFullSelect(unsigned short buttonNum, PresetSelector* presetSelector) {
+	return this->store(new PresetFullSelectFunction(buttonNum, this->axeController, presetSelector, this->layoutChanger));
 }
 
 Function* FunctionFactory::store(Function* fn) {

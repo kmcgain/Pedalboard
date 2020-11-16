@@ -4,6 +4,8 @@
 #include "../../logger.h"
 #include "../../str_fn.h"
 
+#include "../../preset_selector.h"
+
 #ifdef ARDUINO
 #include <Arduino.h>
 #else
@@ -127,6 +129,27 @@ public:
 	unsigned int HashCode() {
 		// Won't clash with different function type hashcodes
 		return (UINT_MAX / this->type) + scalar; 
+	}
+};
+
+class PresetFullSelectState : public FunctionState {
+private:
+	PresetSelector* presetSelector;
+
+public:
+	PresetFullSelectState(PresetSelector* presetSelector) 
+	: FunctionState(FunctionType::ftPresetFullSelect) {
+		this->presetSelector = presetSelector;
+	}
+
+	PresetSelector* GetPresetSelector() {
+		return presetSelector;
+	}
+
+	unsigned int HashCode() {
+		// We hide the different attributes within the 1 int. 8 bits to cover 0-511 so we need 17 bits total - will fite in 4 bytes		
+		unsigned int hash = ((presetSelector->Active ? 1 : 0) << 17) + (presetSelector->Max << 9) + (presetSelector->Min << 1);
+		return hash;
 	}
 };
 

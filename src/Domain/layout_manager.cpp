@@ -93,8 +93,28 @@ void LayoutManager::setup_functions(LayoutChanger* layoutChanger, FunctionFactor
     this->functions[FunctionName::mute] = functionFactory->Mute();
 }
 
+void LayoutManager::setup_preset_select_layout() {
+    // Setup preset select layout - a special hidden layout
+    // This layout just has the same function on all buttons. We'll handle 
+    // the logic of which button does what within function implementation
+    PresetSelector* presetSelector = new PresetSelector();
+    Control*** controls = new Control**[FS_ROWS];
+        
+    for (char row = 0; row < FS_ROWS; row++) {
+        controls[row] = new Control*[FS_COLS];
+        
+        for (char col = 0; col < FS_COLS; col++) {
+            auto functionIndex = FunctionName::preset_select;
+            auto function = functionFactory->PresetFullSelect(row+col*FS_ROWS, presetSelector);
+            controls[row][col] = new Control(this->buttons[row][col], function, this->screens[row][col], col + (row * FS_COLS));                
+        }
+    }
+
+    this->layouts[LAYOUTS] = new Layout(controls, FS_ROWS, FS_COLS);
+}
+
 void LayoutManager::setup_layouts() {
-    this->layouts = new Layout*[LAYOUTS];
+    this->layouts = new Layout*[LAYOUTS+1];
 
     for (char layout = 0; layout < LAYOUTS; layout++) {
         Control*** controls = new Control**[FS_ROWS];
@@ -115,6 +135,9 @@ void LayoutManager::setup_layouts() {
 
         this->layouts[layout] = new Layout(controls, FS_ROWS, FS_COLS);
     }
+
+    setup_preset_select_layout();
+
 
     this->layoutNumber = 0;
     this->activeLayout = this->layouts[0];
@@ -159,11 +182,14 @@ void LayoutManager::ChangeLayoutCb(void * this_ptr, char number) {
 }
 
 void LayoutManager::ChangeLayout(char layoutNumber) {
-    if (layoutNumber > LAYOUTS || layoutNumber <= 0)
+    if (layoutNumber > LAYOUTS || layoutNumber < 0)
         return;
+    // Layout 0 is special - it refers to preset selector
+    Logger::log("Changing to layout: ");
+    Logger::log(layoutNumber);
 
     this->activeLayout->Exit();
-    this->activeLayout = layouts[layoutNumber-1];
+    this->activeLayout = layouts[layoutNumber == 0 ? LAYOUTS : layoutNumber-1];
     this->activeLayout->Invalidate();
 }
 

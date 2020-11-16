@@ -47,6 +47,7 @@ class LayoutManager {
         void setup_buttons();
         void setup_layouts();
         void setup_screens();
+        void setup_preset_select_layout();
 };
 
 #endif

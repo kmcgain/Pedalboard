@@ -32,6 +32,7 @@ public:
 	Function* PresetIncrement(char value);
 	Function* PresetDecrement(char value);
 	Function* PresetDisplay();
+	Function* PresetFullSelect(unsigned short buttonNum, PresetSelector* PresetSelector);
 	Function* Mute();
 	Function* Effect(unsigned short position);
 
