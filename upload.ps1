@@ -1,6 +1,5 @@
 . .\build-helper.ps1
 
-
 function build() {
     $settings = (cat .\settings.json)
     Write-Output "const char *jsonSettings = R""""""""(`n$($settings)`n)"""""""";" > .\generated\settings.h
@@ -9,9 +8,10 @@ function build() {
 }
 
 function upload() {
+    $commPort = Get-Comm-Port
     $exitCode = -1
-    while ($exitCode -ne 0) {
-        d:\apps\arduino\arduino-cli.exe upload -b arduino:sam:arduino_due_x_dbg -p COM3 "$PSScriptRoot" --input-dir "$PSScriptRoot/.build-out"
+    while ($exitCode -ne 0) {        
+        d:\apps\arduino\arduino-cli.exe upload -b arduino:sam:arduino_due_x_dbg -p $commPort "$PSScriptRoot" --input-dir "$PSScriptRoot/.build-out"
         $exitCode = $LastExitCode
 
         if ($exitCode -ne 0) {

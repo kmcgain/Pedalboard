@@ -61,6 +61,11 @@ Core domain project is not coupled to Arduino or Tysonit. This allows for unit t
 
 
 ### Getting Started
+After cloning the repository, use the following scripts to work with the program:
+build.ps1 (does a single build of the code, no arduino needed)
+upload.ps1 (this will build and upload to the arduino. It will ask you to select the com port used by arduino)
+monitor.ps1 (you can run this independently of uploads to read the log output from the arduino)
+
 Please visit the [Build Tutorial](docs/tutorial.md) for information on how to construct your own system
 For details on how to work with the software visit [Software Tutorial](docs/tutorial-software.md)
 
