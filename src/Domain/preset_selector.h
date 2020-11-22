@@ -8,6 +8,16 @@ class PresetSelector {
 private:
     char level = 1;
 
+    int presetsPerButton(char segment) {
+        auto numberOfActivePresets = (Max-Min+1);
+        double numActiveButtons = numberOfActivePresets < (num_buttons-1) ? numberOfActivePresets : (num_buttons-1);
+        
+        if (segment >= numActiveButtons) 
+            return -1;
+
+        return ceil(numberOfActivePresets / numActiveButtons);
+    }
+
 public:
     bool Active;
     int Min = 0;
@@ -44,18 +54,24 @@ public:
         Max = Min + ((max_preset+1) / ((num_buttons-1) ^ level));
     }
 
-    int MinForSegment(char segment) {
-        if (segment > (Max-Min))
+    int MinForSegment(char segment) {        
+        auto perButton = presetsPerButton(segment);
+        if (perButton == -1)
+            return perButton;
+
+        auto min = segment*perButton;
+        if (min > Max)
             return -1;
 
-        double numActiveOptions = (Max-Min+1) < (num_buttons-1) ? (Max-Min+1) : (num_buttons-1);
-
-        int startOfNewRange = (int)((((segment)/numActiveOptions) * (Max-Min+1)) + Min);
-        return startOfNewRange;
+        return min;
     } 
 
     int MaxForSegment(char segment) {
-        auto max = MinForSegment(segment+1);
+        auto perButton = presetsPerButton(segment);
+        if (perButton == -1)
+            return perButton;
+
+        auto max = MinForSegment(segment) + perButton-1;
         return max > Max ? Max : max;
     } 
 };
