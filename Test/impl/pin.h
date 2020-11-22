@@ -1,0 +1,1 @@
+void setPinState(int pinNumber, bool state);

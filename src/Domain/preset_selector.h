@@ -33,7 +33,7 @@ public:
 
         double numActiveOptions = (Max-Min+1) < (num_buttons-1) ? (Max-Min+1) : (num_buttons-1);
 
-        int startOfNewRange = (((segment+1)/numActiveOptions) * (Max-Min+1)) + Min - 1;
+        int startOfNewRange = (int)((((segment+1)/numActiveOptions) * (Max-Min+1)) + Min - 1);
 
 
         auto newMin = MinForSegment(segment);
@@ -50,7 +50,7 @@ public:
 
         double numActiveOptions = (Max-Min+1) < (num_buttons-1) ? (Max-Min+1) : (num_buttons-1);
 
-        int startOfNewRange = (((segment)/numActiveOptions) * (Max-Min+1)) + Min;        
+        int startOfNewRange = (int)((((segment)/numActiveOptions) * (Max-Min+1)) + Min);
         return startOfNewRange;
     } 
 

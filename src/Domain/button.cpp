@@ -14,7 +14,7 @@ void Button::OnPress() {
 }
 
 // interrupt
-void Button::OnRelease()  {    
+void Button::OnRelease()  {
     this->buttonEventStream.RecordRelease(time_millis());
 }
 

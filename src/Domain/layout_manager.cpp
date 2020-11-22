@@ -125,6 +125,9 @@ void LayoutManager::setup_layouts() {
             for (char col = 0; col < FS_COLS; col++) {
                 auto functionIndex = layoutDefinitions[layout][FS_ROWS - 1 - row][col];
                 if (functionIndex >= sizeof(this->functions) / sizeof(this->functions[0])) {
+#ifdef TEST
+                    throw std::runtime_error("Bad function defintion");
+#endif
                     Logger::log("Bad function defintion, will assign unexpected function");
                     functionIndex = FunctionName::layout_select_1;
                 }

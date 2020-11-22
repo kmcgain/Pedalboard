@@ -20,13 +20,13 @@ public:
 		this->axeController = axeController;
 		this->pin = expNumber == 1 ? analogPin0 : analogPin1;
 		this->expNumber = expNumber;
-	}
+	}	
 
-	void ChangeExp(short expNumber) {
+	virtual void ChangeExp(short expNumber) {
 		this->expNumber = expNumber;
 	}
 
-	void OneStep() {
+	virtual void OneStep() {
 		int newValue = analogPinRead(this->pin) / 32; // 0-4095 => 0-127
 		if (oldValue == -1) {
 			oldValue = newValue;

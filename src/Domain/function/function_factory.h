@@ -21,20 +21,20 @@ public:
 	~FunctionFactory();
 	virtual Function* LayoutSelect(char layout);
 
-	Function* LayoutIncrement();
-	Function* LayoutDecrement();
-	Function* SceneSelect(char scene);
-	Function* SceneIncrement(char value);
-	Function* SceneDecrement(char value);
-	Function* ExpToggle(char pedal, short* extControls, short numControls, Expression* exp);
-	Function* TunerToggle();
-	Function* TapTempo();
-	Function* PresetIncrement(char value);
-	Function* PresetDecrement(char value);
-	Function* PresetDisplay();
-	Function* PresetFullSelect(unsigned short buttonNum, PresetSelector* PresetSelector);
-	Function* Mute();
-	Function* Effect(unsigned short position);
+	virtual Function* LayoutIncrement();
+	virtual Function* LayoutDecrement();
+	virtual Function* SceneSelect(char scene);
+	virtual Function* SceneIncrement(char value);
+	virtual Function* SceneDecrement(char value);
+	virtual Function* ExpToggle(char pedal, short* extControls, short numControls, Expression* exp);
+	virtual Function* TunerToggle();
+	virtual Function* TapTempo();
+	virtual Function* PresetIncrement(char value);
+	virtual Function* PresetDecrement(char value);
+	virtual Function* PresetDisplay();
+	virtual Function* PresetFullSelect(unsigned short buttonNum, PresetSelector* PresetSelector);
+	virtual Function* Mute();
+	virtual Function* Effect(unsigned short position);
 
 private:
 	Function* store(Function* fn);

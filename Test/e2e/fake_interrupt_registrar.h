@@ -10,15 +10,14 @@ class FakeInterruptRegistrar : public InterruptRegistrar {
 
 private:
     BoardConstants bc;
-    interruptCb risingCallbacks[54];
-    interruptCb fallingCallbacks[54];
+    interruptCb changingCallbacks[54];
 
 public:
 	FakeInterruptRegistrar(BoardConstants& bc);
 	virtual ~FakeInterruptRegistrar();
-	virtual void attachDigitalInterrupt(int digitalPin, void (*callback)(), unsigned int mode);
-    void fireInterrupt(int digitalPin, int mode);
-    virtual void inputPullup(int dwPin);
+	virtual void attachDigitalInterrupt(char digitalPin, void (*callback)(), unsigned char mode);
+    void fireInterrupt(char digitalPin, char mode);
+    virtual void inputPullup(char dwPin);
 };
 
 #endif
