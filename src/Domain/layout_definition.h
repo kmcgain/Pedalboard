@@ -37,6 +37,8 @@ enum FunctionName {
     effect9 = 30,
     effect10 = 31,
     mute = 32,
+    preset_select = 33,
+    
     // Just to signal end of enum
     Last            = 999
 };

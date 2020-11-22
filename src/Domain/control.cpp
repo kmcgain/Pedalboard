@@ -27,10 +27,15 @@ void Control::HandleState() {
         btnEvent = this->button->TakeEvent();
         
         if (btnEvent.IsSome()) {
+
             switch (btnEvent.EventType) {
                 case (ButtonEvent::button_event_type::Press):
+#ifdef DEBUG_LOG
+                    char logMsg[50];
+                    sprintf(logMsg, "Event: Press - %s - %d\n", this->function->Name(), this->buttonNumber);
+                    Logger::log(logMsg);
+#endif
                     this->function->Execute();
-                    Logger::log("Event: Press\n");
                     break;
                 case (ButtonEvent::button_event_type::Release):
                     break;
@@ -54,7 +59,6 @@ void Control::handlePress() {
 void Control::PrintDebug() {
     this->button->PrintDebug();
 }
-//char logMsg[50];
 
 bool flushedAfterTuner = false;
 void Control::RefreshScreen(Preset* currentPreset, TunerData& tuner) {    

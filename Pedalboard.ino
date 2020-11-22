@@ -1,4 +1,5 @@
-
+#define DEBUG
+#define DEBUG_LOG
 
 #include "src/Domain/layout_manager.h"
 #include "src/Domain/interrupt_manager.h"
@@ -21,7 +22,6 @@
 
 #include "src/libraries/GFrame/gframe.h"
 
-#define DEBUG
 
 extern char _end;
 extern "C" char *sbrk(int i);

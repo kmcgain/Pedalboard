@@ -7,10 +7,12 @@
 class PresetDisplayFunction : public Function {
 private:
     AxeController* axeController;
+    LayoutChanger* layoutChanger;
 
 public:
-    PresetDisplayFunction(AxeController* axeController) {
+    PresetDisplayFunction(AxeController* axeController, LayoutChanger* layoutChanger) {
         this->axeController = axeController;
+        this->layoutChanger = layoutChanger;
     }
 
 
@@ -31,7 +33,7 @@ public:
 
 protected:
     void execute() {
-        // no-op
+        this->layoutChanger->PresetSelect();
     }
 
     FunctionState* createState() {

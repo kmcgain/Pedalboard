@@ -21,6 +21,7 @@
 #include "preset_display.h"
 #include "scene_select.h"
 #include "tuner.h"
+#include "preset_full_select.h"
 
 
 char logMessage[80];
@@ -47,7 +48,7 @@ TftScreen::TftScreen(char screenNumber) {
 	}	
 }
 
-void TftScreen:: DisplayFunction(FunctionState* functionState, Preset* currentPreset, TunerData& tuner) {
+void TftScreen::DisplayFunction(FunctionState* functionState, Preset* currentPreset, TunerData& tuner) {
 	if (this->screenNumber == 7) {
 		if (tuner.Active) {
 			displayTuner(screen, tuner);
@@ -88,6 +89,9 @@ void TftScreen:: DisplayFunction(FunctionState* functionState, Preset* currentPr
 		break;
 	case FunctionType::ftPresetDisplay:
 		presetDisplay(this->screen, functionState);		
+		break;
+	case FunctionType::ftPresetFullSelect:
+		displayPresetSelect(screen, functionState, this->screenNumber);
 		break;
 	case FunctionType::ftSceneDecrement:
 		this->screen->beginDraw();

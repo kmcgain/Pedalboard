@@ -34,8 +34,7 @@ void define_interrupts(InterruptRegistrar* interruptRegistrar, BoardConstants bo
 
     if (included) { 
         interruptRegistrar->inputPullup(N);
-        
-        
+                
         interruptRegistrar->attachDigitalInterrupt(N, pin_callback_change<N>, boardConstants.Change);
     }
 
@@ -73,8 +72,7 @@ void setup_interrupts(InterruptRegistrar* interruptRegistrar, BoardConstants boa
         22, 11, 12, 13, 24, 
         27, 26, 25, 28, 23 
     };
-    char numPins = sizeof(buttonPins) / sizeof(char);
-    
+    char numPins = sizeof(buttonPins) / sizeof(char);    
     define_interrupt_to_layout(buttonPins, numPins);
     define_interrupts<MAX_DIGITAL_PIN>(interruptRegistrar, boardConstants, buttonPins, numPins);        
 }
