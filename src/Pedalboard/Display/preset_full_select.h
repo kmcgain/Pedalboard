@@ -17,17 +17,13 @@ void displayPresetSelect(GFrame* screen, FunctionState* state, int screenNumber)
     auto min = selector->MinForSegment(screenNumber);
     
     if (min == -1) {
-        // blank        
-        sprintf(screenMessage, "\nScreen: %d - Min", screenNumber);
-        Logger::log(screenMessage);
+        // blank
         screen->endDraw();
         return;
     }
 
     auto max = selector->MaxForSegment(screenNumber);
     if (min == max) {
-        sprintf(screenMessage, "\nScreen Max: %d", min);
-        Logger::log(screenMessage);
         // single display
         screen->setTextColor(ST7735_WHITE);
         sprintf(screenMessage, "%d", min);
@@ -35,9 +31,6 @@ void displayPresetSelect(GFrame* screen, FunctionState* state, int screenNumber)
         screen->endDraw();
         return;
     }
-
-    sprintf(screenMessage, "\nMax (%d), Min (%d)", max, min);
-    Logger::log(screenMessage);
 
     auto numOnScreen = max-min+1;
     if (numOnScreen <= 3) {

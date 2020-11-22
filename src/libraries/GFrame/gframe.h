@@ -108,16 +108,10 @@ public:
     
     // We need to translate co-ordinates due to rotation (we don't care about 180 degrees)
     if (rotation == 1 || rotation == 3) {
-      Buffer[y][x] = color;
-      if (x == 0 && y == 0)  {
-        Serial.print(Buffer[y][x]);
-      }
+      Buffer[y][x] = color;      
     }
     else {
       Buffer[x][y] = color;
-      if (x == 0 && y == 0)  {
-        Serial.print(Buffer[x][y]);
-      }
     }
   }
 

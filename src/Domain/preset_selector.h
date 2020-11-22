@@ -1,5 +1,7 @@
 #pragma once
 
+#include <math.h>
+
 // TODO: We need to factor these into common place
 #define max_preset 511
 #define num_buttons 15
@@ -27,10 +29,6 @@ public:
         return level == 1;
     }
 
-    bool IsMax() {
-        return level == 2;
-    }
-
     void Reset() {
         level = 1;
         Min = 0;
@@ -38,20 +36,15 @@ public:
     }
 
     void Expand(char segment) {
-        if (segment > (Max-Min))
+        auto minForSegment = MinForSegment(segment);
+        auto maxForSegment = MaxForSegment(segment);
+
+        if (minForSegment == -1 || maxForSegment == -1)
             return;
 
-        double numActiveOptions = (Max-Min+1) < (num_buttons-1) ? (Max-Min+1) : (num_buttons-1);
-
-        int startOfNewRange = (int)((((segment+1)/numActiveOptions) * (Max-Min+1)) + Min - 1);
-
-
-        auto newMin = MinForSegment(segment);
-        if (newMin == -1)
-            return;
         level++;
-        Min = newMin;
-        Max = Min + ((max_preset+1) / ((num_buttons-1) ^ level));
+        Min = minForSegment;
+        Max = maxForSegment;
     }
 
     int MinForSegment(char segment) {        
@@ -59,7 +52,7 @@ public:
         if (perButton == -1)
             return perButton;
 
-        auto min = segment*perButton;
+        auto min = Min+(segment*perButton);
         if (min > Max)
             return -1;
 
@@ -71,7 +64,10 @@ public:
         if (perButton == -1)
             return perButton;
 
-        auto max = MinForSegment(segment) + perButton-1;
+        auto min = MinForSegment(segment);
+        if (min == -1)
+            return -1;
+        auto max = min + perButton-1;
         return max > Max ? Max : max;
     } 
 };

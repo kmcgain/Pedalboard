@@ -105,7 +105,7 @@ void LayoutManager::setup_preset_select_layout() {
         
         for (char col = 0; col < FS_COLS; col++) {
             auto functionIndex = FunctionName::preset_select;
-            auto function = functionFactory->PresetFullSelect(row+col*FS_ROWS, presetSelector);
+            auto function = functionFactory->PresetFullSelect(col + (row * FS_COLS), presetSelector);
             controls[row][col] = new Control(this->buttons[row][col], function, this->screens[row][col], col + (row * FS_COLS));                
         }
     }
@@ -189,7 +189,7 @@ void LayoutManager::ChangeLayout(char layoutNumber) {
         return;
     // Layout 0 is special - it refers to preset selector
     Logger::log("Changing to layout: ");
-    Logger::log(layoutNumber);
+    Logger::log((int)layoutNumber);
 
     this->activeLayout->Exit();
     this->activeLayout = layouts[layoutNumber == 0 ? LAYOUTS : layoutNumber-1];
