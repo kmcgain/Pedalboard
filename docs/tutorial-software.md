@@ -19,6 +19,8 @@ The software uses midi channel 1 and makes a few other assumptions. Here are the
 * External / External Control # 1: CC #1
 * External / External Control # 2: CC #2
 * Other / Output 1 Volume: CC #2 (using external control 2 as the global volume)
+  * This is convenient as you don't need to explicitly add a volume pedal into your chain, however this gives you a linear volume control that doesn't work too well - I've disabled this to use a logarithmic curve on the volume pedal
+  * We could easily implement this in the pedal as well however on hold for now
 
 # Layouts
 If you want to setup your own layouts then just modify src/Domain/layout_definition.h 
