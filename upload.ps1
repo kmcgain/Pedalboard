@@ -1,8 +1,10 @@
 . .\build-helper.ps1
 
 function build() {
-    $settings = (cat .\settings.json)
-    Write-Output "const char *jsonSettings = R""""""""(`n$($settings)`n)"""""""";" > .\generated\settings.h
+    $settings = (Get-Content -raw .\settings.json)
+    $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
+    $cd = (Get-Location).Path
+    [System.IO.File]::WriteAllLines("$($cd).\generated\settings.h", "const char *jsonSettings = R""""""""(`n$($settings)`n)"""""""";", $Utf8NoBomEncoding)
 
     d:\apps\arduino\arduino-cli.exe compile --output-dir "$PSScriptRoot/.build-out" --build-path "$PSScriptRoot/.build" --build-cache-path "$PSScriptRoot/.build-cache" -b arduino:sam:arduino_due_x_dbg "$PSScriptRoot\Pedalboard.ino"
 }
