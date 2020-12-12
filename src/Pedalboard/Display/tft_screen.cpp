@@ -47,6 +47,11 @@ TftScreen::TftScreen(byte screenNumber) {
 }
 
 void TftScreen::DisplayFunction(FunctionState* functionState, Preset* currentPreset, TunerData& tuner) {
+	
+	sprintf(logMessage, "Drawing for screen: %d Type: %d\n", this->screenNumber, functionState->Type());
+	Logger::log(logMessage);
+	
+
 	if (this->screenNumber == 7) {
 		if (tuner.Active) {
 			displayTuner(screen, tuner);

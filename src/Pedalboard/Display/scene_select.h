@@ -16,6 +16,7 @@ void sceneSelect(GFrame* screen, FunctionState* state, Preset* currentPreset) {
 		const char* sName = currentPreset->getSceneName(st->Scalar());
 		if (sName != nullptr && sName[0] != '\0') {
 			drawCentreString(screen, sName);
+			screen->endDraw();
 			return;
 		}
 	}
