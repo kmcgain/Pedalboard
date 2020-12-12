@@ -10,7 +10,7 @@
 #include <cstdio>
 #endif
 
-Control::Control(Button* button, Function* function, Screen* screen, unsigned char buttonNumber) {
+Control::Control(Button* button, Function* function, Screen* screen, byte buttonNumber) {
     this->button = button;
     this->function = function;
     this->screen = screen;

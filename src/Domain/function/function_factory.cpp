@@ -14,7 +14,7 @@ FunctionFactory::~FunctionFactory() {
 	}
 }
 
-Function* FunctionFactory::LayoutSelect(char layout) {
+Function* FunctionFactory::LayoutSelect(byte layout) {
 	return this->store(new LayoutSelectFunction(layout, this->layoutChanger));
 }
 
@@ -26,19 +26,19 @@ Function* FunctionFactory::LayoutDecrement() {
 	return this->store(new LayoutDecrementFunction(this->layoutChanger));
 }
 
-Function* FunctionFactory::SceneSelect(char scene) {
+Function* FunctionFactory::SceneSelect(byte scene) {
 	return this->store(new SceneSelectFunction(scene, this->axeController));
 }
 
-Function* FunctionFactory::SceneIncrement(char value) {
+Function* FunctionFactory::SceneIncrement(byte value) {
 	return this->store(new SceneIncrementFunction(value, this->axeController));
 }
 
-Function* FunctionFactory::SceneDecrement(char value) {
+Function* FunctionFactory::SceneDecrement(byte value) {
 	return this->store(new SceneDecrementFunction(value, this->axeController));
 }
 
-Function* FunctionFactory::ExpToggle(char pedal, short extControls[], short numControls, Expression* exp) {
+Function* FunctionFactory::ExpToggle(byte pedal, short extControls[], short numControls, Expression* exp) {
 	return this->store(new ExpToggleFunction(pedal, extControls, numControls, exp));
 }
 
@@ -50,11 +50,11 @@ Function* FunctionFactory::TapTempo() {
 	return this->store(new TapTempoFunction(this->axeController));
 }
 
-Function* FunctionFactory::PresetIncrement(char value) {
+Function* FunctionFactory::PresetIncrement(byte value) {
 	return this->store(new PresetIncrementFunction(value, this->axeController));
 }
 
-Function* FunctionFactory::PresetDecrement(char value) {
+Function* FunctionFactory::PresetDecrement(byte value) {
 	return this->store(new PresetDecrementFunction(value, this->axeController));
 }
 

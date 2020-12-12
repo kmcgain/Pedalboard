@@ -3,6 +3,7 @@
 #define NUM_SCENES 8
 #define MAX_SCENE_NAME_LENGTH 33
 
+#include "pch.h"
 #include "logger.h"
 
 struct SceneInfo {
@@ -12,7 +13,7 @@ struct SceneInfo {
 
 class Preset {
 protected:
-	char sequenceNumber=0;
+	byte sequenceNumber=0;
 
 	SceneInfo scenes[NUM_SCENES];
 
@@ -52,7 +53,7 @@ public:
 		this->sequenceNumber++;
 	}
 
-	char SequenceNumber() {
+	byte SequenceNumber() {
 		return this->sequenceNumber;
 	}
 

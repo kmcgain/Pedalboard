@@ -5,11 +5,11 @@
 
 class LayoutSelectFunction : public Function {
     private:
-        char layout;
+        byte layout;
         LayoutChanger* layoutChanger;
 
     public:
-        LayoutSelectFunction(char layout, LayoutChanger* layoutChanger) {
+        LayoutSelectFunction(byte layout, LayoutChanger* layoutChanger) {
             this->layout = layout;
             this->layoutChanger = layoutChanger;
         }

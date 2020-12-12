@@ -5,11 +5,11 @@
 
 class PresetDecrementFunction : public Function {
     private:
-        char decrementValue;
+        byte decrementValue;
         AxeController* axeController;
 
     public:
-        PresetDecrementFunction(char decrementValue, AxeController* axeController) {
+        PresetDecrementFunction(byte decrementValue, AxeController* axeController) {
             this->decrementValue = decrementValue;
             this->axeController = axeController;
         }

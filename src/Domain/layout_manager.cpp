@@ -25,7 +25,7 @@ LayoutManager::~LayoutManager() {
     delete this->layoutChanger;
     
     if (this->layouts != nullptr) {
-        for (char i = 0; i < LAYOUTS; i++) {
+        for (byte i = 0; i < LAYOUTS; i++) {
             if (this->layouts[i] != nullptr)
                 delete this->layouts[i];
         }
@@ -33,8 +33,8 @@ LayoutManager::~LayoutManager() {
     }
 
     if (this->buttons != nullptr) {
-        for (char row = 0; row < FS_ROWS; row++)
-            for (char col = 0; col < FS_COLS; col++)
+        for (byte row = 0; row < FS_ROWS; row++)
+            for (byte col = 0; col < FS_COLS; col++)
                 if (this->buttons[row][col] != nullptr)
                     delete this->buttons[row][col];
         delete this->buttons;
@@ -100,10 +100,10 @@ void LayoutManager::setup_preset_select_layout() {
     PresetSelector* presetSelector = new PresetSelector();
     Control*** controls = new Control**[FS_ROWS];
         
-    for (char row = 0; row < FS_ROWS; row++) {
+    for (byte row = 0; row < FS_ROWS; row++) {
         controls[row] = new Control*[FS_COLS];
         
-        for (char col = 0; col < FS_COLS; col++) {
+        for (byte col = 0; col < FS_COLS; col++) {
             auto functionIndex = FunctionName::preset_select;
             auto function = functionFactory->PresetFullSelect(col + (row * FS_COLS), presetSelector);
             controls[row][col] = new Control(this->buttons[row][col], function, this->screens[row][col], col + (row * FS_COLS));                
@@ -116,13 +116,13 @@ void LayoutManager::setup_preset_select_layout() {
 void LayoutManager::setup_layouts() {
     this->layouts = new Layout*[LAYOUTS+1];
 
-    for (char layout = 0; layout < LAYOUTS; layout++) {
+    for (byte layout = 0; layout < LAYOUTS; layout++) {
         Control*** controls = new Control**[FS_ROWS];
         
-        for (char row = 0; row < FS_ROWS; row++) {
+        for (byte row = 0; row < FS_ROWS; row++) {
             controls[row] = new Control*[FS_COLS];
             
-            for (char col = 0; col < FS_COLS; col++) {
+            for (byte col = 0; col < FS_COLS; col++) {
                 auto functionIndex = layoutDefinitions[layout][FS_ROWS - 1 - row][col];
                 if (functionIndex >= sizeof(this->functions) / sizeof(this->functions[0])) {
 #ifdef TEST
@@ -149,10 +149,10 @@ void LayoutManager::setup_layouts() {
 void LayoutManager::setup_buttons() {
     this->buttons = new Button**[FS_ROWS];
     
-    for (char row = 0; row < FS_ROWS; row++) {
+    for (byte row = 0; row < FS_ROWS; row++) {
         this->buttons[row] = new Button*[FS_COLS];
                 
-        for (char col = 0; col < FS_COLS; col++) {
+        for (byte col = 0; col < FS_COLS; col++) {
             this->buttons[row][col] = new Button();
         }
     }
@@ -162,29 +162,29 @@ void LayoutManager::setup_buttons() {
 void LayoutManager::setup_screens() {
     this->screens = new Screen * *[FS_ROWS];
 
-    char screenNumber = 0;
-    for (char row = 0; row < FS_ROWS; row++) {
+    byte screenNumber = 0;
+    for (byte row = 0; row < FS_ROWS; row++) {
         this->screens[row] = new Screen * [FS_COLS];
 
-        for (char col = 0; col < FS_COLS; col++) {
+        for (byte col = 0; col < FS_COLS; col++) {
             this->screens[row][col] = this->screenFactory->CreateScreen(screenNumber++);            
         }
     }
 }
 
-void LayoutManager::OnPress(char row, char col) {
+void LayoutManager::OnPress(byte row, byte col) {
     this->buttons[row][col]->OnPress();
 }
 
-void LayoutManager::OnRelease(char row, char col) {
+void LayoutManager::OnRelease(byte row, byte col) {
     this->buttons[row][col]->OnRelease();
 }
 
-void LayoutManager::ChangeLayoutCb(void * this_ptr, char number) {
+void LayoutManager::ChangeLayoutCb(void * this_ptr, byte number) {
     ((LayoutManager*)this_ptr)->ChangeLayout(number);
 }
 
-void LayoutManager::ChangeLayout(char layoutNumber) {
+void LayoutManager::ChangeLayout(byte layoutNumber) {
     if (layoutNumber > LAYOUTS || layoutNumber < 0)
         return;
     // Layout 0 is special - it refers to preset selector
@@ -196,11 +196,11 @@ void LayoutManager::ChangeLayout(char layoutNumber) {
     this->activeLayout->Invalidate();
 }
 
-void LayoutManager::IncrementLayoutCb(void * this_ptr, char number) {
+void LayoutManager::IncrementLayoutCb(void * this_ptr, byte number) {
     ((LayoutManager*)this_ptr)->IncrementLayout(number);
 }
 
-void LayoutManager::IncrementLayout(char num) {
+void LayoutManager::IncrementLayout(byte num) {
     this->activeLayout->Exit();
 
     this->layoutNumber += num;

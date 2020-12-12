@@ -6,11 +6,11 @@
 
 class SceneSelectFunction : public Function {
     private:
-        char scene;
+        byte scene;
         AxeController* axeController;
 
     public:
-        SceneSelectFunction(char scene, AxeController* axeController) {
+        SceneSelectFunction(byte scene, AxeController* axeController) {
             this->scene = scene;
             this->axeController = axeController;
         }

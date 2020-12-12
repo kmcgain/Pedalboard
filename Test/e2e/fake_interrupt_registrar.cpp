@@ -8,20 +8,20 @@ FakeInterruptRegistrar::FakeInterruptRegistrar(BoardConstants &bc) {
 FakeInterruptRegistrar::~FakeInterruptRegistrar() {}
 
 
-void FakeInterruptRegistrar::attachDigitalInterrupt(char digitalPin, void (*callback)(), unsigned char mode) {  
+void FakeInterruptRegistrar::attachDigitalInterrupt(byte digitalPin, void (*callback)(), byte mode) {  
     if (mode != bc.Change)
         throw std::runtime_error("Bad interrupt attachment");
 
     this->changingCallbacks[digitalPin] = callback;
 }
 
-void FakeInterruptRegistrar::fireInterrupt(char digitalPin, char mode) {
+void FakeInterruptRegistrar::fireInterrupt(byte digitalPin, byte mode) {
     if (mode != bc.Change)
         throw std::runtime_error("Bad interrupt fire");
 
     this->changingCallbacks[digitalPin]();    
 }
 
-void FakeInterruptRegistrar::inputPullup(char dwPin) {
+void FakeInterruptRegistrar::inputPullup(byte dwPin) {
     // no op
 }

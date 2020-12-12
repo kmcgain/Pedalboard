@@ -1,6 +1,8 @@
 #define DEBUG
 #define DEBUG_LOG
 
+typedef unsigned char byte;
+
 #include "src/Domain/layout_manager.h"
 #include "src/Domain/interrupt_manager.h"
 #include "src/Domain/interrupt_registrar.h"

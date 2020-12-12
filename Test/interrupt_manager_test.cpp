@@ -22,6 +22,6 @@ TEST(InterruptManagerTest, ShouldRegisterInterruptsAvoidingUnwantedPins) {
 	InterruptRegistrar & ir = interruptRegistrarMock.get();
 	setup_interrupts(&ir, bc);
 
-	Verify(Method(interruptRegistrarMock, attachDigitalInterrupt).Matching([](char pin, void (*callback)(), unsigned char mode) {return mode == 3 && pin == 24; })).Once();
-	Verify(Method(interruptRegistrarMock, attachDigitalInterrupt).Matching([](char pin, void (*callback)(), unsigned char mode) {return mode == 3 && pin == 2; })).Never();
+	Verify(Method(interruptRegistrarMock, attachDigitalInterrupt).Matching([](byte pin, void (*callback)(), byte mode) {return mode == 3 && pin == 24; })).Once();
+	Verify(Method(interruptRegistrarMock, attachDigitalInterrupt).Matching([](byte pin, void (*callback)(), byte mode) {return mode == 3 && pin == 2; })).Never();
 }

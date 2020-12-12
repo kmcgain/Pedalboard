@@ -15,9 +15,9 @@ private:
 public:
 	FakeInterruptRegistrar(BoardConstants& bc);
 	virtual ~FakeInterruptRegistrar();
-	virtual void attachDigitalInterrupt(char digitalPin, void (*callback)(), unsigned char mode);
-    void fireInterrupt(char digitalPin, char mode);
-    virtual void inputPullup(char dwPin);
+	virtual void attachDigitalInterrupt(byte digitalPin, void (*callback)(), byte mode);
+    void fireInterrupt(byte digitalPin, byte mode);
+    virtual void inputPullup(byte dwPin);
 };
 
 #endif

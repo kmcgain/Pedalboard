@@ -13,14 +13,14 @@
 
 class EventTape {
 private:
-    volatile char next_pos = 0;
-    volatile char start = 0;
+    volatile byte next_pos = 0;
+    volatile byte start = 0;
     volatile Event tape[SIZE];
 
 public:
     EventTape() {}
     void Add(Event item) {
-        char nextIndex = this->next_pos;
+        byte nextIndex = this->next_pos;
         if (nextIndex >= SIZE) {
             nextIndex = 0;
         }
@@ -35,11 +35,11 @@ public:
         this->next_pos = nextIndex >= SIZE ? 0 : nextIndex;
     }
 
-    Event ReadFromStart(char pos) {
+    Event ReadFromStart(byte pos) {
         if (pos < 0)
             return Event();
 
-        char idx = this->start + pos;
+        byte idx = this->start + pos;
         while (idx >= SIZE)
             idx -= SIZE;
 
@@ -47,14 +47,14 @@ public:
     }
 
     Event LastAdded() {
-        char last = this->next_pos - 1;
+        byte last = this->next_pos - 1;
         if (last <= -1)
             last = SIZE - 1;
         return this->tape[last];
     }
 
     Event TakeFromStart() {
-        char idx = this->start;
+        byte idx = this->start;
         while (idx >= SIZE)
             idx -= SIZE;
 
@@ -80,7 +80,7 @@ public:
 
 private:
     void incrStart() {
-        char nextStart = this->start + 1;
+        byte nextStart = this->start + 1;
         this->start = (nextStart >= SIZE) 
             ? 0
             : nextStart;        

@@ -56,11 +56,11 @@ struct DebouncedEvent {
 
     bool WasPress;
     unsigned long TimeMs;
-    char FoundAtIndex;
+    byte FoundAtIndex;
 };
 
-void cleanTape(char index, EventTape* tape) {
-    for (char i = 0; i <= index; i++)
+void cleanTape(byte index, EventTape* tape) {
+    for (byte i = 0; i <= index; i++)
         tape->TakeFromStart();
 }
 
@@ -70,7 +70,7 @@ ButtonEvent ButtonEventStream::takeAux() {
     DebouncedEvent debouncedEvent;
 
     bool hasSome = true;
-    char tapeIndex = 0;
+    byte tapeIndex = 0;
     while (hasSome && tapeIndex < MAX_DEBOUNCED) {
         auto event = this->events.ReadFromStart(tapeIndex);
         hasSome = event.IsSome();

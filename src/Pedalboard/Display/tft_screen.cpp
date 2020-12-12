@@ -30,9 +30,9 @@ char logMessage[80];
 
 
 
-TftScreen::TftScreen(char screenNumber) {
+TftScreen::TftScreen(byte screenNumber) {
 	this->screenNumber = screenNumber;
-	char cs_pin = screen_pins[screenNumber];
+	byte cs_pin = screen_pins[screenNumber];
 	this->screen = new GFrame(cs_pin, dc_pin, rst_pin);
 	
 	this->screen->initR(INITR_BLACKTAB);

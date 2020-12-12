@@ -115,14 +115,14 @@ public:
 
 class ScalarFunctionState : public FunctionState {
 protected:
-	char scalar;
+	byte scalar;
 
 public:
-	ScalarFunctionState(char scalar, FunctionType type) : FunctionState(type) {
+	ScalarFunctionState(byte scalar, FunctionType type) : FunctionState(type) {
 		this->scalar = scalar;
 	}
 
-	char Scalar() {
+	byte Scalar() {
 		return this->scalar;
 	}
 
@@ -157,10 +157,9 @@ class PresetState : public ScalarFunctionState {
 private:
 	char name[MAX_SCENE_NAME_LENGTH];
 	unsigned short presetNumber;
-	char asdfMsg[50];
 
 public:
-	PresetState(const char* name, unsigned short presetNumber, char relativeChange, FunctionType type) : ScalarFunctionState(relativeChange, type) {
+	PresetState(const char* name, unsigned short presetNumber, byte relativeChange, FunctionType type) : ScalarFunctionState(relativeChange, type) {
 		strTerm(this->name, name, MAX_SCENE_NAME_LENGTH);
 		this->presetNumber = presetNumber;
 	}
@@ -194,11 +193,11 @@ private:
 	unsigned short isSelected = false;
 
 public:
-	SceneState(const char* name, char number, FunctionType type) : ScalarFunctionState(number, type) {
+	SceneState(const char* name, byte number, FunctionType type) : ScalarFunctionState(number, type) {
 		strTerm(this->name, name, MAX_SCENE_NAME_LENGTH);
 	}
 
-	void UpdateState(const char* name, char number, unsigned short selectedScene) {
+	void UpdateState(const char* name, byte number, unsigned short selectedScene) {
 		strTerm(this->name, name, MAX_SCENE_NAME_LENGTH);
 		this->scalar = number;
 		this->isSelected = selectedScene == number;
@@ -218,11 +217,11 @@ private:
 	bool bypassed = false;
 
 public:
-	EffectState(const char* name, char number, FunctionType type) : ScalarFunctionState(number, type) {
+	EffectState(const char* name, byte number, FunctionType type) : ScalarFunctionState(number, type) {
 		strTerm(this->name, name, 10);
 	}
 
-	void UpdateState(const char* name, char effectNum, bool bypassed) {
+	void UpdateState(const char* name, byte effectNum, bool bypassed) {
 		strTerm(this->name, name, 10);
 		this->scalar = effectNum;
 		this->bypassed = bypassed;

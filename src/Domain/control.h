@@ -13,13 +13,13 @@ class Control {
     Button* button;
     Function* function;
     Screen* screen;
-    unsigned char buttonNumber;
+    byte buttonNumber;
     bool isDirty;
-    char sequenceNumber;
+    byte sequenceNumber;
     unsigned int lastStateHash;
 
   public:
-    Control(Button* button, Function* function, Screen* screen, unsigned char buttonNumber);
+    Control(Button* button, Function* function, Screen* screen, byte buttonNumber);
     void HandleState();
     void PrintDebug();
     void RefreshScreen(Preset* currentPreset, TunerData& tuner);

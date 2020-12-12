@@ -8,10 +8,10 @@
 class Layout { 
   private:
     Control*** controls;
-    char rows, cols;
+    byte rows, cols;
       
   public:
-    Layout(Control*** controls, char rows, char cols);
+    Layout(Control*** controls, byte rows, byte cols);
     ~Layout();
     void init();
     void Exit();

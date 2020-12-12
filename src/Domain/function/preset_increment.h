@@ -6,11 +6,11 @@
 
 class PresetIncrementFunction : public Function {
     private:
-        char incrementValue;
+        byte incrementValue;
         AxeController* axeController;
 
     public:
-        PresetIncrementFunction(char incrementValue, AxeController* axeController) {
+        PresetIncrementFunction(byte incrementValue, AxeController* axeController) {
             this->incrementValue = incrementValue;
             this->axeController = axeController;
         }

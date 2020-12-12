@@ -18,6 +18,6 @@ private:
 	int screenNumber;
 
 public: 
-	TftScreen(char screenNumber);
+	TftScreen(byte screenNumber);
 	virtual void DisplayFunction(FunctionState* functionState, Preset* currentPreset, TunerData& tuner);
 };

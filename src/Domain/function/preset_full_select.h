@@ -9,12 +9,12 @@
 class PresetFullSelectFunction : public Function {
     private:
         AxeController* axeController;
-        char buttonNum;
+        byte buttonNum;
         PresetSelector* presetSelector;
         LayoutChanger* layoutChanger;
 
     public:
-        PresetFullSelectFunction(char buttonNum, AxeController* axeController, PresetSelector* presetSelector, LayoutChanger* layoutChanger) {
+        PresetFullSelectFunction(byte buttonNum, AxeController* axeController, PresetSelector* presetSelector, LayoutChanger* layoutChanger) {
             this->buttonNum = buttonNum;
             this->axeController = axeController;
             this->presetSelector = presetSelector;

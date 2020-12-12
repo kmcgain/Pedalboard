@@ -5,11 +5,11 @@
 
 class SceneIncrementFunction : public Function {
     private:
-        char incrementValue;
+        byte incrementValue;
         AxeController* axeController;
 
     public:
-        SceneIncrementFunction(char incrementValue, AxeController* axeController) {
+        SceneIncrementFunction(byte incrementValue, AxeController* axeController) {
             this->incrementValue = incrementValue;
             this->axeController = axeController;
         }

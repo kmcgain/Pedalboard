@@ -1,5 +1,6 @@
 #pragma once
 
+#include "pch.h"
 #include <math.h>
 
 // TODO: We need to factor these into common place
@@ -8,9 +9,9 @@
 
 class PresetSelector {    
 private:
-    char level = 1;
+    byte level = 1;
 
-    int presetsPerButton(char segment) {
+    int presetsPerButton(byte segment) {
         auto numberOfActivePresets = (Max-Min+1);
         double numActiveButtons = numberOfActivePresets < (num_buttons-1) ? numberOfActivePresets : (num_buttons-1);
         
@@ -35,7 +36,7 @@ public:
         Max = 511;
     }
 
-    void Expand(char segment) {
+    void Expand(byte segment) {
         auto minForSegment = MinForSegment(segment);
         auto maxForSegment = MaxForSegment(segment);
 
@@ -47,7 +48,7 @@ public:
         Max = maxForSegment;
     }
 
-    int MinForSegment(char segment) {        
+    int MinForSegment(byte segment) {        
         auto perButton = presetsPerButton(segment);
         if (perButton == -1)
             return perButton;
@@ -59,7 +60,7 @@ public:
         return min;
     } 
 
-    int MaxForSegment(char segment) {
+    int MaxForSegment(byte segment) {
         auto perButton = presetsPerButton(segment);
         if (perButton == -1)
             return perButton;

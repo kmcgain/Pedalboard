@@ -3,21 +3,21 @@
 
 class LayoutChanger {
     private:
-        void (*layoutSelectCallbacks)(void*, char);
-        void (*layoutIncrementCallbacks)(void*, char);
+        void (*layoutSelectCallbacks)(void*, byte);
+        void (*layoutIncrementCallbacks)(void*, byte);
         void* layoutSelectCbThis;
         void* layoutIncrementCbThis;
 
         int selectedLayout = 1;
         bool presetSelect = false;
     public:
-        void SubscribeToLayoutSelect(void (*callback)(void*, char), void* layoutSelectCbThis);
+        void SubscribeToLayoutSelect(void (*callback)(void*, byte), void* layoutSelectCbThis);
 
-        void SubscribeToLayoutIncrement(void (*callback)(void*, char), void* layoutIncrementCbThis);
+        void SubscribeToLayoutIncrement(void (*callback)(void*, byte), void* layoutIncrementCbThis);
 
-        void SelectLayout(char layout);
+        void SelectLayout(byte layout);
         
-        void IncrementLayout(char num);
+        void IncrementLayout(byte num);
 
         void PresetSelect();
 };

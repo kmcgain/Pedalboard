@@ -164,6 +164,13 @@ You should use a multi-metre to test every pin forms a circuit when the switch i
 ### Connecting to arduino
 There are a few pins that we can't use on the arduino as they interfere with SPI / have other purposes. D0/D1 are skipped purely because they can be used as additionaly Serial port. Pins 4, 8, 10, 14 should be left unconnected. So footswitch pins will be 3,5,6,7,8,11,12,13,22,23,24,25,26,27,28
 
+Why?
+- Pin 2 for PWM screen brightness
+- Pin 4 Connected to MOSI SPI pin
+- Pin 8 interferes with SPI reset
+- Pin 9 controls led output
+- Pin 10 is used for SPI slave mode
+
 ## Screens
 The screens have 8 pins, of which only 1 is unique per screen (the CS pin). The rest will all be bridged together. In my design I wired every screen for 7 pins back to a PCB (separate PCB to the one used by footswitches + midi). This results in a grid of 15 (number of screens) x 7. The rows use a solder bridge and then a pin header at the end of the rows allowing a single connection per screen pin type back to the arduino. 
 
