@@ -41,7 +41,7 @@ The example I'll use here is adding a mute function.
     3. Use the toggle state to then draw text on the screen using appropriate background / foreground colour
     4. You can switch colours based on the state as well
 12. Add the new function to a layout
-    1.  Modify Domain/layout_definition.h and include FunctionName::mute where you like
+    1.  Modify settings.json and include 'mute' where you like
 13. Upload the new code by running upload.ps1
 
 
