@@ -1,7 +1,9 @@
 #pragma once
 
 #define NUM_SCENES 8
+// Includes null term
 #define MAX_SCENE_NAME_LENGTH 33
+#define MAX_PRESET_NAME_LENGTH 33
 
 #include "logger.h"
 

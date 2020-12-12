@@ -52,8 +52,20 @@ void onPresetChanging(const PresetNumber number) {
 
 char msg[10];
 
-void onPresetName(const PresetNumber presetNumber, const char* name, const byte length) {
+char presetNames[512][MAX_PRESET_NAME_LENGTH];
+bool presetNamesLoaded[512];
+long lastPresetNameReceivedOrRequested = -1;
+bool fullyLoaded = false;
 
+void onPresetName(const PresetNumber presetNumber, const char* name, const byte length) {
+	for (auto i = 0; i < length; i++) {	
+		presetNames[presetNumber][i] = name[i];
+	}
+	presetNamesLoaded[presetNumber] = true;
+	presetNames[presetNumber][length] = '\0';
+	Logger::log("\nGot preset: ");
+	Logger::log(name);
+	lastPresetNameReceivedOrRequested = millis();
 }
 
 void onSceneName(const SceneNumber sceneNumber, const char* name, const byte length) {
@@ -62,14 +74,21 @@ void onSceneName(const SceneNumber sceneNumber, const char* name, const byte len
 
 	scenesArrived[sceneNumber - 1] = true;
 	thePreset->setScene(sceneNumber, name);
+	
+	//bool didRequest = false;
 
 	for (int i = 0; i < NUM_SCENES; i++) {
 		if (!scenesArrived[i]) {
 			sceneRequestTime[i] = millis();
-			axe.requestSceneName(i + 1);
+			axe.requestSceneName(i);
+			//didRequest = true;
 			break;
 		}
 	}
+
+	// if (!didRequest) {
+	// 	requestPresetName();
+	// }
 }
 
 void onTunerData(const char* note, const byte string, const byte fineTune) {
@@ -79,6 +98,11 @@ void onTunerData(const char* note, const byte string, const byte fineTune) {
 void AxeController::Init(void (*tapTempoCallback)(), PresetChangeCallback presetChangeCallback, TheTunerDataCallback tunerData) {
 	outerPresetChangeCallback = presetChangeCallback;	
 	outerTunerData = tunerData;
+
+	for (auto i = 0; i < 512; i++) {
+		presetNamesLoaded[i] = false;
+		presetNames[i][0] = '\0';
+	}
 
 	axe.begin(Serial2, MIDI_CHANNEL);
 
@@ -97,6 +121,33 @@ void AxeController::Init(void (*tapTempoCallback)(), PresetChangeCallback preset
 
 void AxeController::Update() {
 	axe.update();
+
+	// We will do a full check 2 seconds after we finished loading in case we dropped any messages
+	if (!fullyLoaded && presetArrived && (lastPresetNameReceivedOrRequested == -1 || millis() - lastPresetNameReceivedOrRequested > 500)) {
+		bool anyRequeted = false;
+		int firstRequested = -1;
+		for (auto i = 0; i < 512; i++)
+			if (!presetNamesLoaded[i]) {
+				if (firstRequested == -1)
+					firstRequested = i;
+				// The axe seems to queue up a certain number of requests and discards the rest
+				// TODO: THis could actually be our midi buffer getting overrun though.
+				if (i-firstRequested > 100)
+					break;
+
+				lastPresetNameReceivedOrRequested = millis();
+				anyRequeted = true;
+				axe.requestPresetName(i);
+			}
+
+		if (!anyRequeted) {
+			fullyLoaded = true;
+			Logger::log("Fully loaded preset names");
+		}
+		else {
+			Logger::log("Kicking off preset load");
+		}
+	}
 }
 
 void AxeController::SendSceneChange(int scene) {
