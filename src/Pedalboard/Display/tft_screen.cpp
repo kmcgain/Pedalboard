@@ -33,7 +33,7 @@ char logMessage[80];
 
 TftScreen::TftScreen(byte screenNumber) {
 	this->screenNumber = screenNumber;
-	byte cs_pin = screen_pins[screenNumber];
+	byte cs_pin = PedalSettings["screenPins"][screenNumber];
 	this->screen = new GFrame(cs_pin, dc_pin, rst_pin);
 	
 	this->screen->initR(INITR_BLACKTAB);

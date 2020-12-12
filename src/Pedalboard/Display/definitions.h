@@ -15,4 +15,3 @@ byte screen_pins[] = {
 	41, 37, 35, 33, 45,
 	48, 47, 46, 49, 44 
 };
-#define screenToRotate 9
