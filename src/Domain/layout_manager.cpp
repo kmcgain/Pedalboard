@@ -11,6 +11,7 @@
 #include "function/all_functions.h"
 #include "function/function_factory.h"
 #include "screen_factory.h"
+#include "pedal_settings.h"
 
 LayoutManager::LayoutManager(FunctionFactory* functionFactory, LayoutChanger* layoutChanger, ScreenFactory* screenFactory, Expression* exp1, Expression* exp2) {
     this->functionFactory = functionFactory;
@@ -23,9 +24,9 @@ LayoutManager::LayoutManager(FunctionFactory* functionFactory, LayoutChanger* la
 
 LayoutManager::~LayoutManager() {
     delete this->layoutChanger;
-    
+
     if (this->layouts != nullptr) {
-        for (byte i = 0; i < LAYOUTS; i++) {
+        for (byte i = 0; i < numLayouts; i++) {
             if (this->layouts[i] != nullptr)
                 delete this->layouts[i];
         }
@@ -42,6 +43,8 @@ LayoutManager::~LayoutManager() {
 }
 
 void LayoutManager::init() {  
+    this->numLayouts = PedalSettings["layoutDefinitions"].size();
+
     this->layoutChanger->SubscribeToLayoutSelect(&LayoutManager::ChangeLayoutCb, this);
     this->layoutChanger->SubscribeToLayoutIncrement(&LayoutManager::IncrementLayoutCb, this);
     
@@ -110,20 +113,22 @@ void LayoutManager::setup_preset_select_layout() {
         }
     }
 
-    this->layouts[LAYOUTS] = new Layout(controls, FS_ROWS, FS_COLS);
+    this->layouts[numLayouts] = new Layout(controls, FS_ROWS, FS_COLS);
 }
 
 void LayoutManager::setup_layouts() {
-    this->layouts = new Layout*[LAYOUTS+1];
+    this->layouts = new Layout*[numLayouts+1];
 
-    for (byte layout = 0; layout < LAYOUTS; layout++) {
+    for (byte layout = 0; layout < numLayouts; layout++) {
         Control*** controls = new Control**[FS_ROWS];
         
         for (byte row = 0; row < FS_ROWS; row++) {
             controls[row] = new Control*[FS_COLS];
             
             for (byte col = 0; col < FS_COLS; col++) {
-                auto functionIndex = layoutDefinitions[layout][FS_ROWS - 1 - row][col];
+
+                auto functionName = PedalSettings["layoutDefinitions"][layout][FS_ROWS - 1 - row][col];
+                auto functionIndex = functionNameFromString(functionName);
                 if (functionIndex >= sizeof(this->functions) / sizeof(this->functions[0])) {
 #ifdef TEST
                     throw std::runtime_error("Bad function defintion");
@@ -185,14 +190,14 @@ void LayoutManager::ChangeLayoutCb(void * this_ptr, byte number) {
 }
 
 void LayoutManager::ChangeLayout(byte layoutNumber) {
-    if (layoutNumber > LAYOUTS || layoutNumber < 0)
+    if (layoutNumber > numLayouts || layoutNumber < 0)
         return;
     // Layout 0 is special - it refers to preset selector
     Logger::log("Changing to layout: ");
     Logger::log((int)layoutNumber);
 
     this->activeLayout->Exit();
-    this->activeLayout = layouts[layoutNumber == 0 ? LAYOUTS : layoutNumber-1];
+    this->activeLayout = layouts[layoutNumber == 0 ? numLayouts : layoutNumber-1];
     this->activeLayout->Invalidate();
 }
 
@@ -204,11 +209,11 @@ void LayoutManager::IncrementLayout(byte num) {
     this->activeLayout->Exit();
 
     this->layoutNumber += num;
-    if (this->layoutNumber >= LAYOUTS) {
-        this->layoutNumber -= LAYOUTS;
+    if (this->layoutNumber >= numLayouts) {
+        this->layoutNumber -= numLayouts;
     }
     if (this->layoutNumber < 0) {
-        this->layoutNumber += LAYOUTS;
+        this->layoutNumber += numLayouts;
     }
     this->activeLayout = layouts[this->layoutNumber];
     this->activeLayout->Invalidate();

@@ -11,6 +11,7 @@
 
 class LayoutManager {
     private: 
+        byte numLayouts;
         Layout** layouts;
         Layout* activeLayout;
         Button*** buttons;

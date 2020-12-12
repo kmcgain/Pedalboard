@@ -23,6 +23,7 @@
 #include "tuner.h"
 #include "preset_full_select.h"
 
+#include "../../Domain/pedal_settings.h"
 
 char logMessage[80];
 
@@ -37,15 +38,12 @@ TftScreen::TftScreen(byte screenNumber) {
 	
 	this->screen->initR(INITR_BLACKTAB);
 	if (screenNumber == 7) {
-		tunerNoteCanvas.setRotation(0);
+		// TODO: Factor this out?
+		tunerNoteCanvas.setRotation(0); 
 	}
 	
-	if (screenNumber == screenToRotate) {
-		this->screen->setRotation(3);
-	}
-	else {
-		this->screen->setRotation(1);
-	}	
+	int rotation = PedalSettings["screenRotations"][screenNumber];
+	this->screen->setRotation(rotation);	
 }
 
 void TftScreen::DisplayFunction(FunctionState* functionState, Preset* currentPreset, TunerData& tuner) {

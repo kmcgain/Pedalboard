@@ -2,4 +2,4 @@
 
 #include <ArduinoJson.h>
 
-extern StaticJsonDocument<1000> PedalSettings;
+extern StaticJsonDocument<2000> PedalSettings;

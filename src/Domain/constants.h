@@ -6,7 +6,6 @@
 #define MAX_DIGITAL_PIN 53
 #define FS_ROWS 3
 #define FS_COLS 5
-#define LAYOUTS 2
 
 struct BoardConstants {
 	byte Rising;

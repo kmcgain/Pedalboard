@@ -1,3 +1,3 @@
 #include "pedal_settings.h"
 
-StaticJsonDocument<1000> PedalSettings; 
+StaticJsonDocument<2000> PedalSettings; 
