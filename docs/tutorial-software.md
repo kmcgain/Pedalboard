@@ -26,5 +26,5 @@ The software uses midi channel 1 and makes a few other assumptions. Here are the
 If you want to setup your own layouts then just modify src/Domain/layout_definition.h 
 
 # Adding new functions
-[How to add a new function](docs/new_function.md)
+[How to add a new function](new_function.md)
 
