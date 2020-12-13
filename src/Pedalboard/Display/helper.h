@@ -58,7 +58,7 @@ void drawCentreString(Adafruit_GFX* canvas, const char* buf, int canvasWidth = s
 		auto text_width_px = fontSize * font_w_px * wordIndex;
 		auto text_height_px = fontSize * font_h_px;
 		auto x = (canvasWidth / 2) - (text_width_px / 2);
-		auto y = ((wordNum * (canvasHeight)) / (numWords+1)) - (text_height_px / 2);
+		auto y = (((wordNum-1) * (canvasHeight)) / (numWords+1)) - (text_height_px / 2);
 		canvas->setCursor(x, y);
 		canvas->print(screenMessage);
 	}	

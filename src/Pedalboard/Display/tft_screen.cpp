@@ -25,6 +25,8 @@
 
 #include "../../Domain/pedal_settings.h"
 
+#include "../../libraries/GFrame/Fonts/FreeSans24pt7b.h"
+
 char logMessage[80];
 
 
@@ -44,6 +46,7 @@ TftScreen::TftScreen(byte screenNumber) {
 	
 	int rotation = PedalSettings["screenRotations"][screenNumber];
 	this->screen->setRotation(rotation);	
+	this->screen->setFont(&FreeSans24pt7b);
 }
 
 void TftScreen::DisplayFunction(FunctionState* functionState, Preset* currentPreset, TunerData& tuner) {
