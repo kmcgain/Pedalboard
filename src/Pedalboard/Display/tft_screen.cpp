@@ -1,8 +1,11 @@
 #include "tft_screen.h"
 
-#include <Adafruit_GFX.h> // core graphics library
+
+//#include <Adafruit_GFX.h> // core graphics library
 //#include "../libraries/Adafruit_ST7735/Adafruit_ST7735.h" // hardware-specific library
-#include "../../libraries/GFrame/gframe.h"
+//#include "../../libraries/GFrame/gframe.h"
+
+#include <TFT_eSPI.h>
 #include <SPI.h>
 #include "../../Domain/function/function.h"
 #include "../../Domain/function/state/function_state.h"
@@ -27,34 +30,62 @@
 
 char logMessage[80];
 
-
+TFT_eSPI* screen = new TFT_eSPI();
 
 
 
 TftScreen::TftScreen(byte screenNumber) {
 	this->screenNumber = screenNumber;
-	byte cs_pin = PedalSettings["screenPins"][screenNumber];
-	this->screen = new GFrame(cs_pin, dc_pin, rst_pin);
+	this->cs_pin = PedalSettings["screenPins"][screenNumber];
+	//this->cs_pin = 35;
+
+
+	//screen = new TFT_eSPI();
 	
-	this->screen->initR(INITR_BLACKTAB);
+	//screen->initR(INITR_BLACKTAB);
 	if (screenNumber == 7) {
 		// TODO: Factor this out?
-		tunerNoteCanvas.setRotation(0); 
+		//tunerNoteCanvas.setRotation(0); 
 	}
 	
+	pinMode(this->cs_pin, OUTPUT);
+	this->SetToNotWrite();
+}
+
+void TftScreen::GlobalInit() {
+	screen->init(ST7735_BLACKTAB);
+	screen->fillScreen(ST7735_BLACK);
+
+	// Just some defaults to prevent crashes if not explicitly set for a screen
+	screen->setTextSize(3);
+	screen->setTextFont(2);
+	screen->setCursor(30, 30);
+	screen->setTextColor(ST7735_WHITE);
+	screen->setTextWrap(true);
+}
+
+void TftScreen::Init() {
 	int rotation = PedalSettings["screenRotations"][screenNumber];
-	this->screen->setRotation(rotation);	
+	this->SetToWrite();
+	screen->setRotation(rotation);	
+	this->SetToNotWrite();
+}
+
+void TftScreen::SetToWrite() {
+	digitalWrite(this->cs_pin, LOW);
+}
+
+void TftScreen::SetToNotWrite() {
+	digitalWrite(this->cs_pin, HIGH);
 }
 
 void TftScreen::DisplayFunction(FunctionState* functionState, Preset* currentPreset, TunerData& tuner) {
-	
-	sprintf(logMessage, "Drawing for screen: %d Type: %d\n", this->screenNumber, functionState->Type());
-	Logger::log(logMessage);
-	
+	this->SetToWrite();
 
 	if (this->screenNumber == 7) {
 		if (tuner.Active) {
 			displayTuner(screen, tuner);
+			this->SetToNotWrite();
 			return;
 		}
 		else {
@@ -65,79 +96,67 @@ void TftScreen::DisplayFunction(FunctionState* functionState, Preset* currentPre
 
 	switch (functionState->Type()) {
 	case FunctionType::ftExpToggle:
-		expToggle(this->screen, functionState);		
+		expToggle(screen, functionState);		
 		break;
 	case FunctionType::ftLayoutDecrement:
-		this->screen->beginDraw();
-		this->screen->fillScreen(ST7735_RED);
-		this->screen->setTextColor(ST7735_WHITE);
+		screen->fillScreen(TFT_RED);
+		screen->setTextColor(TFT_WHITE);
 		drawCentreString(screen, "- Layout");
-		this->screen->endDraw();
 		break;
 	case FunctionType::ftLayoutIncrement:
-		this->screen->beginDraw();
-		this->screen->fillScreen(ST7735_RED);
-		this->screen->setTextColor(ST7735_WHITE);
+		screen->fillScreen(TFT_RED);
+		screen->setTextColor(TFT_WHITE);
 		drawCentreString(screen, "+ Layout");
-		this->screen->endDraw();
 		break;		
 	case FunctionType::ftLayoutSelect:
-		layoutSelect(this->screen, functionState);		
+		layoutSelect(screen, functionState);		
 		break;
 	case FunctionType::ftPresetDecrement:
-		presetCrement(this->screen, functionState);		
+		presetCrement(screen, functionState);		
 		break;
 	case FunctionType::ftPresetIncrement:
-		presetCrement(this->screen, functionState);		
+		presetCrement(screen, functionState);		
 		break;
 	case FunctionType::ftPresetDisplay:
-		presetDisplay(this->screen, functionState);		
+		presetDisplay(screen, functionState);		
 		break;
 	case FunctionType::ftPresetFullSelect:
 		displayPresetSelect(screen, functionState, this->screenNumber);
 		break;
 	case FunctionType::ftSceneDecrement:
-		this->screen->beginDraw();
-		this->screen->fillScreen(ST7735_RED);
-		this->screen->setTextColor(ST7735_WHITE);
+		screen->fillScreen(TFT_RED);
+		screen->setTextColor(TFT_WHITE);
 		drawCentreString(screen, "- Scene");
-		this->screen->endDraw();
 		break;
 	case FunctionType::ftSceneIncrement:
-		this->screen->beginDraw();
-		this->screen->fillScreen(ST7735_RED);
-		this->screen->setTextColor(ST7735_WHITE);
+		screen->fillScreen(TFT_RED);
+		screen->setTextColor(TFT_WHITE);
 		drawCentreString(screen, "+ Scene");
-		this->screen->endDraw();
 		break;
 	case FunctionType::ftSceneSelect:
-		sceneSelect(this->screen, functionState, currentPreset);		
+		sceneSelect(screen, functionState, currentPreset);		
 		break;
 	case FunctionType::ftTapTempo:
-		this->screen->beginDraw();
-		this->screen->fillScreen(ST7735_MAGENTA);
-		this->screen->setTextColor(ST7735_WHITE);
+		screen->fillScreen(TFT_MAGENTA);
+		screen->setTextColor(TFT_WHITE);
 		drawCentreString(screen, "Tap");
-		this->screen->endDraw();
 		break;
 	case FunctionType::ftTunerToggle:
-		this->screen->beginDraw();
-		this->screen->fillScreen(ST7735_YELLOW);
-		this->screen->setTextColor(ST7735_BLACK);
+		screen->fillScreen(TFT_YELLOW);
+		screen->setTextColor(TFT_BLACK);
 		drawCentreString(screen, "Tuner");
-		this->screen->endDraw();
 		break;
 	case FunctionType::ftEffect:
-		effect(this->screen, functionState, currentPreset);		
+		effect(screen, functionState, currentPreset);		
 		break;
 	case FunctionType::ftMute:
-		this->screen->beginDraw();
 		ToggleFunctionState* st = static_cast<ToggleFunctionState*>(functionState);
-		this->screen->fillScreen(ST7735_WHITE);
-		this->screen->setTextColor(ST7735_BLACK);
+		screen->fillScreen(TFT_WHITE);
+		screen->setTextColor(TFT_BLACK);
 		drawCentreString(screen, st->Current() ? "Mute" : "Unmute");
-		this->screen->endDraw();
 		break;
 	}
+
+	this->SetToNotWrite();
 }
 

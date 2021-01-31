@@ -4,4 +4,5 @@
 class ScreenFactory {
 public:
 	virtual Screen* CreateScreen(byte screenNumber);
+	virtual void GlobalInit();
 };

@@ -1,20 +1,24 @@
 #include "helper.h"
 
-void expToggle(GFrame* screen, FunctionState* state) {
+
+
+void expToggle(TFT_eSPI* screen, FunctionState* state) {
 	ExpressionFunctionState* st = static_cast<ExpressionFunctionState*>(state);
 	auto selected = st->Selected();
+	auto canvasHeight = screen_h / st->NumOfPedals();
 
-	screen->beginDraw();
 	for (int i = 0; i < st->NumOfPedals(); i++) {
-		auto canvasHeight = screen_h / st->NumOfPedals();
-		GFXcanvas1 expCanvas(screen_w, canvasHeight);
+		auto sprite = TFT_eSprite(screen);
+		sprite.setColorDepth(8);
+		sprite.createSprite(screen_w, canvasHeight);
+		sprite.fillSprite(selected == st->Pedals()[i] ? TFT_RED : TFT_WHITE);
+		sprite.setTextSize(3);
+		sprite.setTextFont(2);
+		sprite.setTextColor(selected == st->Pedals()[i] ? TFT_WHITE : TFT_RED);
 
 		auto expName = PedalSettings["expressionNames"][i];
-		drawCentreString(&expCanvas, expName, screen_w, canvasHeight, 2, 2);
-		screen->drawBitmap(0, i * canvasHeight, expCanvas.getBuffer(), 
-			screen_w, canvasHeight,  
-			selected == st->Pedals()[i] ? ST7735_WHITE : ST7735_BLUE, 
-			selected == st->Pedals()[i] ? ST7735_RED : ST7735_WHITE);
+		drawCentreString(&sprite, expName, screen_w, canvasHeight, 2, 2);
+
+		sprite.pushSprite(0, i * canvasHeight);
 	}
-	screen->endDraw();
 }

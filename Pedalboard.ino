@@ -25,6 +25,75 @@ typedef unsigned char byte;
 #include "src/libraries/GFrame/gframe.h"
 
 
+#include <TFT_eSPI.h>
+#include <SPI.h>
+/*
+
+void setup() {   
+  Serial.begin(9600); 
+  while (!Serial);
+
+  
+  digitalWrite(35, LOW);
+  
+
+  Serial.print(F("setting up\n"));
+  Serial.flush();
+
+  pinMode(2, OUTPUT);
+  digitalWrite(2, HIGH);
+
+  
+  for (auto i = 34; i <= 49; i++) {
+    pinMode(i, OUTPUT);
+    digitalWrite(i, LOW);
+  }
+
+ // digitalWrite(35, LOW);
+  TFT_eSPI screen = TFT_eSPI();
+
+  Serial.print(F("A\n"));
+  Serial.flush();
+
+  screen.init(ST7735_BLACKTAB);
+  screen.setRotation(3);
+  screen.setTextWrap(true);
+  screen.fillScreen(ST7735_GREEN);
+
+  for (auto i = 34; i <= 49; i++) {
+    digitalWrite(i, HIGH);
+  }
+
+  digitalWrite(35, LOW);
+  
+  Serial.print(F("B\n"));
+  Serial.flush();
+
+
+  
+  Serial.print(F("C\n"));
+  Serial.flush();
+	screen.fillScreen(TFT_RED);
+  
+  Serial.print(F("D\n"));
+  Serial.flush();
+
+	screen.setTextColor(ST7735_BLUE);
+  screen.setTextSize(2);
+	screen.setCursor(60, 40);
+  screen.setTextFont(2);
+  
+	screen.println(F("hello"));
+//	digitalWrite(35, HIGH);
+  Serial.print(F("Done setting up\n"));
+
+  digitalWrite(35, HIGH);
+}
+
+void loop() { 
+}*/
+
+
 extern char _end;
 extern "C" char *sbrk(int i);
 char *ramstart=(char *)0x20070000;
@@ -145,7 +214,7 @@ void setup() {
   #endif
 }
 
-void loop() {  
+void loop() { 
 #ifdef DEBUG
   if (millis() - lastTime > 3000) {
     lastTime = millis();
@@ -167,8 +236,7 @@ void loop() {
       tempoLedOn = false;
     }
 
-      workerProcess->OneStep(currentPreset, tuner);
-  //}
+    workerProcess->OneStep(currentPreset, tuner);
 
   Logger::flush();
 }

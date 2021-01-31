@@ -1,34 +1,34 @@
-void displayPresetSelect(GFrame* screen, FunctionState* state, int screenNumber) {  
-    PresetFullSelectState* st = static_cast<PresetFullSelectState*>(state);
+void displayPresetSelect(TFT_eSPI* screen, FunctionState* state, int screenNumber) {  
+    /*PresetFullSelectState* st = static_cast<PresetFullSelectState*>(state);
     auto selector = st->GetPresetSelector();
 
-    screen->beginDraw();
+    //screen->beginDraw();
 
     if (screenNumber == 14) { // last button... todo: factor out
         // dislay back button
-        screen->fillScreen(ST7735_RED);
-        screen->setTextColor(ST7735_WHITE);
+        screen->fillScreen(TFT_RED);
+        screen->setTextColor(TFT_WHITE);
 	    drawCentreString(screen, "Back");	
-        screen->endDraw();
+        //screen->endDraw();
         return;
     }
 
-    screen->fillScreen(ST7735_RED);
+    screen->fillScreen(TFT_RED);
     auto min = selector->MinForSegment(screenNumber);
     
     if (min == -1) {
         // blank
-        screen->endDraw();
+        //screen->endDraw();
         return;
     }
 
     auto max = selector->MaxForSegment(screenNumber);
     if (min == max) {
         // single display
-        screen->setTextColor(ST7735_WHITE);
+        screen->setTextColor(TFT_WHITE);
         sprintf(screenMessage, "%d", min);
 	    drawCentreString(screen, screenMessage);	
-        screen->endDraw();
+       // screen->endDraw();
         return;
     }
 
@@ -42,15 +42,15 @@ void displayPresetSelect(GFrame* screen, FunctionState* state, int screenNumber)
             drawCentreString(&canvas, screenMessage, screen_w, canvasHeight, 2, 2);
             screen->drawBitmap(0, i * canvasHeight, canvas.getBuffer(), 
                 screen_w, canvasHeight,  
-                ST7735_WHITE, 
-                ST7735_RED);
+                TFT_WHITE, 
+                TFT_RED);
         }
     }
     else {
-        screen->setTextColor(ST7735_WHITE);
+        screen->setTextColor(TFT_WHITE);
         sprintf(screenMessage, "%d - %d", min, max);
 	    drawCentreString(screen, screenMessage);	
     }
 
-    screen->endDraw();
+    //screen->endDraw();*/
 }

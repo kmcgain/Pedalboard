@@ -4,3 +4,7 @@
 Screen* ScreenFactory::CreateScreen(byte screenNumber) {
 	return new TftScreen(screenNumber);
 }
+
+void ScreenFactory::GlobalInit() {
+	TftScreen::GlobalInit();
+}

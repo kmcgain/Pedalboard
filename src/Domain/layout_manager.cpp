@@ -172,7 +172,25 @@ void LayoutManager::setup_screens() {
         this->screens[row] = new Screen * [FS_COLS];
 
         for (byte col = 0; col < FS_COLS; col++) {
-            this->screens[row][col] = this->screenFactory->CreateScreen(screenNumber++);            
+            this->screens[row][col] = this->screenFactory->CreateScreen(screenNumber++);
+            this->screens[row][col]->SetToWrite();
+        }
+    }   
+
+
+    this->screenFactory->GlobalInit();    
+
+    for (byte row = 0; row < FS_ROWS; row++) {
+        for (byte col = 0; col < FS_COLS; col++) {
+            this->screens[row][col]->SetToNotWrite();        
+        }
+    }
+
+
+    // Finally all the screens are not accepting writes, so we can individually address them to do further init work
+    for (byte row = 0; row < FS_ROWS; row++) {
+        for (byte col = 0; col < FS_COLS; col++) {
+            this->screens[row][col]->Init();        
         }
     }
 }

@@ -4,3 +4,5 @@
 Screen* ScreenFactory::CreateScreen(char screenNumber) {
 	return nullptr;
 }
+
+void ScreenFactory::GlobalInit() {}
