@@ -1,10 +1,4 @@
 #include "tft_screen.h"
-
-
-//#include <Adafruit_GFX.h> // core graphics library
-//#include "../libraries/Adafruit_ST7735/Adafruit_ST7735.h" // hardware-specific library
-//#include "../../libraries/GFrame/gframe.h"
-
 #include <TFT_eSPI.h>
 #include <SPI.h>
 #include "../../Domain/function/function.h"

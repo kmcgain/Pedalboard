@@ -22,8 +22,6 @@ typedef unsigned char byte;
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "src/libraries/GFrame/gframe.h"
-
 
 #include <TFT_eSPI.h>
 #include <SPI.h>
