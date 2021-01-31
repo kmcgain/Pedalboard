@@ -55,7 +55,6 @@ void TftScreen::GlobalInit() {
 	screen->setTextFont(2);
 	screen->setCursor(30, 30);
 	screen->setTextColor(ST7735_WHITE);
-	screen->setTextWrap(true);
 }
 
 void TftScreen::Init() {

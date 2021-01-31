@@ -19,7 +19,7 @@ void displayTuner(TFT_eSPI* screen, TunerData& tuner) {
 	lastNote[1] = tuner.Note[1];	
 
 	if (!hasCleared) {
-		screen->fillScreen(TFT_BLACK); // TODO: Probably not needed
+		screen->fillScreen(TFT_BLACK); 
 		hasCleared = true;
 	}
 

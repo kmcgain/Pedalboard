@@ -47,6 +47,7 @@ void lengthOfLongestWord(const char* buf, byte& longestLength, byte& numWords) {
 void drawCentreString(TFT_eSPI* canvas, const char* buf, int canvasWidth = screen_w, int canvasHeight = screen_h, int border_width = default_border_w, int border_height = default_border_h)
 {
 	canvas->setTextDatum(MC_DATUM);
+
 	canvas->drawString(buf, canvasWidth/2, canvasHeight/2);
 }
 
