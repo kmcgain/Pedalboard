@@ -21,6 +21,8 @@ private:
         return ceil(numberOfActivePresets / numActiveButtons);
     }
 
+    int selectedPage = 0;
+
 public:
     bool Active;
     int Min = 0;
@@ -30,45 +32,38 @@ public:
         return level == 1;
     }
 
+    void PageReset() {
+        selectedPage = 0;
+    }
+
     void Reset() {
         level = 1;
         Min = 0;
         Max = 511;
     }
 
-    void Expand(byte segment) {
-        auto minForSegment = MinForSegment(segment);
-        auto maxForSegment = MaxForSegment(segment);
+    int NumberForPageAndScreen(byte buttonNumber, int currentPresetNumber) {
+        int numberOfPresetsPerPage = 12;
+        int activePage = (currentPresetNumber / numberOfPresetsPerPage) + selectedPage;
+        if (activePage < 0)
+            activePage = 0;
+        auto maxPage = (512/numberOfPresetsPerPage) - 1;
+        if (activePage > maxPage)
+            activePage = maxPage;
 
-        if (minForSegment == -1 || maxForSegment == -1)
-            return;
-
-        level++;
-        Min = minForSegment;
-        Max = maxForSegment;
+        auto startingPresetNumber = (numberOfPresetsPerPage * activePage);
+        return startingPresetNumber + buttonNumber;
     }
 
-    int MinForSegment(byte segment) {        
-        auto perButton = presetsPerButton(segment);
-        if (perButton == -1)
-            return perButton;
+	int SelectedPage() {
+		return selectedPage;
+	}
 
-        auto min = Min+(segment*perButton);
-        if (min > Max)
-            return -1;
+	void PageUp() {
+		selectedPage++;
+	}
 
-        return min;
-    } 
-
-    int MaxForSegment(byte segment) {
-        auto perButton = presetsPerButton(segment);
-        if (perButton == -1)
-            return perButton;
-
-        auto min = MinForSegment(segment);
-        if (min == -1)
-            return -1;
-        auto max = min + perButton-1;
-        return max > Max ? Max : max;
-    } 
+	void PageDown() {
+		selectedPage--;
+	}
 };

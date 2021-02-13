@@ -51,6 +51,13 @@ void drawCentreString(TFT_eSPI* canvas, const char* buf, int canvasWidth = scree
 	canvas->drawString(buf, canvasWidth/2, canvasHeight/2);
 }
 
+void drawTopCentreString(TFT_eSPI* canvas, const char* buf, int canvasWidth = screen_w, int canvasHeight = screen_h, int border_width = default_border_w, int border_height = default_border_h)
+{
+	canvas->setTextDatum(TC_DATUM);
+
+	canvas->drawString(buf, canvasWidth/2, 10);
+}
+
 /*void drawCentreString(TFT_eSPI* canvas, const char* buf, int canvasWidth = screen_w, int canvasHeight = screen_h, int border_width = default_border_w, int border_height = default_border_h)
 {
 

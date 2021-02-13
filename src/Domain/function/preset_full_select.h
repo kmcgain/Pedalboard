@@ -32,9 +32,12 @@ class PresetFullSelectFunction : public Function {
     protected:
         void execute() {
             const int backButtonNum = 14;
+            const int pageDownButtonNum = 12;
+            const int pageUpButtonNum = 13;
 
             if (this->buttonNum == backButtonNum) {
                 if (presetSelector->IsLowestLevel()) {
+                    presetSelector->PageReset();
                     layoutChanger->PresetSelect();
                     return;
                 }
@@ -42,17 +45,25 @@ class PresetFullSelectFunction : public Function {
                 return;
             } 
 
-            presetSelector->Expand(this->buttonNum);  
-            auto maxLevelRequired = 2;
-            if (presetSelector->Min == presetSelector->Max) {
-                this->axeController->sendPresetChange(presetSelector->Min);
-                this->presetSelector->Reset();
-                this->layoutChanger->PresetSelect();
+            PresetFullSelectState* st = static_cast<PresetFullSelectState*>(this->state);
+            if (this->buttonNum == pageDownButtonNum)
+            {
+                presetSelector->PageDown();
                 return;
             }
+            if (this->buttonNum == pageUpButtonNum)
+            {
+                presetSelector->PageUp();
+                return;
+            }
+
+            this->axeController->sendPresetChange(presetSelector->NumberForPageAndScreen(this->buttonNum, st->CurrentPresetNumber()));
+            this->presetSelector->Reset();
+            this->presetSelector->PageReset();
+            this->layoutChanger->PresetSelect();
         }
 
         FunctionState* createState() {
-            return new PresetFullSelectState(this->presetSelector);
+            return new PresetFullSelectState(this->presetSelector, this->axeController);
         }
 };

@@ -71,6 +71,8 @@ void Control::RefreshScreen(Preset* currentPreset, TunerData& tuner) {
     if ((this->buttonNumber == 7 && (tuner.Active || !flushedAfterTuner)) || this->isDirty || this->lastStateHash == -1 || newHashCode != this->lastStateHash) {                    
         flushedAfterTuner = this->buttonNumber == 7 && !tuner.Active; // this ensures we do a screen update after the tuner is switched off
 
+        Logger::log("Refreshing screen ");
+        Logger::log(this->buttonNumber);
         this->lastStateHash = newHashCode;
         this->screen->DisplayFunction(state, currentPreset, tuner);
         this->isDirty = false;

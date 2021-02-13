@@ -2,6 +2,7 @@
 
 #define NUM_SCENES 8
 #define MAX_SCENE_NAME_LENGTH 33
+#define MAX_PRESET_NAME_LENGTH 33
 
 #include "pch.h"
 #include "logger.h"

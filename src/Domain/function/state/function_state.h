@@ -5,6 +5,7 @@
 #include "../../str_fn.h"
 
 #include "../../preset_selector.h"
+#include "../../axe_controller.h"
 
 #ifdef ARDUINO
 #include <Arduino.h>
@@ -135,20 +136,31 @@ public:
 class PresetFullSelectState : public FunctionState {
 private:
 	PresetSelector* presetSelector;
+	AxeController* axeController;
 
 public:
-	PresetFullSelectState(PresetSelector* presetSelector) 
+	PresetFullSelectState(PresetSelector* presetSelector, AxeController* axeController) 
 	: FunctionState(FunctionType::ftPresetFullSelect) {
 		this->presetSelector = presetSelector;
+		this->axeController = axeController;
 	}
 
 	PresetSelector* GetPresetSelector() {
 		return presetSelector;
 	}
 
+	PresetNames* AllPresetNames() {
+		return axeController->presetNames();
+	}
+
+	int CurrentPresetNumber() {
+		return axeController->currentPresetNumber();
+	}
+
 	unsigned int HashCode() {
-		// We hide the different attributes within the 1 int. 8 bits to cover 0-511 so we need 17 bits total - will fite in 4 bytes		
-		unsigned int hash = ((presetSelector->Active ? 1 : 0) << 17) + (presetSelector->Max << 9) + (presetSelector->Min << 1);
+		// We hide the different attributes within the 1 int. 
+		// 8 bits to cover 0-511 so we need 17 bits + 8 bits for the page number. - will fit in 4 bytes
+		unsigned int hash = (GetPresetSelector()->SelectedPage() << 18) + ((presetSelector->Active ? 1 : 0) << 17) + (presetSelector->Max << 9) + (presetSelector->Min << 1);
 		return hash;
 	}
 };

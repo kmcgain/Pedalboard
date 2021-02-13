@@ -2,52 +2,43 @@ void displayPresetSelect(TFT_eSPI* screen, FunctionState* state, int screenNumbe
     PresetFullSelectState* st = static_cast<PresetFullSelectState*>(state);
     auto selector = st->GetPresetSelector();
 
-    if (screenNumber == 14) { // last button... todo: factor out
-        // dislay back button
+    if (screenNumber == 12) {
+        screen->fillScreen(TFT_BLACK);
+        screen->setTextColor(TFT_GREEN);
+        drawCentreString(screen, "Page -");	
+        return;
+    }
+    if (screenNumber == 13) {
+        screen->fillScreen(TFT_BLACK);
+        screen->setTextColor(TFT_GREEN);
+        drawCentreString(screen, "Page +");	
+        return;
+    }
+    if (screenNumber == 14) {
+        screen->fillScreen(TFT_BLACK);
+        screen->setTextColor(TFT_GREEN);
+	    drawCentreString(screen, "Back");
+        return;	
+    }
+
+    // page 0 contains the current presset, pages are 12 presets 
+    auto presetNumber = selector->NumberForPageAndScreen(screenNumber, st->CurrentPresetNumber());
+    auto names = *st->AllPresetNames();
+    auto presetToDisplay = names[presetNumber];
+
+    if (st->CurrentPresetNumber() == presetNumber) {
         screen->fillScreen(TFT_RED);
         screen->setTextColor(TFT_WHITE);
-	    drawCentreString(screen, "Back");	
-        return;
-    }
-
-    screen->fillScreen(TFT_RED);
-    auto min = selector->MinForSegment(screenNumber);
-    
-    if (min == -1) {
-        // blank
-        return;
-    }
-
-    auto max = selector->MaxForSegment(screenNumber);
-    if (min == max) {
-        // single display
-        screen->setTextColor(TFT_WHITE);
-        sprintf(screenMessage, "%d", min);
-	    drawCentreString(screen, screenMessage);	
-        return;
-    }
-
-    auto numOnScreen = max-min+1;
-    if (numOnScreen <= 3) {
-        for (int i = 0; i < numOnScreen; i++) {
-            auto canvasHeight = screen_h / numOnScreen;
-            // GFXcanvas1 canvas(screen_w, canvasHeight);
-            auto sprite = TFT_eSprite(screen);
-            sprite.setColorDepth(8);
-            sprite.createSprite(screen_w, canvasHeight);
-            sprite.fillSprite(TFT_RED);
-            sprite.setTextSize(3);
-		    sprite.setTextFont(2);
-            sprite.setTextColor(TFT_WHITE);
-
-            sprintf(screenMessage, "%d", min+i);
-            drawCentreString(&sprite, screenMessage, screen_w, canvasHeight, 2, 2);
-            sprite.pushSprite(0, i* canvasHeight);            
-        }
     }
     else {
-        screen->setTextColor(TFT_WHITE);
-        sprintf(screenMessage, "%d-%d", min, max);
-	    drawCentreString(screen, screenMessage);	
+        screen->fillScreen(TFT_WHITE);
+        screen->setTextColor(TFT_BLUE);
     }
+    
+    screen->setTextSize(2);
+    
+    char buf[3];
+    sprintf(buf, "%d", presetNumber);
+    drawTopCentreString(screen, buf);	
+    drawCentreString(screen, presetToDisplay);	
 }
