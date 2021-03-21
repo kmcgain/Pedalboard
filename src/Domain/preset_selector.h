@@ -43,6 +43,9 @@ public:
     }
 
     int NumberForPageAndScreen(byte buttonNumber, int currentPresetNumber) {
+        if (buttonNumber == 3 || buttonNumber == 4 || buttonNumber == 14)
+            return -1;
+
         int numberOfPresetsPerPage = 12;
         int activePage = (currentPresetNumber / numberOfPresetsPerPage) + selectedPage;
         if (activePage < 0)
@@ -52,7 +55,10 @@ public:
             activePage = maxPage;
 
         auto startingPresetNumber = (numberOfPresetsPerPage * activePage);
-        return startingPresetNumber + buttonNumber;
+        auto presetNumber = startingPresetNumber + buttonNumber;
+        if (buttonNumber >= 5)
+            presetNumber -= 2;
+        return presetNumber;
     }
 
 	int SelectedPage() {

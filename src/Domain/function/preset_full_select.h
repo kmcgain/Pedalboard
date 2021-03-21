@@ -32,8 +32,8 @@ class PresetFullSelectFunction : public Function {
     protected:
         void execute() {
             const int backButtonNum = 14;
-            const int pageDownButtonNum = 12;
-            const int pageUpButtonNum = 13;
+            const int pageDownButtonNum = 3;
+            const int pageUpButtonNum = 4;
 
             Logger::log("\nExec: PresetFullSelect");
             if (this->buttonNum == backButtonNum) {

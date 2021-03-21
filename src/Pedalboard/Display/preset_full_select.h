@@ -2,13 +2,13 @@ void displayPresetSelect(TFT_eSPI* screen, FunctionState* state, int screenNumbe
     PresetFullSelectState* st = static_cast<PresetFullSelectState*>(state);
     auto selector = st->GetPresetSelector();
 
-    if (screenNumber == 12) {
+    if (screenNumber == 3) {
         screen->fillScreen(TFT_BLACK);
         screen->setTextColor(TFT_GREEN);
         drawCentreString(screen, "Page -");	
         return;
     }
-    if (screenNumber == 13) {
+    if (screenNumber == 4) {
         screen->fillScreen(TFT_BLACK);
         screen->setTextColor(TFT_GREEN);
         drawCentreString(screen, "Page +");	
