@@ -2,6 +2,8 @@
 
 
 void presetDisplay(TFT_eSPI* screen, FunctionState* state) {
+	screen->setTextSize(2);
+
 	PresetState* st = static_cast<PresetState*>(state);
 
 	screen->fillScreen(TFT_BLACK);
@@ -11,5 +13,5 @@ void presetDisplay(TFT_eSPI* screen, FunctionState* state) {
 	else
 		sprintf(screenMessage, "%d: %s", st->PresetNumber(), st->PresetName());
 
-	drawCentreString(screen, screenMessage);
+	drawCentreStringNew(screen, screenMessage);
 }

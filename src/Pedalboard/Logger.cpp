@@ -1,6 +1,8 @@
 #include "../Domain/logger.h"
 #include <Arduino.h>
 
+#define LOGGING_ON
+
 const int SIZE = 30;
 char pending[SIZE][50];
 int next = 0;

@@ -44,6 +44,32 @@ void lengthOfLongestWord(const char* buf, byte& longestLength, byte& numWords) {
 // #define C_BASELINE 10 // Centre character baseline
 // #define R_BASELINE 11 // Right character baseline
 
+
+int charsPerLine(TFT_eSPI* canvas) {
+	const int fontWidth = canvas->textWidth("A");
+	
+	const int totalScreenWidth = 160;
+
+	auto charsPerLine = totalScreenWidth / fontWidth;
+	return charsPerLine;
+}
+
+void takeLine(TFT_eSPI* canvas, char* buf, const char* wholeString, int line) {
+	int perLine = charsPerLine(canvas);
+	int charOffset = line * perLine;
+
+	int i = 0;
+	for (i = 0; i < perLine; i++) {
+		if (wholeString[charOffset + i] == '\0')
+			break;
+
+		buf[i] = wholeString[charOffset + i];
+	}
+
+	buf[i] = '\0';	
+}
+
+
 void drawCentreString(TFT_eSPI* canvas, const char* buf, int canvasWidth = screen_w, int canvasHeight = screen_h, int border_width = default_border_w, int border_height = default_border_h)
 {
 	canvas->setTextDatum(MC_DATUM);
@@ -51,11 +77,41 @@ void drawCentreString(TFT_eSPI* canvas, const char* buf, int canvasWidth = scree
 	canvas->drawString(buf, canvasWidth/2, canvasHeight/2);
 }
 
-void drawTopCentreString(TFT_eSPI* canvas, const char* buf, int canvasWidth = screen_w, int canvasHeight = screen_h, int border_width = default_border_w, int border_height = default_border_h)
+void drawCentreStringNew(TFT_eSPI* canvas, const char* buf, int canvasWidth = screen_w, int canvasHeight = screen_h, int border_width = default_border_w, int border_height = default_border_h)
 {
+	Logger::log("\nPRINT STR: ");
+	Logger::log(buf);
 	canvas->setTextDatum(TC_DATUM);
 
-	canvas->drawString(buf, canvasWidth/2, 10);
+	int stringLength;
+	while (buf[stringLength++] != '\0') {}
+	stringLength--;
+
+	Logger::log("\nSTR LEN: ");
+	Logger::log(stringLength);
+	char singleLineBuf[40];
+	
+	bool hasMore = true;
+	int line = 0;
+	while (hasMore) {
+		takeLine(canvas, singleLineBuf, buf, line);
+		auto y = 5 + (line * (canvas->fontHeight()));
+		Logger::log("\nDRAW: ");
+		Logger::log(singleLineBuf);
+
+		canvas->drawString(singleLineBuf, canvasWidth/2, y);
+
+		line++;
+		hasMore = charsPerLine(canvas) * line < stringLength;
+
+		Logger::log("\nCHARS PL: ");
+		Logger::log(charsPerLine(canvas));
+	}	
+}
+
+void drawTopCentreString(TFT_eSPI* canvas, const char* buf, int canvasWidth = screen_w, int canvasHeight = screen_h, int border_width = default_border_w, int border_height = default_border_h)
+{
+	drawCentreStringNew(canvas, buf, canvasWidth, canvasHeight, border_width, border_height);
 }
 
 /*void drawCentreString(TFT_eSPI* canvas, const char* buf, int canvasWidth = screen_w, int canvasHeight = screen_h, int border_width = default_border_w, int border_height = default_border_h)

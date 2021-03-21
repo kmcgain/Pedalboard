@@ -21,7 +21,7 @@ void displayPresetSelect(TFT_eSPI* screen, FunctionState* state, int screenNumbe
         return;	
     }
 
-    // page 0 contains the current presset, pages are 12 presets 
+    // page 0 contains the current preset, pages are 12 presets 
     auto presetNumber = selector->NumberForPageAndScreen(screenNumber, st->CurrentPresetNumber());
     auto names = *st->AllPresetNames();
     auto presetToDisplay = names[presetNumber];
@@ -37,8 +37,8 @@ void displayPresetSelect(TFT_eSPI* screen, FunctionState* state, int screenNumbe
     
     screen->setTextSize(2);
     
-    char buf[3];
-    sprintf(buf, "%d", presetNumber);
-    drawTopCentreString(screen, buf);	
-    drawCentreString(screen, presetToDisplay);	
+    char buf[MAX_PRESET_NAME_LENGTH+6];
+    sprintf(buf, "%d - %s", presetNumber, presetToDisplay);
+    // drawTopCentreString(screen, buf);	
+    drawCentreStringNew(screen, buf);
 }
