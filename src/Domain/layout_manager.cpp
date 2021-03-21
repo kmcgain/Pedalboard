@@ -208,8 +208,21 @@ void LayoutManager::ChangeLayoutCb(void * this_ptr, byte number) {
 }
 
 void LayoutManager::ChangeLayout(byte layoutNumber) {
-    if (layoutNumber > numLayouts || layoutNumber < 0)
-        return;
+    /*
+     * This is pretty gross, but we are essentially converting layout numbers:
+     * 1 2 3 4 5 6 7 ....
+     * Into:
+     * 1 2 1 2 1 2 1 ....
+     * 
+     * This is just annoying because 0 was the special layout number so can't just use simple modulo.
+     * I'm sure a simpler solution will appear..
+     */
+
+    auto isPresetSelect = layoutNumber == 0;
+    layoutNumber = layoutNumber % numLayouts;
+    if (layoutNumber == 0 && !isPresetSelect)
+        layoutNumber = numLayouts;
+        
     // Layout 0 is special - it refers to preset selector
     Logger::log("Changing to layout: ");
     Logger::log((int)layoutNumber);

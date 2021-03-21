@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "layout_changer.h"
+#include "logger.h"
 
 void LayoutChanger::SubscribeToLayoutSelect(void (*callback)(void*, byte), void* layoutSelectCbThis) {
     this->layoutSelectCallbacks = callback;
@@ -13,6 +14,7 @@ void LayoutChanger::SubscribeToLayoutIncrement(void (*callback)(void*, byte), vo
 
 void LayoutChanger::SelectLayout(byte layout) {
     this->layoutSelectCallbacks(this->layoutSelectCbThis, layout);
+
     selectedLayout = layout;
 }
 

@@ -127,7 +127,7 @@ void AxeController::Update() {
 		bool anyRequeted = false;
 		int firstRequested = -1;
 
-		// We are only interested in loading +- 20 names. In the future we will trigger new name loads if browsing the preset select dynamically
+		// We are only interested in loading +- 50 names. In the future we will trigger new name loads if browsing the preset select dynamically
 		auto start = thePreset->getPresetNumber() - 50;
 		if (start < 0) start = 0;
 		

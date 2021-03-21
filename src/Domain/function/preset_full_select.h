@@ -35,7 +35,9 @@ class PresetFullSelectFunction : public Function {
             const int pageDownButtonNum = 12;
             const int pageUpButtonNum = 13;
 
+            Logger::log("\nExec: PresetFullSelect");
             if (this->buttonNum == backButtonNum) {
+                Logger::log("\nBack button");
                 if (presetSelector->IsLowestLevel()) {
                     presetSelector->PageReset();
                     layoutChanger->PresetSelect();
@@ -48,11 +50,13 @@ class PresetFullSelectFunction : public Function {
             PresetFullSelectState* st = static_cast<PresetFullSelectState*>(this->state);
             if (this->buttonNum == pageDownButtonNum)
             {
+                Logger::log("\nPage down");
                 presetSelector->PageDown();
                 return;
             }
             if (this->buttonNum == pageUpButtonNum)
             {
+                Logger::log("\nPage up");
                 presetSelector->PageUp();
                 return;
             }
