@@ -79,33 +79,24 @@ void drawCentreString(TFT_eSPI* canvas, const char* buf, int canvasWidth = scree
 
 void drawCentreStringNew(TFT_eSPI* canvas, const char* buf, int canvasWidth = screen_w, int canvasHeight = screen_h, int border_width = default_border_w, int border_height = default_border_h)
 {
-	Logger::log("\nPRINT STR: ");
-	Logger::log(buf);
 	canvas->setTextDatum(TC_DATUM);
 
 	int stringLength;
 	while (buf[stringLength++] != '\0') {}
 	stringLength--;
 
-	Logger::log("\nSTR LEN: ");
-	Logger::log(stringLength);
 	char singleLineBuf[40];
 	
 	bool hasMore = true;
 	int line = 0;
 	while (hasMore) {
 		takeLine(canvas, singleLineBuf, buf, line);
-		auto y = 5 + (line * (canvas->fontHeight()));
-		Logger::log("\nDRAW: ");
-		Logger::log(singleLineBuf);
+		auto y = 10 + (line * (canvas->fontHeight()));
 
 		canvas->drawString(singleLineBuf, canvasWidth/2, y);
 
 		line++;
 		hasMore = charsPerLine(canvas) * line < stringLength;
-
-		Logger::log("\nCHARS PL: ");
-		Logger::log(charsPerLine(canvas));
 	}	
 }
 
