@@ -5,18 +5,21 @@ void displayPresetSelect(TFT_eSPI* screen, FunctionState* state, int screenNumbe
     if (screenNumber == 3) {
         screen->fillScreen(TFT_BLACK);
         screen->setTextColor(TFT_GREEN);
+        screen->setTextSize(3);
         drawCentreString(screen, "Page -");	
         return;
     }
     if (screenNumber == 4) {
         screen->fillScreen(TFT_BLACK);
         screen->setTextColor(TFT_GREEN);
+        screen->setTextSize(3);
         drawCentreString(screen, "Page +");	
         return;
     }
     if (screenNumber == 14) {
         screen->fillScreen(TFT_BLACK);
         screen->setTextColor(TFT_GREEN);
+        screen->setTextSize(3);
 	    drawCentreString(screen, "Back");
         return;	
     }
@@ -27,12 +30,12 @@ void displayPresetSelect(TFT_eSPI* screen, FunctionState* state, int screenNumbe
     auto presetToDisplay = names[presetNumber];
 
     if (st->CurrentPresetNumber() == presetNumber) {
-        screen->fillScreen(TFT_RED);
-        screen->setTextColor(TFT_WHITE);
+        screen->fillScreen(COLOUR_FG_TITLE);
+        screen->setTextColor(COLOUR_BG_PRIMARY);
     }
     else {
-        screen->fillScreen(TFT_WHITE);
-        screen->setTextColor(TFT_BLUE);
+        screen->fillScreen(COLOUR_BG_PRIMARY);
+        screen->setTextColor(COLOUR_FG_PRIMARY);
     }
     
     screen->setTextSize(2);

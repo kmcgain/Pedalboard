@@ -22,7 +22,20 @@ var sceneColours = new List<(int r,int g ,int b, string name)>{
     (177,255,0, "scene bg"),
 };
 
+var hexes = new List<(string hex, string name)>{
+    ("0a65fa", "primary selected"),
+    ("ffff5f", "title (yellow)"),
+    ("34e3f4", "alt text (cyan)"),
+    ("819fe5", "menu selected"),
+};
+
 foreach (var c in sceneColours) {
-    Console.WriteLine(ConvertRGB(c.r, c.g, c.b).ToString("X"));
+    Console.WriteLine($"{c.name}: {ConvertRGB(c.r, c.g, c.b).ToString("X")}");
 }
 
+foreach (var c in hexes) {
+    var r = int.Parse(c.hex.Substring(0, 2), System.Globalization.NumberStyles.AllowHexSpecifier);
+    var g = int.Parse(c.hex.Substring(2, 2), System.Globalization.NumberStyles.AllowHexSpecifier);
+    var b = int.Parse(c.hex.Substring(4, 2), System.Globalization.NumberStyles.AllowHexSpecifier);
+    Console.WriteLine($"{c.name}: {ConvertRGB(r, g, b).ToString("X")}");
+}

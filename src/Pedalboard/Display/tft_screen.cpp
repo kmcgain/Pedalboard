@@ -26,8 +26,6 @@ char logMessage[80];
 
 TFT_eSPI* screen = new TFT_eSPI();
 
-
-
 TftScreen::TftScreen(byte screenNumber) {
 	this->screenNumber = screenNumber;
 	this->cs_pin = PedalSettings["screenPins"][screenNumber];
@@ -47,6 +45,10 @@ TftScreen::TftScreen(byte screenNumber) {
 }
 
 void TftScreen::GlobalInit() {
+
+	screen->setViewport(0, 0, 160, 128, true);
+	screen->setSwapBytes(true);
+
 	screen->init(ST7735_BLACKTAB);
 	screen->fillScreen(ST7735_BLACK);
 

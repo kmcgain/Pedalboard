@@ -1,5 +1,5 @@
 #include "helper.h"
-
+#include "colours.h"
 
 
 void expToggle(TFT_eSPI* screen, FunctionState* state) {
@@ -11,10 +11,10 @@ void expToggle(TFT_eSPI* screen, FunctionState* state) {
 		auto sprite = TFT_eSprite(screen);
 		sprite.setColorDepth(8);
 		sprite.createSprite(screen_w, canvasHeight);
-		sprite.fillSprite(selected == st->Pedals()[i] ? TFT_RED : TFT_WHITE);
+		sprite.fillSprite(selected == st->Pedals()[i] ? COLOUR_FG_TITLE : COLOUR_BG_PRIMARY);
 		sprite.setTextSize(3);
 		sprite.setTextFont(2);
-		sprite.setTextColor(selected == st->Pedals()[i] ? TFT_WHITE : TFT_RED);
+		sprite.setTextColor(selected == st->Pedals()[i] ? COLOUR_BG_PRIMARY : COLOUR_FG_PRIMARY);
 
 		auto expName = PedalSettings["expressionNames"][i];
 		drawCentreString(&sprite, expName, screen_w, canvasHeight, 2, 2);
