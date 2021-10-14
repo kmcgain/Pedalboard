@@ -132,8 +132,10 @@ Like the screens you should use plastic stand-offs beneath the board and on top 
 The other components will be similar to the footswitches - a simple matter of securing with provided nuts. The DIN sockets I used did require me to drill some holes and secure with screws. Just ensure you leave a bit of space between the components to make life easy when soldering these later.
 
 # Electronics
-[View the wiring](overview.png)
+[View the wiring](schematic_board.png)
 The moral of this story is think hard about cable management and do a better job than me! I used shrink tube fairly extensively, I had planned on using brackets to run the wires in a neater way, but I didn't really leave enough wire length to make this work and didn't really want to redo the wiring.
+
+You can import [schema](1-Schematic_PedalBoard.json) into EasyEda to modify as needed.
 
 ## Midi
 Refer to [schematic](schematic_board.png) on how to wire this. 
